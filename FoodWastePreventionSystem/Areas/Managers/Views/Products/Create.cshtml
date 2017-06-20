@@ -1,0 +1,128 @@
+﻿@model RegisterProductViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+
+<div class="col-md-12">
+    <div class="card-box">
+        <div class="card-box-head  border-b m-t-0">
+            <h4 class="header-title"><b>Register Product In Store</b></h4>
+        </div>
+        <div class="card-box-content form-compoenent">
+            @using (Html.BeginForm("", "", new {Area="Managers" } ,FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="Name">Name</label>
+                    <div class="col-sm-10">
+                        @Html.EditorFor(model => model.Product.Name, new { htmlAttributes = new { @class = "form-control", id = "Name", placeholder = "Enter Product Name" } })
+                        @Html.ValidationMessageFor(model => model.Product.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Select Category:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="sel1" name="Product.Category">
+                                <option value="-1">Select Category</option>
+                                @foreach (var item in ViewBag.Categories)
+                                {
+                                    <option value="@item">@item</option>
+                                }                               
+                                <option value="New">New Category</option>
+                            </select>
+                            @Html.ValidationMessageFor(model => model.Product.Category, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">New Category:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="newCategory" name="NewCategory" placeholder="Enter New Category Name" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Bulk Purchase Discount Percentage</label>
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(model => model.Product.BulkPurchaseDiscountPercent, new { type = "number", @class = "form-control", placeholder = "Enter Percentage Value For Discount", max = "99", min = "0" })
+                            @Html.ValidationMessageFor(model => model.Product.BulkPurchaseDiscountPercent, "", new { @class = "text-danger" })
+                         </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Quantity Per Carton:</label>
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(model => model.Product.QuantityPerCarton,  new {type="number", @class = "form-control", placeholder = "Enter Quantity of Product In One Carton", min = "1" } )
+                            @Html.ValidationMessageFor(model => model.Product.QuantityPerCarton, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Brief Description</label>
+                        <div class="col-sm-10">
+                            @Html.TextAreaFor(m => m.Product.Description, new { @class = "form-control", rows = "5", placeholder = "Enter Description Of Product Here", id = "comment" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Date Product Was Registered</label>
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(model => model.Product.DateProductWasRegistered,  new { @class = "form-control", id = "datetimepicker1", value = DateTime.Now.ToShortDateString()})
+                            @Html.ValidationMessageFor(model => model.Product.DateProductWasRegistered, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                   
+                    @*<div class="form-group">
+                            <label class="control-label col-sm-2">Multi Select</label>
+                            <div class="col-sm-10">
+                                <select multiple class="form-control" id="sel2">
+                                    <option>Option 1</option>
+                                    <option>Option 2</option>
+                                    <option>Option 3</option>
+                                    <option>Option 4</option>
+                                    <option>Option 5</option>
+                                    <option>Option 6</option>
+                                </select>
+                            </div>
+                        </div>*@
+                   
+                    
+                    <div class="form-group">
+                        <div class="col-sm-10 col-sm-offset-2" id="imagePlaceholder">
+                            <div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">File Input</label>
+                        <div class="col-sm-10">
+                            <input type="file" class="form-control" id="fileUploader" name="imageFiles" multiple max="3">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            @Html.ActionLink("Cancel", "Index","Products", null,new { @class = "btn btn-default btn-md" })
+
+
+                            <button type="submit" class="btn btn-primary btn-md">Register</button>
+                        </div>
+                    </div>
+            }
+        </div>
+    </div>
+</div>
+}
+
+<div>
+</div>
+
+@section Scripts{
+    <script src="~/Areas/Managers/Scripts/ManagerScripts.js"></script>
+
+}

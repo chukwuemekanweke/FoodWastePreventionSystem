@@ -1,0 +1,156 @@
+﻿@model IEnumerable<Product>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card-box">
+            <div class="card-box-head  border-b m-t-0">
+                <h4 class="header-title"><b>Responsive Tabel</b> <span class="pull-right m-l-5"><i class="fa fa-cog"></i></span></h4>
+            </div>
+            <div class="card-box-content form-compoenent">
+                <div class="cb-res-table">
+                    <div class="cb-table-search">
+                        @using (Html.BeginForm("", "", FormMethod.Get))
+                        {
+                            <div class="dropdown pull-left ">
+                                <button type="button" class="btn btn-default btn-md dropdown-toggle waves-effect waves-light text-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Bulk Action <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu whitebg drop-menu-checkbox">
+                                    @foreach (var item in ViewBag.Categories)
+                                    {
+                                        <li>
+                                            <div class="checkbox checkbox-primary">
+                                                <input id="checkbox11" type="checkbox" value="@item" name="searchCategory">
+                                                <label for="checkbox11">@item</label>
+                                            </div>
+                                        </li>
+                                    }
+                                    <li>
+                                        <div class="checkbox checkbox-primary">
+                                            <input id="checkbox12" type="checkbox">
+                                            <label for="checkbox12">All Products</label>
+                                        </div>
+                                    </li>
+                                </ul>
+                                @*<button type="button" class="btn btn-default waves-effect waves-light text-dark">Apply</button>*@
+                            </div>
+                            <div class="input-group pull-right cb-ta-search">
+                               
+                                   
+                                    <input type="text" class="form-control" placeholder="Search..." name="searchTerm">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit">Go!</button>
+                                    </span>
+                                
+                            </div>
+
+
+                        }
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <br>
+                <div class="table-responsive data-table">
+                    <table class="table table-bordred table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th><b>Name</b></th>
+                                <th><b>Description</b></th>
+                                <th><b>Date</b></th>
+                                <th class="text-center"><b>Status</b></th>
+                                <th><b>Action</b></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.OrderBy(X => X.Blacklisted))
+                            {
+
+                                <tr class=@(item.Blacklisted == true ? "" : "")>
+                                    <td>
+                                        <div class="checkbox checkbox-primary danger">
+                                            <input type="checkbox" class="checkBox" value="false">
+                                            <label></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="thumb-box"> <img src="@( item.Image1 != null ? Url.Action("GetImage1", "Products", new { id = item.Id }) : "")" alt=""> </div>
+                                        <b>@item.Name</b>
+                                    </td>
+                                    <td>@item.Description</td>
+                                    <td>@item.DateProductWasRegistered.ToShortDateString()</td>
+                                    @if (item.Blacklisted)
+                                    {
+                                        <td><span class="badge btn-danger btn-sm">Inactive</span></td>
+                                    }
+                                    else
+                                    {
+                                        <td><span class="badge btn-success btn-sm">Active</span></td>
+                                    }
+                                    <td>
+                                        @using (Html.BeginForm("Edit", "Products", FormMethod.Get))
+                                        {
+                                            @Html.Hidden("id", item.Id)
+                                            @Html.Hidden("name", item.Name)
+
+                                            if (item.Blacklisted)
+                                            {
+                                                <button class="btn btn-default btn-xs unblacklist" type="button"><span class="ion-arrow-return-left"></span></button>
+
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-default btn-xs" type="submit"><span class="fa fa-edit"></span></button>
+                                                <button class="btn btn-default btn-xs blacklist" type="button"><span class="fa fa-times"></span></button>
+                                            }
+                                            <a class="btn btn-primary" href="@Url.Action("Details","Products", new { id=item.Id})"><span class="fa fa-database"></span>Details</a>
+                                        }
+
+                                                                
+                                       </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row mob-center">
+                    <div class="col-sm-5">
+                        <p>Showing 20-30 of 50 items</p>
+                    </div>
+                    <div class="col-sm-7">
+                        <ul class="pagination pull-right">
+                            <li><a href="#"><span class="fa fa-angle-double-left"></span></a></li>
+                            <li class="active"><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li><a href="#"><span class="fa fa-angle-double-right"></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Areas/Managers/Scripts/IndexScript.js"></script>
+}

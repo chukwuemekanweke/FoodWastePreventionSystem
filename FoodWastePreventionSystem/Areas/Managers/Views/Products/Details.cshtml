@@ -1,0 +1,373 @@
+﻿@model ProductViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<!-- Page-Title -->
+<div class="page-title-group">
+    <h4 class="page-title">Tabs & Accordions</h4>
+    <h5 class="text-muted page-title-alt">Sub Title</h5>
+</div>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#information" data-toggle="tab" aria-expanded="true">
+                        <span class="visible-xs"><i class="fa fa-home"></i></span>
+                        <span class="hidden-xs">Product Information</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a href="#batch" data-toggle="tab" aria-expanded="false">
+                        <span class="visible-xs"><i class="fa fa-user"></i></span>
+                        <span class="hidden-xs">Batch Information</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a href="#data" data-toggle="tab" aria-expanded="false">
+                        <span class="visible-xs"><i class="fa fa-envelope-o"></i></span>
+                        <span class="hidden-xs">Product Data</span>
+                    </a>
+                </li>
+
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="information">
+
+                    <div class="row">
+                        <div class="col-md-4 med-12">
+                            <div class="card-box text-left profile-card">
+
+                                <img src="@Url.Action("GetImage1", "Products", new { id = Model.Product.Id })" class="img-responsive col-md-6 " alt="" />
+                                <img src="@Url.Action("GetImage1", "Products", new { id = Model.Product.Id })" class="img-responsive col-md-6  " alt="" />
+
+                                <h3>@Model.Product.Name</h3>
+                                <br />
+                                <div class="text-center">
+                                    @Html.ActionLink("Add Batch", "AddBatch","Batches", new { id = Model.Product.Id }, new { @class= "btn btn-primary btn-md text-uppercase" })
+                                    @Html.ActionLink("View Batches", "ListBatches","Batches" ,new { id = Model.Product.Id }, new { @class = "btn btn-success btn-md text-uppercase" })
+
+
+                                </div>
+                                <ul>
+                                    <li>Category <span>@Model.Product.Category</span></li>
+                                    <li>Date registered <span>@Model.Product.DateProductWasRegistered.ToShortDateString()</span></li>
+                                    <li>Quantity per Carton <span>@Model.Product.QuantityPerCarton</span></li>
+                                    <li>Bulk Purchase Discount <span>@(Model.Product.BulkPurchaseDiscountPercent)%</span></li>
+                                    <li>Status <span>@(Model.Product.Blacklisted == true ? "Inactive" : "Active")</span></li>
+                                    <li>Total Sales Made <span>@(Model.Sales == null ? "0 SOLD" : $"{Model.Sales.SalesForProductInYear.Sum(x => x.SalesPerMonth.Sum(y => y.Value))} SOLD")</span></li>
+
+                                </ul>
+                            </div>
+                            <div class="clearfix"></div>
+
+                            <div class="list-group">
+                                <a href="#" class="list-group-item active">
+                                    <h4 class="list-group-item-heading">Product Description</h4>
+                                    <p class="list-group-item-text">@Model.Product.Description </p>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="tab-pane " id="batch">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Batch Information</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="list-group">
+
+                                @foreach (var item in Model.InStoreRecords)
+                                {                            
+                                    <div class="col-md-6">
+                                        <h5>Batch Data</h5>
+                                        <h6>Batch ID: @item.Id</h6>
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                <span class="badge bg-primary">@item.QuantityPurchased</span>
+                                                Quantity Purchased
+                                            </li>
+                                            <li class="list-group-item">
+                                                <span class="badge bg-purple">@item.QuantitySold</span>
+                                                Quantity Sold
+                                            </li>
+                                            <li class="list-group-item">
+                                                <span class="badge bg-pink">@item.QuantityAuctioned</span>
+                                                Quantity Auctioned
+                                            </li>
+                                            <li class="list-group-item">
+                                                <span class="badge bg-inverse">@item.QuantityDisposedOf</span>
+                                                Quantity Disposed
+                                            </li>
+                                            <li class="list-group-item">
+                                                <span class="badge bg-success">@item.ManufactureDate.ToShortDateString()</span>
+                                                Manufacture Date
+                                            </li>
+                                            <li class="list-group-item">
+                                                <span class="badge bg-success">@item.ExpiryDate.ToShortDateString()</span>
+                                                Expiry Date
+                                            </li>
+                                            <li class="list-group-item">
+                                                <span class="badge bg-success">@item.PurchasePrice</span>
+                                                Purchase Price
+                                            </li>
+                                            <li class="list-group-item">
+                                                <span class="badge bg-success">@item.SellingPrice</span>
+                                                Selling Price
+                                            </li>
+                                            <li class="list-group-item">
+                                                <span class="badge bg-success">@item.DateWhichInventoryWasPurchased.ToShortDateString()</span>
+                                                Date Batch Was Purchased
+                                            </li>
+                                            <li class="list-group-item text-center">
+                                                @Html.ActionLink("Go To Batch Information", "BatchInformation", "Batches", new { id=item.Id, Area = "Managers" }, new { @class="btn btn-md btn-warning btn-rounded btn-custom"})
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                               
+                                }
+                                
+
+                            </div> <!-- list-group -->
+                        </div> <!-- Panel-body -->
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="data">
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card-box">
+                                <div class="card-box-head">
+                                    <h4 class="header-title m-t-0 pull-left">Line Chart</h4>
+                                    <div class="pull-right">
+                                    </div>
+                                </div>
+                                <div class="card-box-content">
+
+                                    @*<div id="line-chart" class="bar-280"></div>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card-box">
+                                <div class="card-box-head">
+                                    <h4 class="header-title m-t-0 pull-left">Bar Chart</h4>
+                                </div>
+                                <div class="card-box-content">
+                                   <img src="@Url.Action("SalesToAuctionChart", "Charts", new { id = "multiBar" })" />
+                                    <div id="bar-chart" class="bar-280"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card-box">
+                                <div class="card-box-head">
+                                    <h4 class="header-title m-t-0 pull-left">Stacked Chart</h4>
+                                    <div class="pull-right">
+                                    </div>
+                                </div>
+                                <div class="card-box-content">
+                                    <div id="stacked" class="bar-280"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card-box">
+                                <div class="card-box-head">
+                                    <h4 class="header-title m-t-0 pull-left">Hierarchical Bar Chart</h4>
+                                </div>
+                                <div class="card-box-content">
+                                    <div class="horizontal_chart">
+                                        <div id="dual_x_div" class="bar-280 fullwidth"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts{
+    @*<script>
+        $(document).ready(function () {
+            var id = "@Model.Product.Id";
+            fetchChartData(id);
+
+        })
+
+        function fetchChartData(id) {
+
+            $.ajax({
+                url: "/Managers/Charts/FetchTransactionDataForProduct",
+                type: 'POST',
+                datatype: 'json',
+                data: { 'id': id },
+               
+            }).done(function (data) { drawChart(data) }).fail(function () { alert("an error occured")});
+
+           
+
+        }
+
+        function drawChart(data) {
+
+            //var data = [{
+            //    y: '2014',
+            //    a: 50,
+            //    b: 90
+            //}, {
+            //    y: '2015',
+            //    a: 65,
+            //    b: 75
+            //}, {
+            //    y: '2017',
+            //    a: 50,
+            //    b: 50
+            //}, {
+            //    y: '2017',
+            //    a: 75,
+            //    b: 60
+            //}, {
+            //    y: '2018',
+            //    a: 80,
+            //    b: 65
+            //}, {
+            //    y: '2019',
+            //    a: 90,
+            //    b: 70
+            //}, {
+            //    y: '2020',
+            //    a: 100,
+            //    b: 75
+            //}, {
+            //    y: '2021',
+            //    a: 115,
+            //    b: 75
+            //}, {
+            //    y: '2022',
+            //    a: 120,
+            //    b: 85
+            //}, {
+            //    y: '2023',
+            //    a: 145,
+            //    b: 85
+            //}, {
+            //    y: '2024',
+            //    a: 160,
+            //    b: 95
+            //}],
+            config = {
+                data: data,
+                xkey: 'year',
+                ykeys: ['sales', 'auction'],
+                labels: ['Total Sales', 'Total Auction'],
+                fillOpacity: 0.6,
+                hideHover: 'auto',
+                behaveLikeLine: true,
+                resize: true,
+                pointFillColors: ['#ffffff'],
+                pointStrokeColors: ['#60ced5', '#ee2337'],
+                lineColors: ['#60ced5', '#ee2337']
+            };
+
+            config2 = {
+                data: data,
+                xkey: 'year',
+                ykeys: ['sales', 'auction'],
+                labels: ['Total Sales', 'Total Auction'],
+                fillOpacity: 0.6,
+                hideHover: 'auto',
+                behaveLikeLine: true,
+                resize: true,
+                pointFillColors: ['#ffffff'],
+                pointStrokeColors: ['#60ced5', '#36aab1'],
+                lineColors: ['#60ced5', '#36aab1']
+            };
+
+            config2.element = 'area-chart';
+            Morris.Area(config2);
+            config.element = 'line-chart';
+            Morris.Line(config);
+            config.element = 'stacked';
+            config.stacked = true;
+            config.barColors = ['#3993bb', '#b2f7f3'];
+            Morris.Bar(config);
+            Morris.Bar({
+                element: 'bar-chart',
+                resize: true,
+                //data: [{
+                //    y: '2006',
+                //    a: 100,
+                //    b: 90
+                //},
+                //    {
+                //        y: '2007',
+                //        a: 75,
+                //        b: 65
+                //    },
+                //    {
+                //        y: '2008',
+                //        a: 50,
+                //        b: 40
+                //    },
+                //    {
+                //        y: '2009',
+                //        a: 75,
+                //        b: 65
+                //    },
+                //    {
+                //        y: '2010',
+                //        a: 50,
+                //        b: 40
+                //    },
+                //    {
+                //        y: '2011',
+                //        a: 75,
+                //        b: 65
+                //    },
+                //    {
+                //        y: '2012',
+                //        a: 100,
+                //        b: 90
+                //    },
+                //    {
+                //        y: '2013',
+                //        a: 65,
+                //        b: 80
+                //    }
+
+                //],
+                data: data,
+                xkey: 'year',
+                ykeys: ['sales', 'auction'],
+                labels: ['Total Sales', 'Total Auction'],
+                barColors: ['#86d3ce', '#3993bb']
+            });
+
+            $(window).resize(function () {
+                window.m.redraw();
+            });
+
+        }
+        
+    </script>*@
+}

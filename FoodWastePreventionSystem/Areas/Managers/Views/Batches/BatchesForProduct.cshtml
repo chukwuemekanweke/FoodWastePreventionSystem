@@ -1,0 +1,109 @@
+﻿@model IEnumerable<Batch>
+
+@{
+    ViewBag.Title = "BatchesForProduct";
+}
+
+<h2>@(Model.Count() > 0 ? $"Batches For {Model.FirstOrDefault().Product.Name}" : "No Batch Has Been registered For This product") </h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card-box">
+            <div class="card-box-head  border-b m-t-0">
+                <h4 class="header-title"><b>Button Tables</b></h4>
+            </div>
+            <div class="card-box-content form-compoenent">
+                <div class="cb-res-table">
+                    <div class="cb-table-search">
+                        <div class="dropdown pull-left ">
+                            <a href="#" class="btn btn-primary btn-sm">Add</a>
+                            <a href="#" class="btn btn-primary btn-sm">Edit</a>
+                            <a href="#" class="btn btn-primary btn-sm">Delete</a>
+                        </div>
+                        <div class="input-group pull-right cb-ta-search">
+                            <input type="text" class="form-control" placeholder="Search...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">Go!</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <br>
+                <div class="table-responsive data-table">
+                    <table class="table table-bordred table-striped">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Date Purchased</th>
+                                <th>Product</th>
+                                <th>Manufacture Date</th>
+                                <th>Expiry Date</th>
+                                <th>Quantity Bought</th>
+                                <th>Purchase Price</th>
+                                <th class="text-center"><b>Action</b></th>
+
+                            </tr>
+
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td><b>@item.Id</b></td>
+                                    <td><b>@item.DateWhichInventoryWasPurchased.ToShortDateString()</b></td>
+                                    <td><b>@item.Product.Name</b></td>
+                                    <td><b>@item.ManufactureDate.ToShortDateString()</b></td>
+                                    <td><b>@item.ExpiryDate.ToShortDateString()</b></td>
+                                    <td><b>@item.QuantityPurchased Units</b></td>
+                                    <td><b>@item.PurchasePrice</b></td>
+                                    <td>
+                                        @using (Html.BeginForm("DeleteBatch", "Batches", new { }, FormMethod.Post, new { @class = "form-inline" }))
+                                        {
+                                            <input type="submit" value="Delete" class="btn btn-sm btn-danger" /><span>|</span>
+                                            @Html.ActionLink("Details", "BatchInformation", "Batches", new { id = item.Id }, new { @class = "btn btn-sm btn-primary" })<span>|</span>
+
+                                            if (item.Product.Blacklisted)
+                                            {
+                                                @Html.ActionLink("Register Sales", "AddTransaction", "Transaction", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
+                                            }
+                                        }
+
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row mob-center">
+                    <div class="col-sm-5">
+                        <p>Showing 20-30 of 50 items</p>
+                    </div>
+                    <div class="col-sm-7">
+                        <ul class="pagination pull-right">
+                            <li><a href="#"><span class="fa fa-angle-double-left"></span></a></li>
+                            <li class="active"><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li><a href="#"><span class="fa fa-angle-double-right"></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

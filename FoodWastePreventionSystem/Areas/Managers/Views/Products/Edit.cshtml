@@ -1,0 +1,190 @@
+﻿@model RegisterProductViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+<div class="col-md-12">
+    <div class="card-box">
+        <div class="card-box-head  border-b m-t-0">
+            <h4 class="header-title"><b>Edit Product</b></h4>
+        </div>
+        <div class="card-box-content form-compoenent">
+            @using (Html.BeginForm("", "", new { Area = "Managers" }, FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.Product.Id, Model.Product.Id)
+                @Html.HiddenFor(m=>m.Product.StoreId,Model.Product.StoreId)
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="Name">Name</label>
+                    <div class="col-sm-10">
+                        @Html.EditorFor(model => model.Product.Name, new { htmlAttributes = new { @class = "form-control", id = "Name", placeholder = "Enter Product Name" } })
+                        @Html.ValidationMessageFor(model => model.Product.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Select Category:</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="sel1" name="Product.Category">
+                            @foreach (var item in ViewBag.Categories)
+                            {
+                                <option value="@item" @(Model.Product.Category==item? "selected":"")>@item</option>
+                            }
+                            <option value="New">New Category</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">New Category:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="newCategory" name="NewCategory" placeholder="Enter New Category Name" disabled>
+                    </div>
+                </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Bulk Purchase Discount Percentage</label>
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(model => model.Product.BulkPurchaseDiscountPercent, new { type = "number", @class = "form-control", placeholder = "Enter Percentage Value For Discount", max = "99", min = "0" })
+                            @Html.ValidationMessageFor(model => model.Product.BulkPurchaseDiscountPercent, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Quantity Per Carton:</label>
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(model => model.Product.QuantityPerCarton, new { type = "number", @class = "form-control", placeholder = "Enter Quantity of Product In One Carton", min = "1" })
+                            @Html.ValidationMessageFor(model => model.Product.QuantityPerCarton, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Brief Description</label>
+                        <div class="col-sm-10">
+                            @Html.TextAreaFor(m => m.Product.Description, new {@class="form-control", rows="5", placeholder="Enter Description Of Product Here", id="comment" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Date Product Was Registered</label>
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(model => model.Product.DateProductWasRegistered, new { @class = "form-control", id = "datetimepicker1", value = DateTime.Now.ToShortDateString() })
+                            @Html.ValidationMessageFor(model => model.Product.DateProductWasRegistered, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @*<div class="form-group">
+                            <label class="control-label col-sm-2">Multi Select</label>
+                            <div class="col-sm-10">
+                                <select multiple class="form-control" id="sel2">
+                                    <option>Option 1</option>
+                                    <option>Option 2</option>
+                                    <option>Option 3</option>
+                                    <option>Option 4</option>
+                                    <option>Option 5</option>
+                                    <option>Option 6</option>
+                                </select>
+                            </div>
+                        </div>*@
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Inline Checkboxes</label>
+                        <div class="col-sm-10">
+                            <div class="checkbox checkbox-primary col-md-2">
+                                <input id="checkbox1" type="checkbox">
+                                <label for="checkbox1"> Option 1</label>
+                            </div>
+
+                            <div class="checkbox checkbox-primary col-md-2">
+                                <input id="checkbox2" type="checkbox">
+                                <label for="checkbox2"> Option 2</label>
+                            </div>
+
+                            <div class="checkbox checkbox-primary col-md-2">
+                                <input id="checkbox3" type="checkbox">
+                                <label for="checkbox3"> Option 3</label>
+                            </div>
+
+                            <div class="checkbox checkbox-primary col-md-2">
+                                <input id="checkbox4" type="checkbox">
+                                <label for="checkbox4"> Option 4</label>
+                            </div>
+
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Inline Checkboxes</label>
+                        <div class="col-sm-10">
+                            <div class="radio radio-primary col-md-2">
+                                <input id="radio1" type="radio" name="radio-name">
+                                <label for="radio1"> Option 1</label>
+                            </div>
+
+                            <div class="radio radio-primary col-md-2">
+                                <input id="radio2" type="radio" name="radio-name">
+                                <label for="radio2"> Option 2</label>
+                            </div>
+
+                            <div class="radio radio-primary col-md-2">
+                                <input id="radio3" type="radio" name="radio-name">
+                                <label for="radio3"> Option 3</label>
+                            </div>
+
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10 col-sm-offset-2" id="imagePlaceholder">
+                            <div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">File Input</label>
+                        <div class="col-sm-10">
+                            <input type="file" class="form-control" id="fileUploader" name="imageFiles" multiple max="3">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            @Html.ActionLink("Cancel", "Index", "Products", null, new { @class = "btn btn-default btn-md" })
+                            <button type="submit" class="btn btn-primary btn-md">Save Changes</button>
+                        </div>
+                    </div>
+            }
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts{
+    <script src="~/Areas/Managers/Scripts/ManagerScripts.js"></script>
+
+    <script>
+
+        function loadImagesForProducts() {
+            var image = document.createElement('img');
+            image.setAttribute('class', 'img-responsive col-sm-2');
+            image.src = "@Url.Action("GetImage1", "Products", new { id = Model.Product.Id })";
+            var expression = "@(Model.Product.Image1!=null? "imagePlaceholder.appendChild(image)":"")";
+            eval(expression);
+
+
+            image = document.createElement('img');
+            image.setAttribute('class', 'img-responsive col-sm-2');
+            image.src = "@Url.Action("GetImage2", "Products", new { id = Model.Product.Id })";
+            expression = " @(Model.Product.Image2!=null? "imagePlaceholder.appendChild(image)":"")";
+            eval(expression);
+        }
+
+        window.onload = loadImagesForProducts
+
+    </script>
+
+}

@@ -1,0 +1,215 @@
+﻿@model List<ProductToBeAuctioned>
+@{
+    ViewBag.Title = "ViewAboutToBeAuctioned";
+}
+
+<h2>ViewAboutToBeAuctioned</h2>
+<div class="cb-page-content" id="app">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card-box">
+                    <div class="card-box-head  border-b m-t-0">                       
+                        <div class="@TempData["class"]">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            @TempData["message"]
+                        </div>
+                        <h4 class="header-title"><b>Responsive Tabel</b> <span class="pull-right m-l-5"><i class="fa fa-cog"></i></span></h4>
+                    </div>
+                    <div class="card-box-content form-compoenent">
+                        <div class="cb-res-table">
+                            <div class="cb-table-search">
+                                <div class="dropdown pull-left ">
+                                    <button type="button" class="btn btn-default btn-md dropdown-toggle waves-effect waves-light text-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Bulk Action <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu whitebg drop-menu-checkbox">
+                                        <li>
+                                            <div class="checkbox checkbox-primary">
+                                                <input id="checkbox11" type="checkbox">
+                                                <label for="checkbox11">Select All</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="checkbox checkbox-primary">
+                                                <input id="checkbox12" type="checkbox">
+                                                <label for="checkbox12">Delete All</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <button type="button" class="btn btn-default waves-effect waves-light text-dark">Apply</button>
+                                </div>
+                                <div class="input-group pull-right cb-ta-search">
+                                    <input type="text" class="form-control" placeholder="Search...">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button">Go!</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br>
+                        <div class="table-responsive data-table" id="tablePlaceholder">
+                            @Html.Partial("_AboutToBeAuctionedTable", Model)
+
+                        </div>
+                        <div class="row mob-center">
+                            <div class="col-sm-5">
+                                <p>Showing 20-30 of 50 items</p>
+                            </div>
+                            <div class="col-sm-7">
+                                <ul class="pagination pull-right">
+                                    <li><a href="#"><span class="fa fa-angle-double-left"></span></a></li>
+                                    <li class="active"><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">5</a></li>
+                                    <li><a href="#"><span class="fa fa-angle-double-right"></span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!--Modal Start-->
+    <div class="modal fade" id="reviewAuctionProposal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                @*@using (Ajax.BeginForm("AboutToBeAuctioned", "Auction", new AjaxOptions()
+                {
+                    HttpMethod = "post",
+                    InsertionMode = InsertionMode.Replace,
+                    OnSuccess = "success",
+                    UpdateTargetId = "tablePlaceholder",
+                    OnFailure = "alert('Sorry, An Error Occurred While Updating Your Changes')",
+                    OnComplete="complete",                    
+                }))*@
+                @using(Html.BeginForm("AboutToBeAuctioned", "Auction", new {},FormMethod.Post, new { }))
+                {
+                <!-- Modal Header -->
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;
+                        </button>
+                        @*<h4 class="modal-title">Approve Auction Proposal</h4>*@
+                    </div>
+                <!-- Modal Body -->
+                    <div class="modal-body">
+                        <div class="cb-page-content">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-horizontal">                                           
+                                            <h2>Edit Auction Details</h2>
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="Id" v-model="id"/>
+                                            <input type="hidden" name="BatchId" v-model="batchId" />
+                                            <input type="hidden" name="DateOfAuction" v-model="date" />
+                                            <input type="hidden" name="AuctionPrice" v-model="auctionPrice" />
+
+
+
+                                            <div class="form-group">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item">Product : {{productName}}</li>
+                                                    <li class="list-group-item">Auction Price:  {{oldAuctionPrice}}</li>
+                                                    <li class="list-group-item">Auction Date: {{date}}</li>
+                                                    <li class="list-group-item">Batch Id:{{batchId}}</li>
+                                                </ul>
+                                            </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-2" for="price">Auction Price</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="number" class="form-control" id="price" placeholder="Auction Price" v-model="auctionPrice">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-2">Auction Date</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" id="datetimepicker1" class="form-control" placeholder="Enter password" v-model.lazy="date">
+                                                    </div>
+                                                </div>
+                                                @*<br />
+                                                <p>Preview Changes</p>
+                                                <div class="form-group">
+                                                    <ul class="list-group">
+                                                        <li class="list-group-item">Product : {{productName}}</li>
+                                                        <li class="list-group-item">Auction Price:  {{auctionPrice}}</li>
+                                                        <li class="list-group-item">Auction Date: {{date}}</li>
+                                                        <li class="list-group-item">Batch Id:{{batchId}}</li>
+                                                    </ul>
+                                                </div>*@                                                
+
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
+
+
+                            </div>
+                            </div>
+                        </div>
+                            <!-- Modal Footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                    Cancel
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    Save Changes
+                                </button>
+                            </div>
+                            }
+                        </div>
+                    </div>
+    </div>
+    <!--Modal End-->
+
+
+</div>
+
+@section Scripts{
+    <script>
+       var vm =  new Vue({
+            el: '#app',
+            data: {
+                id: '',
+                batchId: '',
+                date: '',
+                productName: '',
+                auctionPrice: 0,
+                oldAuctionPrice:0,
+            },
+            methods: {
+                showModal: function (id, date, productName, batchId, auctionPrice) {
+                    this.id = id;
+                    this.batchId = batchId;
+                    this.productName = productName;
+                    this.date = date;
+                    this.auctionPrice = auctionPrice;
+                    this.oldAuctionPrice = auctionPrice;
+
+
+                    var options = {
+                        backdrop: true,
+                        keyboard: false,
+                        show: true,
+                        remote: false
+                    };
+
+                    $("#reviewAuctionProposal").modal(options);
+                }
+            }
+
+        });
+
+       
+    </script>
+}

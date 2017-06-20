@@ -1,0 +1,77 @@
+﻿@model List<TransactionVM>
+
+<table class="table table-bordred table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Batch Id</th>
+            <th><b>Product</b></th>
+            <th><b>Quantity</b></th>
+            <th><b>Selling Price</b></th>
+            <th><b>Total Cost</b></th>
+            <th><b>Agent</b></th>
+            <th><b>Action</b></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var Transaction = item.Transaction;
+            var Batch = Transaction.Batch;
+            var Product = Batch.Product;
+
+                <tr>
+                    <td>
+                        <b>@Transaction.DateOfTransaction</b>
+                    </td>
+                    <td>
+                            <b>@Batch.Id</b>
+                    </td>
+                    <td>
+                        <div class="thumb-box"> <img src="@Url.Action("GetImage1","Products", new { id=Batch.ProductId})" alt=""> </div>
+                        <b>@Product.Name</b>
+                    </td>
+
+                    <td>@Transaction.Quantity</td>
+                    <td>
+                        @Batch.SellingPrice
+                    </td>
+                    <td>
+                        @Transaction.TotalCost
+                    </td>
+                    <td>
+                        @item.Agent.UserName
+                        <br />
+                        @item.Agent.Email
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("BatchInformation", "Batches", FormMethod.Get))
+                        {
+                            @Html.Hidden("id", Batch.Id)
+                            <button class="btn btn-default btn-xs"><span class="fa fa-edit"></span>&nbsp;&nbsp;Batch Details</button>
+                        }
+                        @using (Html.BeginForm("BatchInformation", "Batches", FormMethod.Get))
+                        {
+                            @Html.Hidden("id", Transaction.AgentId)
+                            <button class="btn btn-warning btn-xs"><span class="fa fa-edit"></span>&nbsp;&nbsp;Agent Other Sales</button>
+                        }
+                        @using (Html.BeginForm("Details", "Products", FormMethod.Get))
+                        {
+                            @Html.Hidden("id", Product.Id)
+                            <button class="btn btn-primary btn-xs"><span class="fa fa-trash"></span>&nbsp;&nbsp;Product Info</button>
+                        }
+                    </td>
+                </tr>
+        }
+
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+

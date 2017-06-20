@@ -1,0 +1,58 @@
+﻿@model List<Auction>
+<table class="table table-bordred table-striped">
+    <thead>
+        <tr>
+            <th>Batch Id</th>
+            <th><b>Name</b></th>
+            <th><b>Manufacture Date</b></th>
+            <th><b>Expiry Date</b></th>
+            <th><b>Purchase Date</b></th>
+            <th><b>Auctioned</b></th>
+            <th><b>Sold</b></th>
+            <th><b>Disposed Of</b></th>
+            <th><b>Available</b></th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var Product = item.Batch.Product;
+            var Batch = item.Batch;
+            var QtyAvailable = Batch.QuantityPurchased - (Batch.QuantitySold + Batch.QuantityAuctioned + Batch.QuantityDisposedOf);
+            <tr>
+                <td>
+                    <div>
+                        @Batch.Id
+                    </div>
+                </td>
+                <td>
+                    <div class="thumb-box"> <img src="@Url.Action("GetImage1","Products", new { id=Batch.ProductId})" alt="product Image"> </div>
+                    <b>@Product.Name</b>
+                </td>
+                <td>@Batch.ManufactureDate</td>
+                <td>@Batch.ExpiryDate</td>
+                <td>@Batch.DateWhichInventoryWasPurchased</td>
+                <td>@Batch.QuantityAuctioned Units</td>
+                <td>@Batch.QuantitySold Units</td>
+                <td>@Batch.QuantityDisposedOf Units</td>
+                <td>@QtyAvailable Units</td>
+                <td v-model>@item.AuctionPrice</td>
+
+                <td>
+                    @Html.ActionLink("Batch Info", "BatchInformation", "Batches", new { id = item.BatchId }, new { @class = "btn btn-primary btn-xs" })
+                    <button class="btn btn-warning btn-xs" v-on:click="showModal('@item.AuctionPrice','@item.Id')"><span class="fa fa-edit"></span>&nbsp;&nbsp; Edit Auction Price</button>
+                </td>
+            </tr>
+        }
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>

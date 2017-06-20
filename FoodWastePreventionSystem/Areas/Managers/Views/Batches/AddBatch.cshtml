@@ -1,0 +1,114 @@
+﻿@model Batch
+
+@{
+    ViewBag.Title = "AddBatch";
+}
+<div class="row">
+    
+    <div class="col-sm-8 col-lg-offset-2">
+        <div class="card-box">
+            <div class="card-box-head  border-b m-t-0">
+                <h4 class="header-title"><b>Register Purchase</b></h4>
+            </div>
+            <div class="card-box-content form-compoenent">
+                    @using (Html.BeginForm("","", new { Area="Managers"},FormMethod.Post, new { @class="form-horizontal"}))
+                    {
+                        @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <img class="img-responsive center-block img-thumbnail col-sm-4" id="productImage" style="height:200px; width:300px" />
+
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ProductId, new { @class = "control-label col-sm-4 text-right" })
+                        <div class="col-sm-8">
+                            @Html.DropDownListFor(x => x.ProductId, (List<SelectListItem>)ViewBag.Products, "Select A Product", new { @class = "form-control", id = "product" })
+                            @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ManufactureDate, new { @class = "control-label col-sm-4 text-right" })
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(model => model.ManufactureDate, new { @class = "form-control", id= "datetimepicker1", type="text" })
+                            @Html.ValidationMessageFor(model => model.ManufactureDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ExpiryDate, new { @class = "control-label col-sm-4 text-right" })
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(model => model.ExpiryDate, new { @class = "form-control bootstrap-datetimepicker", type="date", value=DateTime.Now.ToShortDateString() })
+                            @Html.ValidationMessageFor(model => model.ExpiryDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.QuantityPurchased, new { @class = "control-label col-sm-4 text-right" })
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(model => model.QuantityPurchased, new { @class = "form-control", type = "number" })
+                            @Html.ValidationMessageFor(model => model.QuantityPurchased, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PurchasePrice, new { @class = "control-label col-sm-4 text-right" })
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(model => model.PurchasePrice, new { @class = "form-control", type="number" })
+                            @Html.ValidationMessageFor(model => model.PurchasePrice, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SellingPrice, new { @class = "control-label col-sm-4 text-right" })
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(model => model.SellingPrice, new { @class = "form-control", type = "number" })
+                            @Html.ValidationMessageFor(model => model.SellingPrice, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DateWhichInventoryWasPurchased, new { @class = "control-label col-sm-4 text-right" })
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(model => model.DateWhichInventoryWasPurchased, new { @class = "form-control", id= "bootstrap-datetimepicker", type = "date", value = DateTime.Now.ToShortDateString() })
+                            @Html.ValidationMessageFor(model => model.DateWhichInventoryWasPurchased, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-10">
+                            <div class="checkbox">
+                                <input id="checkbox02" type="checkbox">
+                                <label for="checkbox02"> Remember Me</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-10">
+                            <button type="submit" class="btn btn-pink btn-md">Register Batch</button>
+                        </div>
+                    </div>
+                    }
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts{
+    <script>
+
+
+        $(document).ready(function () {       
+
+            $('#product').change(function () {
+                var productId = $('#product').val()
+                console.log(productId);
+                $('#productImage').prop('src', `@Url.Action("GetImage1","Products")/${productId}`);
+            });
+        })
+
+    </script>
+    }

@@ -1,0 +1,172 @@
+﻿@model List<Auction>
+@{
+    ViewBag.Title = "ItemsOnAuction";
+}
+
+<h2>Items On Auction</h2>
+<div class="cb-page-content" id="auction">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card-box">
+                    <div class="card-box-head  border-b m-t-0">
+                        <div class="@TempData["class"]">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            @TempData["message"]
+                        </div>
+                        <h4 class="header-title"><b>Responsive Tabel</b> <span class="pull-right m-l-5"><i class="fa fa-cog"></i></span></h4>
+                    </div>
+                    <div class="card-box-content form-compoenent">
+                        <div class="cb-res-table">
+                            <div class="cb-table-search">
+                                <div class="dropdown pull-left ">
+                                    <button type="button" class="btn btn-default btn-md dropdown-toggle waves-effect waves-light text-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Bulk Action <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu whitebg drop-menu-checkbox">
+                                        <li>
+                                            <div class="checkbox checkbox-primary">
+                                                <input id="checkbox11" type="checkbox">
+                                                <label for="checkbox11">Select All</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="checkbox checkbox-primary">
+                                                <input id="checkbox12" type="checkbox">
+                                                <label for="checkbox12">Delete All</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <button type="button" class="btn btn-default waves-effect waves-light text-dark">Apply</button>
+                                </div>
+                                <div class="input-group pull-right cb-ta-search">
+                                    <input type="text" class="form-control" placeholder="Search...">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button">Go!</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br>
+                        <div class="table-responsive data-table" id="auctionTablePlaceholder">
+                            @Html.Partial("_ItemsOnAuctionTable",Model)                            
+                        </div>
+                        <div class="row mob-center">
+                            <div class="col-sm-5">
+                                <p>Showing 20-30 of 50 items</p>
+                            </div>
+                            <div class="col-sm-7">
+                                <ul class="pagination pull-right">
+                                    <li><a href="#"><span class="fa fa-angle-double-left"></span></a></li>
+                                    <li class="active"><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">5</a></li>
+                                    <li><a href="#"><span class="fa fa-angle-double-right"></span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!--
+        Edit Price Modal
+    -->
+    <div class="modal fade" id="changeAuctionPrice">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                @*@using(Ajax.BeginForm("EditAuctionPrice", "Auction", new AjaxOptions()
+                {
+                    HttpMethod  = "post",
+                    InsertionMode = InsertionMode.Replace,
+                    OnSuccess = "success",
+                    UpdateTargetId= "auctionTablePlaceholder",
+                    OnFailure="alert('Sorry, An Error Occurred While Updating Your Changes')"
+                }))*@
+                @using(Html.BeginForm("EditAuctionPrice", "Auction"))
+                {
+                <!-- Modal Header -->
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;
+                        </button>
+                        <h4 class="modal-title">Change Auction Price</h4>
+                    </div>
+                <!-- Modal Body -->
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card-box">
+                                    <div class="card-box-head  border-b m-t-0">
+                                        <h4 class="header-title"><b>Basic Form</b></h4>
+                                    </div>
+                                    <div class="card-box-content form-compoenent">
+                                        <input type="hidden" v-model="auctionId" name="Id" />
+                                        <div class="form-group">
+                                            <label for="email">Initial Auction Price</label>
+                                            <input type="text" class="form-control" disable v-bind:value="initialPrice">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>New Auction Price:</label>
+                                            <input type="number" class="form-control" placeholder="New Auction Price" v-model="newPrice" name="AuctionPrice">
+                                        </div>                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Save New Price
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        var auction = new Vue({
+            el: "#auction",
+            data: {
+                auctionId: "",
+                initialPrice: 0,
+                newPrice: 0
+            },
+            methods: {
+                showModal: function (initialPrice, id) {
+                    this.initialPrice = initialPrice;
+                    this.auctionId = id;
+                    var options = {
+                        backdrop: true,
+                        keyboard: false,
+                        show: true,
+                        remote: false
+                    };
+                    $("#changeAuctionPrice").modal(options);
+                }
+               
+            }
+
+
+        });
+
+       
+
+    </script>
+}

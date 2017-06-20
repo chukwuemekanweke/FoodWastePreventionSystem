@@ -1,0 +1,175 @@
+﻿@model List<ProductToBeAuctioned>
+@{
+    ViewBag.Title = "ReviewPendingAuctions";
+}
+<div class="page-title-group">
+    <h4 class="page-title">Review Pending Auctions</h4>
+</div>
+
+<div class="cb-page-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card-box">
+                    <div class="card-box-head  border-b m-t-0">
+                        <div class="@TempData["class"]">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            @TempData["message"]
+                        </div>
+                        <h4 class="header-title"><b>Pending Auction Proposal</b> <span class="pull-right m-l-5"><i class="fa fa-cog"></i></span></h4>
+                    </div>
+                    <div class="card-box-content form-compoenent">
+                        <div class="cb-res-table">
+                            <div class="cb-table-search">
+                                <div class="dropdown pull-left ">
+                                    <button type="button" class="btn btn-default btn-md dropdown-toggle waves-effect waves-light text-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Bulk Action <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu whitebg drop-menu-checkbox">
+                                        <li>
+                                            <div class="checkbox checkbox-primary">
+                                                <input id="checkbox11" type="checkbox">
+                                                <label for="checkbox11">Select All</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="checkbox checkbox-primary">
+                                                <input id="checkbox12" type="checkbox">
+                                                <label for="checkbox12">Delete All</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <button type="button" class="btn btn-default waves-effect waves-light text-dark">Apply</button>
+                                </div>
+                                <div class="input-group pull-right cb-ta-search">
+                                    <input type="text" class="form-control" placeholder="Search...">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button">Go!</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br>
+                        <div class="table-responsive data-table">
+                            <table class="table table-bordred table-striped">
+                                <thead>
+                                    <tr>
+                                        <th><b>Batch Id</b></th>
+                                        <th><b>Product</b></th>
+                                        <th><b>Date Information</b></th>
+                                        <th ><b>Quantity Information</b></th>
+                                        <th><b>Action</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        var Product = item.Batch.Product;
+                                        var Batch = item.Batch;
+                                        var QtyAvailable = Batch.QuantityPurchased - (Batch.QuantitySold + Batch.QuantityDisposedOf + Batch.QuantityAuctioned);
+                                        <tr>
+                                            <td>
+                                                    @Batch.Id
+                                            </td>
+                                            <td>
+                                                <div class="thumb-box"> <img src="@Url.Action("GetImage1","Products", new { id = item.Batch.ProductId})" alt=""> </div>
+                                                <b>@Product.Name</b>
+                                            </td>
+                                            <td>
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">
+                                                        <h4 class="panel-title">
+                                                            <a data-toggle="collapse" data-parent="#accordion-test-2" href="#collapseOne-1" aria-expanded="false" class="collapsed">
+                                                                Date Information For Batch
+                                                            </a>
+                                                        </h4>
+                                                    </div>
+                                                    <div id="collapseOne-1" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                                        <div class="panel-body">
+                                                            <ul class="list-group">
+                                                                <li class="list-group-item">Auction Date: @item.DateOfAuction.ToShortDateString()</li>
+                                                                <li class="list-group-item">Manufacture Date: @Batch.ManufactureDate.ToShortDateString()</li>
+                                                                <li class="list-group-item">Expiry Date: @Batch.ExpiryDate.ToShortDateString()<li>
+                                                                <li class="list-group-item">Purchase Date: @Batch.DateWhichInventoryWasPurchased.ToShortDateString()<li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                            <td>
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">
+                                                        <h4 class="panel-title">
+                                                            <a data-toggle="collapse" data-parent="#accordion-test-2" href="#collapseOne-2" aria-expanded="false" class="collapsed">
+                                                               Volume Information For Batch
+                                                            </a>
+                                                        </h4>
+                                                    </div>
+                                                    <div id="collapseOne-2" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                                        <div class="panel-body">
+                                                            <ul class="list-group">
+                                                                <li class="list-group-item">Units Purchased: @Batch.QuantityPurchased</li>
+                                                                <li class="list-group-item">Units Sold: @Batch.QuantitySold</li>
+                                                                <li class="list-group-item">Units Disposed: @Batch.QuantityDisposedOf</li>
+                                                                @if (Batch.QuantityAuctioned > 0)
+                                                                {
+                                                                <li class="list-group-item">Units Auctioned: @Batch.QuantityAuctioned</li>
+                                                                }
+
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                       
+                                        <td>
+                                            @using (Html.BeginForm("ApproveAuctionProposal", "Auction", FormMethod.Post))
+                                            {
+                                                @Html.Hidden("id",item.Id)
+                                            <button class="btn btn-default btn-xs" type="submit"><span class="fa fa-check"></span>&nbsp;&nbsp;Approve</button>
+                                            }
+                                            @using (Html.BeginForm("RejectAuctionProposal", "Auction", FormMethod.Post))
+                                            {
+                                                @Html.Hidden("id", item.Id)
+
+                                            <button class="btn btn-default btn-xs" type="submit"><span class="fa fa-trash"></span>&nbsp;&nbsp;Reject</button>
+                                            }
+                                            <button class="btn btn-default btn-xs"><span class="fa fa-trash"></span>&nbsp;&nbsp;Details</button>
+
+                                        </td>
+                                    </tr>
+                                    }
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row mob-center">
+                            <div class="col-sm-5">
+                                <p>Showing 20-30 of 50 items</p>
+                            </div>
+                            <div class="col-sm-7">
+                                <ul class="pagination pull-right">
+                                    <li><a href="#"><span class="fa fa-angle-double-left"></span></a></li>
+                                    <li class="active"><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">5</a></li>
+                                    <li><a href="#"><span class="fa fa-angle-double-right"></span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

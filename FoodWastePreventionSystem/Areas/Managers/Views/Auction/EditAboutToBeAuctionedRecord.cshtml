@@ -1,0 +1,54 @@
+﻿@model ProductToBeAuctioned
+@{
+    ViewBag.Title = "EditAboutToBeAuctionedRecord";
+}
+
+<h2>EditAboutToBeAuctionedRecord</h2>
+
+<div class="cb-page-content">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="card-box">
+                    <div class="card-box-head  border-b m-t-0">
+                        <h4 class="header-title"><b>Horizontal Form</b></h4>
+                    </div>
+                    <div class="card-box-content form-compoenent">
+                        @using (Html.BeginForm("", "", FormMethod.Post, new { @class = "form-horizontal" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m=>m.Id,Model.Id)
+                            <div class="form-group">
+                                <label class="control-label col-sm-4 text-left" for="email">Start Date:</label>
+                                <div class="col-sm-8">
+                                    <input type="email" class="form-control" placeholder="Enter email">
+                                    @Html.TextBoxFor(m => m.DateOfAuction, new { type = "date", @class = "form-control", placeholder = "Start Date Of Auction" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4 text-left">Auction Price:</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(m => m.Auctionprice, new { type = "number", @class = "form-control", placeholder = "Start Date Of Auction", required = "" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4 text-left">Confirm Password</label>
+                                <div class="col-sm-8">
+                                    <input type="password" class="form-control" placeholder="Enter password">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-offset-4 col-sm-10">
+                                    <button type="submit" class="btn btn-pink btn-md">Submit</button>
+                                    @Html.ActionLink("Cancel", "ViewSoonToBeExpiredInventory", "Analysis", new { }, new { @class = "btn btn-warning btn-md" })
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

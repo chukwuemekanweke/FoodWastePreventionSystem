@@ -1,0 +1,165 @@
+﻿@model List<AuctionManagementVM>
+@{
+    ViewBag.Title = "ViewSoonToBeExpiredInventory";
+
+}
+
+<h2>View Soon To Be Expired Inventory</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card-box">
+            <div class="card-box-head  border-b m-t-0">
+                <h4 class="header-title">
+                    <b>Responsive Tabel</b>
+                    <span class="pull-right m-l-5"><i class="fa fa-cog"></i></span>
+                </h4>
+            </div>
+            <div class="card-box-content form-compoenent">
+                <div class="cb-res-table">
+                    <div class="cb-table-search">
+                        <div class="dropdown pull-left ">
+                            <button type="button" class="btn btn-default btn-md dropdown-toggle waves-effect waves-light text-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Bulk Action <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu whitebg drop-menu-checkbox">
+                                <li>
+                                    <div class="checkbox checkbox-primary">
+                                        <input id="checkbox11" type="checkbox">
+                                        <label for="checkbox11">Select All</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="checkbox checkbox-primary">
+                                        <input id="checkbox12" type="checkbox">
+                                        <label for="checkbox12">Delete All</label>
+                                    </div>
+                                </li>
+                            </ul>
+                            <button type="button" class="btn btn-default waves-effect waves-light text-dark">Apply</button>
+                        </div>
+                        <div class="input-group pull-right cb-ta-search">
+                            <input type="text" class="form-control" placeholder="Search...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">Go!</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <br>
+                <div class="table-responsive data-table">
+                    <table class="table table-bordred table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>
+                                    <b>Name</b>
+                                </th>
+                                <th>
+                                    <b>Task</b>
+                                </th>
+                                <th>
+                                    <b>Date</b>
+                                </th>
+                                <th class="text-center">
+                                    <b>Status</b>
+                                </th>
+                                <th>
+                                    <b>Action</b>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                int AvailableUnits = item.Batch.QuantityPurchased - (item.Batch.QuantitySold + item.Batch.QuantityAuctioned + item.Batch.QuantityDisposedOf);
+                                <tr>
+                                    <td>
+                                        <div class="checkbox checkbox-primary">
+                                            <input type="checkbox">
+                                            <label></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="thumb-box">
+                                            <img src="@Url.Action("GetImage1","Products", new { id=item.Batch.Product.Id, Area="Managers"})" alt="">
+                                        </div>
+                                        <b>@item.Batch.Product.Name</b>
+                                    </td>
+                                    <td></td>
+                                    <td>@item.Batch.ManufactureDate</td>
+                                    <td>@item.Batch.ExpiryDate</td>
+                                    <td>@AvailableUnits</td>
+                                    <td>
+                                        <span class="badge btn-primary btn-sm">Done</span>
+                                    </td>
+                                    <td>
+                                        @if (item.State == BatchAuctionState.NotReviewed)
+                                        {
+                                            Html.ActionLink("Review Auction Proposal", "EditAboutToBeAuctionedRecord", "AuctionController", new { id = item.Batch.Id });
+                                        }
+                                        else if (item.State == BatchAuctionState.OnAuction)
+                                        {
+                                            Html.ActionLink("Details", "ViewAuction", "AuctionController", new { id = item.Batch.Id });
+
+                                        }
+                                        else if(item.State == BatchAuctionState.AboutToBeAuctioned)
+                                        {
+                                            Html.ActionLink("Edi", "EditAboutToBeAuctionedRecord", "AuctionController", new { id = item.Batch.Id });
+
+                                        }
+
+
+                                    </td>
+                                </tr>
+
+                            }
+
+
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row mob-center">
+                    <div class="col-sm-5">
+                        <p>Showing 20-30 of 50 items</p>
+                    </div>
+                    <div class="col-sm-7">
+                        <ul class="pagination pull-right">
+                            <li>
+                                <a href="#"><span class="fa fa-angle-double-left"></span></a>
+                            </li>
+                            <li class="active">
+                                <a href="#">1</a>
+                            </li>
+                            <li>
+                                <a href="#">2</a>
+                            </li>
+                            <li>
+                                <a href="#">3</a>
+                            </li>
+                            <li>
+                                <a href="#">4</a>
+                            </li>
+                            <li>
+                                <a href="#">5</a>
+                            </li>
+                            <li>
+                                <a href="#"><span class="fa fa-angle-double-right"></span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

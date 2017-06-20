@@ -1,0 +1,144 @@
+﻿@model EditViewAuctionVM
+@{
+    ViewBag.Title = "ViewAuction";
+    var BatchId = Model.TransactionRecords.FirstOrDefault().Transaction.Batch.Id;
+    var ProductName = Model.TransactionRecords.FirstOrDefault().Transaction.Batch.Product.Name;
+}
+
+<div class="cb-page-content">
+    <div class="container">
+        <div class="row">
+
+            <div class="clearfix"></div>
+            <div class="col-md-12">
+                <div class="card-box">
+                    <div class="card-box-head  border-b m-t-0">
+                        <h4 class="header-title"><b>Edit Auction Details</b></h4>
+                    </div>
+                    <div class="card-box-content form-compoenent">
+                        <label>Set Auction Price</label>
+                        <div class="clearfix"></div>
+                        <br>
+                        @using (Html.BeginForm("EditAuction", "AuctionController", FormMethod.Post, new { @class = "form-inline" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("id", Model.Auction.Id)
+                            <div class="form-group pull-left">
+                                <label>Current Price</label>
+                                <input type="number" class="form-control" placeholder="" disabled value="@Model.Auction.AuctionPrice">
+                            </div>
+                            <div class="form-group pull-left">
+                                <label>New Price:</label>
+
+                                <input type="number" class="form-control" placeholder="New Price" name="NewPrice">
+                            </div>
+
+                            <button type="submit" class="btn btn-yellow btn-md">Save Changes</button>
+
+                        }
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card-box">
+                    <div class="card-box-head  border-b m-t-0">
+                        <h4 class="header-title"><b>Auction Transactions For Batch @BatchId </b></h4>
+                        <h4 class="text-right">Product Name: @ProductName</h4>
+                    </div>
+                    <div class="card-box-content form-compoenent">
+                        <div class="cb-res-table">
+                            <div class="cb-table-search">
+                                <div class="dropdown pull-left ">
+                                    Show
+                                    <button type="button" class="btn btn-default btn-md dropdown-toggle waves-effect waves-light text-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        10 <span class="caret"></span>
+                                    </button>
+                                    entries
+                                    <ul class="dropdown-menu whitebg drop-menu-checkbox">
+                                        <li>10</li>
+                                        <li>20</li>
+                                        <li>30</li>
+                                    </ul>
+                                </div>
+                                <div class="input-group pull-right cb-ta-search">
+                                    <input type="text" class="form-control" placeholder="Search...">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button">Go!</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br>
+                        <div class="table-responsive data-table">
+                            <table class="table table-bordred table-striped">
+                                <thead>
+                                    <tr>
+                                        <th><b>Name</b></th>
+                                        <th><b>Customer</b></th>
+                                        <th><b>Quantity</b></th>
+                                        <th><b>Price</b></th>
+                                        <th><b>Total Cost</b></th>
+                                        <th><b>Date Of Transaction</b></th>
+                                        <th class="text-center"><b>Action</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.TransactionRecords)
+                                    {
+                                        var AuctionPrice = item.Transaction.TotalCost / item.Transaction.Quantity;
+                                        <tr>
+                                            <td>
+                                                <b>@item.Auctionee.UserName</b><br />
+                                                <b>@item.Auctionee.Email</b>
+                                            </td>
+                                            <td>@item.Transaction.Quantity</td>
+                                            <td>@AuctionPrice</td>
+                                            <td>@item.Transaction.TotalCost</td>
+                                            <td>@item.Transaction.DateOfTransaction</td>
+                                            <td class="text-center">
+                                                <button class="btn btn-default btn-xs"><span class="fa fa-times"></span></button>
+                                            </td>
+                                        </tr>
+                                    }
+
+
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row mob-center">
+                            <div class="col-sm-5">
+                                <p>Showing 20-30 of 50 items</p>
+                            </div>
+                            <div class="col-sm-7">
+                                <ul class="pagination pull-right">
+                                    <li><a href="#"><span class="fa fa-angle-double-left"></span></a></li>
+                                    <li class="active"><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">5</a></li>
+                                    <li><a href="#"><span class="fa fa-angle-double-right"></span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
