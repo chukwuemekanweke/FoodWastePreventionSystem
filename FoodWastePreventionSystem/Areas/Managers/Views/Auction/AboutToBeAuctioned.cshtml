@@ -19,32 +19,43 @@
                     <div class="card-box-content form-compoenent">
                         <div class="cb-res-table">
                             <div class="cb-table-search">
-                                <div class="dropdown pull-left ">
-                                    <button type="button" class="btn btn-default btn-md dropdown-toggle waves-effect waves-light text-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Bulk Action <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu whitebg drop-menu-checkbox">
-                                        <li>
-                                            <div class="checkbox checkbox-primary">
-                                                <input id="checkbox11" type="checkbox">
-                                                <label for="checkbox11">Select All</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="checkbox checkbox-primary">
-                                                <input id="checkbox12" type="checkbox">
-                                                <label for="checkbox12">Delete All</label>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <button type="button" class="btn btn-default waves-effect waves-light text-dark">Apply</button>
-                                </div>
-                                <div class="input-group pull-right cb-ta-search">
-                                    <input type="text" class="form-control" placeholder="Search...">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="button">Go!</button>
-                                    </span>
-                                </div>
+                                @using (Html.BeginForm("", "", FormMethod.Get))
+                                {
+                                    <div class="dropdown pull-left ">
+                                        <button type="button" class="btn btn-default btn-md dropdown-toggle waves-effect waves-light text-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Bulk Action <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu whitebg drop-menu-checkbox">
+                                            @foreach (var item in ViewBag.Categories)
+                                            {
+                                                <li>
+                                                    <div class="checkbox checkbox-primary">
+                                                        <input id="checkbox11" type="checkbox" value="@item" name="searchCategory">
+                                                        <label for="checkbox11">@item</label>
+                                                    </div>
+                                                </li>
+                                            }
+                                            <li>
+                                                <div class="checkbox checkbox-primary">
+                                                    <input id="checkbox12" type="checkbox">
+                                                    <label for="checkbox12">All Products</label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        @*<button type="button" class="btn btn-default waves-effect waves-light text-dark">Apply</button>*@
+                                    </div>
+                                    <div class="input-group pull-right cb-ta-search">
+
+
+                                        <input type="text" class="form-control" placeholder="Search..." name="searchTerm">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="submit">Go!</button>
+                                        </span>
+
+                                    </div>
+
+
+                                }
                             </div>
                         </div>
                         <div class="clearfix"></div>
@@ -55,18 +66,20 @@
                         </div>
                         <div class="row mob-center">
                             <div class="col-sm-5">
-                                <p>Showing 20-30 of 50 items</p>
+                                <p>Showing Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</p>
                             </div>
                             <div class="col-sm-7">
-                                <ul class="pagination pull-right">
-                                    <li><a href="#"><span class="fa fa-angle-double-left"></span></a></li>
-                                    <li class="active"><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                    <li><a href="#"><span class="fa fa-angle-double-right"></span></a></li>
-                                </ul>
+
+                                @Html.PagedListPager(Model, page => Url.Action("Index", new
+                           {
+                               page = page,
+                               searchTerm = ViewBag.SearchTerm,
+                               searchCategory = ViewBag.SearchCategory
+                           }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+                                <br />
+
+
+
                             </div>
                         </div>
                     </div>

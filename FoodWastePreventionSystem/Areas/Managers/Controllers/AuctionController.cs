@@ -10,9 +10,13 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using PagedList;
 
 namespace FoodWastePreventionSystem.Areas.Managers.Controllers
 {
+    [Authorize]
+    [RouteArea("Managers")]
+    [RoutePrefix("Auction")]
     public class AuctionController : Controller
     {
         private IRepository<Product> ProductRepo;
@@ -26,6 +30,8 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
 
         private ApplicationUserManager userManager;
         private ApplicationUser loggedInUser;
+
+        private int PageSize = 10;
 
         public ApplicationUser LoggedInUser
         {
@@ -62,18 +68,81 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
 
         }
 
-        public ActionResult ItemsOnAuction() =>
-            View(Auctionrepo
-                .GetAll(x => x.Batch.QuantityPurchased > (x.Batch.QuantitySold + x.Batch.QuantityDisposedOf + x.Batch.QuantityAuctioned))
-                .ToList()
-                );
+
+        [Route("ItemsOnAuction/{searchTerm}/{page:int}")]
+        [Route("ItemsOnAuction/{searchTerm}")]
+        [Route("ItemsOnAuction/{searchCategory}")]
+        [Route("ItemsOnAuction/{page:int}")]
+        [Route("ItemsOnAuction")]
+        public ActionResult ItemsOnAuction(string searchTerm, string searchCategory, int? page)
+        {
+            var models = new List<Auction>();
+
+            if (!string.IsNullOrWhiteSpace(searchTerm) && !string.IsNullOrWhiteSpace(searchCategory))
+            {
+                models =  Auctionrepo.GetAll(x => x.Batch.Product.StoreId == LoggedInUser.StoreId).Where(x => x.Batch.Product.Category == searchCategory && x.Batch.Product.Name.ToLower().Contains(searchTerm.ToLower()) == true).ToList();
+            }
+            else if (!string.IsNullOrWhiteSpace(searchTerm) && string.IsNullOrWhiteSpace(searchCategory))
+            {
+                models =  Auctionrepo.GetAll(x => x.Batch.Product.StoreId == LoggedInUser.StoreId).Where(x => x.Batch.Product.Name.ToLower().Contains(searchTerm.ToLower()) == true).ToList();
+            }
+            else if (string.IsNullOrWhiteSpace(searchTerm) && !string.IsNullOrWhiteSpace(searchCategory))
+            {
+                models =  Auctionrepo.GetAll(x => x.Batch.Product.StoreId == LoggedInUser.StoreId).Where(x => x.Batch.Product.Category == searchCategory).ToList();
+            }
+            else
+            {
+                models =  Auctionrepo.GetAll(x => x.Batch.Product.StoreId == LoggedInUser.StoreId).ToList();
+            }
+
+            if (string.IsNullOrWhiteSpace(searchCategory))
+            {
+                ViewBag.Catgory = searchCategory;
+                ViewBag.SearchTerm = searchTerm;
+            }
+
+            int pageNumber = (page ?? 1);
+            ViewBag.Categories = ProductRepo.GetAll(x => x.StoreId == LoggedInUser.StoreId).Select(x => x.Category).Distinct().ToList();
+
+            return View(models.ToPagedList(pageNumber, PageSize));
+            
+        }
 
 
 
-        public ActionResult AboutToBeAuctioned() =>
-            View(
-                ToBeAuctionedRepo.GetAll(x => x.HasBeenReviewedByManager == true).ToList()
-                );
+        public ActionResult AboutToBeAuctioned(string searchTerm, string searchCategory, int? page)
+        {
+            var models = new List<ProductToBeAuctioned>();
+
+            if (!string.IsNullOrWhiteSpace(searchTerm) && !string.IsNullOrWhiteSpace(searchCategory))
+            {
+                models = ToBeAuctionedRepo.GetAll(x => x.Batch.Product.StoreId == LoggedInUser.StoreId && x.HasBeenReviewedByManager==true).Where(x => x.Batch.Product.Category == searchCategory && x.Batch.Product.Name.ToLower().Contains(searchTerm.ToLower()) == true).ToList();
+            }
+            else if (!string.IsNullOrWhiteSpace(searchTerm) && string.IsNullOrWhiteSpace(searchCategory))
+            {
+                models = ToBeAuctionedRepo.GetAll(x => x.Batch.Product.StoreId == LoggedInUser.StoreId && x.HasBeenReviewedByManager == true).Where(x => x.Batch.Product.Name.ToLower().Contains(searchTerm.ToLower()) == true).ToList();
+            }
+            else if (string.IsNullOrWhiteSpace(searchTerm) && !string.IsNullOrWhiteSpace(searchCategory))
+            {
+                models = ToBeAuctionedRepo.GetAll(x => x.Batch.Product.StoreId == LoggedInUser.StoreId && x.HasBeenReviewedByManager == true).Where(x => x.Batch.Product.Category == searchCategory).ToList();
+            }
+            else
+            {
+                models = ToBeAuctionedRepo.GetAll(x => x.Batch.Product.StoreId == LoggedInUser.StoreId && x.HasBeenReviewedByManager == true).ToList();
+            }
+
+            if (string.IsNullOrWhiteSpace(searchCategory))
+            {
+                ViewBag.Catgory = searchCategory;
+                ViewBag.SearchTerm = searchTerm;
+            }
+
+            int pageNumber = (page ?? 1);
+            ViewBag.Categories = ProductRepo.GetAll(x => x.StoreId == LoggedInUser.StoreId).Select(x => x.Category).Distinct().ToList();
+
+            return View(models.ToPagedList(pageNumber, PageSize));
+
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -92,10 +161,38 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
         }
 
 
-        public ActionResult ReviewPendingAuctions() =>
-            View(
-                    ToBeAuctionedRepo.GetAll(x=>x.HasBeenReviewedByManager==false).ToList()
-                );
+        public ActionResult ReviewPendingAuctions(string searchTerm, string searchCategory, int? page) 
+           {
+            var models = new List<ProductToBeAuctioned>();
+
+            if (!string.IsNullOrWhiteSpace(searchTerm) && !string.IsNullOrWhiteSpace(searchCategory))
+            {
+                models = ToBeAuctionedRepo.GetAll(x => x.Batch.Product.StoreId == LoggedInUser.StoreId && x.HasBeenReviewedByManager == false).Where(x => x.Batch.Product.Category == searchCategory && x.Batch.Product.Name.ToLower().Contains(searchTerm.ToLower()) == true).ToList();
+            }                                                                                                                           
+            else if (!string.IsNullOrWhiteSpace(searchTerm) && string.IsNullOrWhiteSpace(searchCategory))                               
+            {                                                                                                                            
+                models = ToBeAuctionedRepo.GetAll(x => x.Batch.Product.StoreId == LoggedInUser.StoreId && x.HasBeenReviewedByManager == false).Where(x => x.Batch.Product.Name.ToLower().Contains(searchTerm.ToLower()) == true).ToList();
+            }                                                                                                                           
+            else if (string.IsNullOrWhiteSpace(searchTerm) && !string.IsNullOrWhiteSpace(searchCategory))                               
+            {                                                                                                                           
+                models = ToBeAuctionedRepo.GetAll(x => x.Batch.Product.StoreId == LoggedInUser.StoreId && x.HasBeenReviewedByManager == false).Where(x => x.Batch.Product.Category == searchCategory).ToList();
+            }                                                                                                                           
+            else                                                                                                                        
+            {                                                                                                                            
+                models = ToBeAuctionedRepo.GetAll(x => x.Batch.Product.StoreId == LoggedInUser.StoreId && x.HasBeenReviewedByManager == false).ToList();
+            }
+
+            if (string.IsNullOrWhiteSpace(searchCategory))
+            {
+                ViewBag.Catgory = searchCategory;
+                ViewBag.SearchTerm = searchTerm;
+            }
+
+            int pageNumber = (page ?? 1);
+            ViewBag.Categories = ProductRepo.GetAll(x => x.StoreId == LoggedInUser.StoreId).Select(x => x.Category).Distinct().ToList();
+
+            return View(models.ToPagedList(pageNumber, PageSize));
+        }
 
         [HttpPost]
         public ActionResult ApproveAuctionProposal(Guid id)

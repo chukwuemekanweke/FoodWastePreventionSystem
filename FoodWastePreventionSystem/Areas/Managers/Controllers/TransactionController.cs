@@ -23,6 +23,8 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
         private IRepository<Batch> BatchRepo;
         private IRepository<Transaction> TransactionRepo;
         private IRepository<Product> ProductRepo;
+        private int PageSize = 2;
+
 
         private SalesLogic SalesLogic;
 

@@ -16,6 +16,7 @@ using FoodWastePreventionSystem.BusinessLogic;
 using FoodWastePreventionSystem.Areas.Managers.Models;
 using System.IO;
 using System.Diagnostics;
+using PagedList;
 
 namespace FoodWastePreventionSystem.Areas.Managers.Controllers
 {
@@ -28,13 +29,14 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
         private IRepository<Product> ProductRepo;
         private IRepository<Auction> Auctionrepo;
         private IRepository<ProductToBeAuctioned> ToBeAuctionedRepo;
-        private  ApplicationUserManager userManager;
+        private ApplicationUserManager userManager;
         private ApplicationUser loggedInUser;
 
 
         private SalesLogic SalesLogic;
         private ProductsLogic ProductLogic;
         private AuctionLogic AuctionLogic;
+        private int PageSize = 10;
 
         public ApplicationUser LoggedInUser
         {
@@ -59,16 +61,16 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
         }
 
 
-        public ProductsController(IRepository<Product> _ProductRepo, IRepository<FoodWastePreventionSystem.Models.Batch> _ProductInStoreRepo, 
+        public ProductsController(IRepository<Product> _ProductRepo, IRepository<FoodWastePreventionSystem.Models.Batch> _ProductInStoreRepo,
                                     IRepository<Transaction> _TransactiontRepo, IRepository<Auction> _AuctionRepo,
-                                    IRepository<ProductToBeAuctioned> _ProductToBeAuctionedRepo, IRepository<Loss> _LossRepo, 
+                                    IRepository<ProductToBeAuctioned> _ProductToBeAuctionedRepo, IRepository<Loss> _LossRepo,
                                     IRepository<AuctionTransactionStatus> _AuctionTransactionStausRepo)
         {
             ProductRepo = _ProductRepo;
             Auctionrepo = _AuctionRepo;
             ToBeAuctionedRepo = _ProductToBeAuctionedRepo;
             ProductLogic = new ProductsLogic(_ProductRepo, _ProductInStoreRepo, _TransactiontRepo, _AuctionRepo, _ProductToBeAuctionedRepo, _LossRepo, _AuctionTransactionStausRepo);
-            AuctionLogic = new AuctionLogic(_ProductRepo, _ProductInStoreRepo, _TransactiontRepo, _AuctionRepo, _ProductToBeAuctionedRepo, _LossRepo,_AuctionTransactionStausRepo);
+            AuctionLogic = new AuctionLogic(_ProductRepo, _ProductInStoreRepo, _TransactiontRepo, _AuctionRepo, _ProductToBeAuctionedRepo, _LossRepo, _AuctionTransactionStausRepo);
             SalesLogic = new SalesLogic(_ProductRepo, _ProductInStoreRepo, _TransactiontRepo, _AuctionRepo, _ProductToBeAuctionedRepo, _LossRepo, _AuctionTransactionStausRepo);
 
         }
@@ -79,18 +81,18 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
         [Route("Index/{page:int}")]
         [Route("Index")]
         [Route("")]
-        public async Task<ActionResult> Index(string searchTerm,string searchCategory, int? page)
+        public async Task<ActionResult> Index(string searchTerm, string searchCategory, int? page)
         {
             var models = new List<Product>();
-            if(!string.IsNullOrWhiteSpace(searchTerm) && !string.IsNullOrWhiteSpace(searchCategory))
+            if (!string.IsNullOrWhiteSpace(searchTerm) && !string.IsNullOrWhiteSpace(searchCategory))
             {
-                models = await ProductRepo.GetAll(x => x.StoreId == LoggedInUser.StoreId).Where(x => x.Category==searchCategory && x.Name.ToLower().Contains(searchTerm.ToLower() ) == true).ToListAsync();
+                models = await ProductRepo.GetAll(x => x.StoreId == LoggedInUser.StoreId).Where(x => x.Category == searchCategory && x.Name.ToLower().Contains(searchTerm.ToLower()) == true).ToListAsync();
             }
-            else if(!string.IsNullOrWhiteSpace(searchTerm) && string.IsNullOrWhiteSpace(searchCategory))
+            else if (!string.IsNullOrWhiteSpace(searchTerm) && string.IsNullOrWhiteSpace(searchCategory))
             {
                 models = await ProductRepo.GetAll(x => x.StoreId == LoggedInUser.StoreId).Where(x => x.Name.ToLower().Contains(searchTerm.ToLower()) == true).ToListAsync();
             }
-            else if(string.IsNullOrWhiteSpace(searchTerm) && !string.IsNullOrWhiteSpace(searchCategory))
+            else if (string.IsNullOrWhiteSpace(searchTerm) && !string.IsNullOrWhiteSpace(searchCategory))
             {
                 models = await ProductRepo.GetAll(x => x.StoreId == LoggedInUser.StoreId).Where(x => x.Category == searchCategory).ToListAsync();
             }
@@ -99,15 +101,18 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
                 models = await ProductRepo.GetAll(x => x.StoreId == LoggedInUser.StoreId).ToListAsync();
             }
 
+            if (string.IsNullOrWhiteSpace(searchCategory))
+            {
+                ViewBag.Catgory = searchCategory;
+                ViewBag.SearchTerm = searchTerm;
+            }
             Debug.WriteLine(searchCategory);
 
-            int pageSize = 7;
             int pageNumber = (page ?? 1);
             var result = await FetchCategories();
             ViewBag.Categories = result;
 
-            //return View(models.ToPagedList(pageNumber, pageSize));
-            return View(models);
+            return View(models.ToPagedList(pageNumber, PageSize));
         }
 
 
@@ -210,7 +215,7 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
 
 
                 if (product.Image1 == null)
-                {               
+                {
                     product.Image1 = oldProduct.Image1;
                     product.Image2 = oldProduct.Image2;
                     product.extension1 = oldProduct.extension1;
