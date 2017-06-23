@@ -6,23 +6,35 @@
     <div class="panel-body">
         <div class="list-group">
 
-            @foreach (var item in Model)
+            @if (Model.Count > 0)
             {
-                <a href="@Url.Action("AddTransaction","Transaction", new { id = item.Id})" class="list-group-item">
-                    <h4 class="list-group-item-heading">@item.Id</h4>
-                    <p class="list-group-item-text">Product: @item.Product.Name</p>
-                    <p class="list-group-item-text">manufacture: @item.ManufactureDate</p>
-                    <p class="list-group-item-text">Expiry: @item.ExpiryDate</p>
-                    <p class="list-group-item-text">QtyPurchased: @item.QuantityPurchased</p>
-                    <p class="list-group-item-text">QtySold: @item.QuantitySold</p>
-                    <p class="list-group-item-text">QtyAvailable: @(item.QuantityPurchased - (item.QuantitySold+item.QuantityAuctioned+item.QuantityDisposedOf))</p>
+                foreach (var item in Model)
+                {
+                    var QtyAvailable = item.QuantityPurchased - (item.QuantitySold + item.QuantityAuctioned + item.QuantityDisposedOf);
 
-
-
-
-                </a>
+                    <a href="@Url.Action("AddTransaction", "Transaction", new { id = item.Id })" class="list-group-item @(QtyAvailable == 0 ? "disabled" : "")">
+                        <h4 class="list-group-item-heading">@item.Id</h4>
+                        <p class="list-group-item-text">Product: @item.Product.Name</p>
+                        <p class="list-group-item-text">manufacture: @item.ManufactureDate</p>
+                        <p class="list-group-item-text">Expiry: @item.ExpiryDate</p>
+                        <p class="list-group-item-text">QtyPurchased: @item.QuantityPurchased</p>
+                        <p class="list-group-item-text">QtySold: @item.QuantitySold</p>
+                        <p class="list-group-item-text">QtyAvailable: @(item.QuantityPurchased - (item.QuantitySold + item.QuantityAuctioned + item.QuantityDisposedOf))</p>
+                    </a>
+                }
             }
-           
-            </div> <!-- list-group -->
-        </div> <!-- Panel-body -->
+            else
+            {
+                <div class="panel panel-color panel-warning">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Panel Warning</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p > Sorry You Haven't registered Any Batch For This Project </p>
+                    </div>
+                </div>             
+            }
+
+        </div> <!-- list-group -->
+    </div> <!-- Panel-body -->
 </div>
