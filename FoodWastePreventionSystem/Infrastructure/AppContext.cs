@@ -1,4 +1,5 @@
-﻿using FoodWastePreventionSystem.Models;
+﻿using FoodWastePreventionSystem.Migrations;
+using FoodWastePreventionSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -22,6 +23,7 @@ namespace FoodWastePreventionSystem.Infrastructure
 
         public ApplicationContext(): base("name=AppConnectionString")
         {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationContext, Configuration>());
             //this.Configuration.LazyLoadingEnabled = false;
         }
     }

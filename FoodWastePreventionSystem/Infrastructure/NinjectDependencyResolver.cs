@@ -40,10 +40,7 @@ namespace FoodWastePreventionSystem.Infrastructure
         }
         private void AddBindings()
         {
-            
-
-
-
+            kernel.Bind<BackgroundTasks>().To<BackgroundTasks>();
             kernel.Bind<IRepository<Product>>().To<Repository<Product>>();
             kernel.Bind<IRepository<Store>>().To<Repository<Store>>();
             kernel.Bind<IRepository<Batch>>().To<Repository<Batch>>();
@@ -52,8 +49,6 @@ namespace FoodWastePreventionSystem.Infrastructure
             kernel.Bind<IRepository<Loss>>().To<Repository<Loss>>();
             kernel.Bind<IRepository<Auction>>().To<Repository<Auction>>();
             kernel.Bind<IRepository<AuctionTransactionStatus>>().To<Repository<AuctionTransactionStatus>>();
-
-
         }
     }
 }

@@ -17,6 +17,7 @@ using FoodWastePreventionSystem.Areas.Managers.Models;
 using System.IO;
 using System.Diagnostics;
 using PagedList;
+using System.Data.Entity.Validation;
 
 namespace FoodWastePreventionSystem.Areas.Managers.Controllers
 {
@@ -30,7 +31,7 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
         private IRepository<Auction> Auctionrepo;
         private IRepository<ProductToBeAuctioned> ToBeAuctionedRepo;
         private ApplicationUserManager userManager;
-        private ApplicationUser loggedInUser;
+        private BackgroundTasks cron;
 
 
         private SalesLogic SalesLogic;
@@ -64,8 +65,9 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
         public ProductsController(IRepository<Product> _ProductRepo, IRepository<FoodWastePreventionSystem.Models.Batch> _ProductInStoreRepo,
                                     IRepository<Transaction> _TransactiontRepo, IRepository<Auction> _AuctionRepo,
                                     IRepository<ProductToBeAuctioned> _ProductToBeAuctionedRepo, IRepository<Loss> _LossRepo,
-                                    IRepository<AuctionTransactionStatus> _AuctionTransactionStausRepo)
+                                    IRepository<AuctionTransactionStatus> _AuctionTransactionStausRepo, BackgroundTasks _cron)
         {
+            cron = _cron;
             ProductRepo = _ProductRepo;
             Auctionrepo = _AuctionRepo;
             ToBeAuctionedRepo = _ProductToBeAuctionedRepo;
@@ -83,6 +85,25 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
         [Route("")]
         public async Task<ActionResult> Index(string searchTerm, string searchCategory, int? page)
         {
+            //Background Tasks
+            try
+            {
+                cron.AddProductBackground(LoggedInUser.StoreId);
+            }
+            catch (DbEntityValidationException e)
+            {
+                string error = "";
+
+                foreach (var item in e.EntityValidationErrors)
+                {
+                    error += item.Entry;
+
+                }
+                return Content(error);
+            }
+
+
+
             var models = new List<Product>();
             if (!string.IsNullOrWhiteSpace(searchTerm) && !string.IsNullOrWhiteSpace(searchCategory))
             {

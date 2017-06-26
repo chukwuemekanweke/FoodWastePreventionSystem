@@ -19,7 +19,6 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
         private IRepository<ProductToBeAuctioned> ToBeAuctionedRepo;
 
         private ProductsLogic ProductsLogic;
-        private Guid itemid;
 
         public AnalysisController(IRepository<Product> _ProductRepo, IRepository<Batch> _ProductInStoreRepo, IRepository<Transaction> _TransactiontRepo, IRepository<Auction> _AuctionRepo, IRepository<ProductToBeAuctioned> _ProductToBeAuctionedRepo, IRepository<Loss> _LossRepo, IRepository<AuctionTransactionStatus> _AuctionStatusTransactionRepo)
         {
@@ -32,6 +31,14 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
             ProductsLogic = new ProductsLogic(_ProductRepo, _ProductInStoreRepo, _TransactiontRepo, _AuctionRepo, _ProductToBeAuctionedRepo, _LossRepo, _AuctionStatusTransactionRepo);
 
         }
+
+
+        public ActionResult Index(string type)
+        {
+            ViewBag.type = type;
+            return View();
+        }
+
         // GET: Managers/Analysis
         public ActionResult ViewSoonToBeExpiredInventory()
         {

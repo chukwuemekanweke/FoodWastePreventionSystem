@@ -418,7 +418,13 @@
                         <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect "> <i class="fa fa-cart-plus" s></i> <span> Analysis </span> <span class="fa fa-angle-right cb-nav-arrow"></span> </a>
                             <ul class="list-unstyled ">
-                                <li>@Html.ActionLink("Register", "SelectProductToAddTransaction", "Transaction")</li>
+                                <li>@Html.ActionLink("Profit", "Index", "Analysis", new { type="profit" },null)</li>
+                                <li>@Html.ActionLink("Loss", "Index", "Analysis", new {type="loss" }, null)</li>
+                                <li>@Html.ActionLink("Turn Over", "Index", "Analysis", new { type="turnover"}, null)</li>
+                                <li>@Html.ActionLink("Duration Cycle", "Index", "Analysis", new {type="duration" }, null)</li>
+
+
+
                                 @*<li><a href="blank.html">Query Sales</a> </li>*@
                             </ul>
                         </li>

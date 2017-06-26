@@ -48,6 +48,10 @@
       <HintPath>..\packages\Hangfire.Core.1.6.14\lib\net45\Hangfire.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Hangfire.Ninject, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.Ninject.1.2.0\lib\net45\Hangfire.Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Hangfire.SqlServer, Version=1.6.14.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Hangfire.SqlServer.1.6.14\lib\net45\Hangfire.SqlServer.dll</HintPath>
       <Private>True</Private>
@@ -241,13 +245,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\AppContext.cs" />
+    <Compile Include="Infrastructure\BackgroundTasks.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\StoreManager.cs" />
     <Compile Include="Infrastructure\UnitOfWork.cs" />
-    <Compile Include="Migrations\201706101856016_project.cs" />
-    <Compile Include="Migrations\201706101856016_project.Designer.cs">
-      <DependentUpon>201706101856016_project.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Enumerations.cs" />
@@ -359,6 +360,7 @@
     <Content Include="Areas\Managers\Views\Transaction\_AuctionTable.cshtml" />
     <Content Include="Areas\Managers\Views\Transaction\SelectProductToAddTransaction.cshtml" />
     <Content Include="Areas\Managers\Views\Batches\_Batches.cshtml" />
+    <Content Include="Areas\Managers\Views\Analysis\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -422,11 +424,6 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201706101856016_project.resx">
-      <DependentUpon>201706101856016_project.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
