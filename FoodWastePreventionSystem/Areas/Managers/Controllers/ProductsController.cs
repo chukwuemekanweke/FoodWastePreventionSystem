@@ -9,7 +9,6 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
 using FoodWastePreventionSystem.Infrastructure;
 using FoodWastePreventionSystem.Models;
 using FoodWastePreventionSystem.BusinessLogic;
@@ -86,21 +85,21 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
         public async Task<ActionResult> Index(string searchTerm, string searchCategory, int? page)
         {
             //Background Tasks
-            try
-            {
-                cron.AddProductBackground(LoggedInUser.StoreId);
-            }
-            catch (DbEntityValidationException e)
-            {
-                string error = "";
+            //try
+            //{
+            //    cron.AddProductBackground(LoggedInUser.StoreId);
+            //}
+            //catch (DbEntityValidationException e)
+            //{
+            //    string error = "";
 
-                foreach (var item in e.EntityValidationErrors)
-                {
-                    error += item.Entry;
+            //    foreach (var item in e.EntityValidationErrors)
+            //    {
+            //        error += item.Entry;
 
-                }
-                return Content(error);
-            }
+            //    }
+            //    return Content(error);
+            //}
 
 
 
@@ -141,6 +140,7 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
         public async Task<ActionResult> Details(Guid? id)
         {
             ProductViewModel ProductDetail = new ProductViewModel();
+            Dictionary<int, Dictionary<Month, double>> TurnoverReport;
 
             if (id == null)
             {
@@ -157,7 +157,7 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
                 ProductDetail.ToBeAuctionedRecords = ToBeAuctionedRepo.GetAll(x => x.Batch.ProductId == id.Value);
                 ProductDetail.AuctionRecords = Auctionrepo.GetAll(x => x.Batch.ProductId == id.Value);
                 ProductDetail.Product = product;
-                ProductDetail.Sales = SalesLogic.GetSalesForProduct(id.Value);
+                ProductDetail.Sales = SalesLogic.GetSalesForProduct(id.Value, out TurnoverReport);
 
             }
             return View(ProductDetail);

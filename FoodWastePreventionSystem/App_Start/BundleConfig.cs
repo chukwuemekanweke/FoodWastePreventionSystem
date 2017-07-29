@@ -42,6 +42,12 @@ namespace FoodWastePreventionSystem
                 "~/Areas/Managers/assets/plugins/bs-datepicker/datepicker.css"
                 ));
 
+            bundles.Add(new StyleBundle("~/bundles/customer/styles").Include(
+               "~/Areas/Customers/assets/css/bootstrap.min.css",
+               "~/Areas/Customers/assets/css/font.css",
+               "~/Areas/Customers/assets/css/style.css"              
+               ));
+
             bundles.Add(new ScriptBundle("~/bundles/admin/scripts").Include(
                 "~/Scripts/jquery-{version}.js",
                 "~/Scripts/jquery.unobtrusive-ajax.min.js",
@@ -78,6 +84,16 @@ namespace FoodWastePreventionSystem
                  "~/Areas/Managers/assets/js/modernizr.min.js",
                  "~/Areas/Managers/assets/plugins/bs-datepicker/datepicker.js",
                   "~/Areas/Managers/assets/js/vue.js"
+
+
+
+                ));
+
+            bundles.Add(new ScriptBundle("~/bundles/customer/scripts").Include(
+                "~/Areas/Customers/assets/js/jquery.tweet.js",
+                "~/Areas/Customers/assets/js/bootstrap.min.js",
+                "~/Areas/Customers/assets/js/script.js",
+                "~/Areas/Customers/assets/js/shop.js"                 
 
 
 

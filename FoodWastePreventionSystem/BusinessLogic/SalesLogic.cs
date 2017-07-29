@@ -58,10 +58,45 @@ namespace FoodWastePreventionSystem.BusinessLogic
 
         public double GetSaleQuantityForProduct(Guid productId, int year = 0, Month month = Month.None)
         {
-            SalesForProduct SalesRecords = GetSalesForProduct(productId);
+            Dictionary<int, Dictionary<Month, double>> TurnoverReport = new Dictionary<int, Dictionary<Month, double>>();
+            SalesForProduct SalesRecords = GetSalesForProduct(productId, out TurnoverReport);
             SalesForProductInYear SalesRecordForYear = SalesRecords.SalesForProductInYear.FirstOrDefault(x => x.Year == year);
 
             return year == 0 ? SalesRecords.SalesForProductInYear.Sum(x => x.SalesPerMonth.Sum(y => y.Value)) : (month == Month.None ? SalesRecordForYear.SalesPerMonth.Sum(x => x.Value) : SalesRecordForYear.SalesPerMonth[month]);
+
+        }
+
+        public TurnoverForProduct GetTurnoverForProduct(Guid id, int year=0, Month month = Month.None)
+        {
+            Dictionary<int, Dictionary<Month, double>> TurnoverPerYear;
+            GetSalesForProduct(id,out TurnoverPerYear);
+            TurnoverForProduct TurnoverForProduct = new TurnoverForProduct();
+            if (TurnoverPerYear != null)
+            {
+                foreach (var item in TurnoverPerYear)
+                {
+                    TurnoverForProduct.TurnoverForProductInYear.Add(new TurnoverForProductInYear()
+                    {
+                        TurnoverPerMonth = item.Value,
+                        Year = item.Key,
+                    });
+
+                    if (TurnoverForProduct.StartYear == 0 || TurnoverForProduct.StartYear > item.Key)
+                    {
+                        TurnoverForProduct.StartYear = item.Key;
+                    }
+
+                    if (TurnoverForProduct.EndYear == 0 || TurnoverForProduct.EndYear < item.Key)
+                    {
+                        TurnoverForProduct.EndYear = item.Key;
+                    }
+                }
+                return TurnoverForProduct;
+            }
+            else
+            {
+                return null;
+            }
 
         }
 
@@ -70,10 +105,10 @@ namespace FoodWastePreventionSystem.BusinessLogic
         {
             List<SalesForProduct> SaleRecordsForProducts = new List<SalesForProduct>();
             IEnumerable<Product> Products = ProductPredicate == null ? ProductRepo.GetAll() : ProductRepo.GetAll().Where(ProductPredicate);
-
+            Dictionary<int, Dictionary<Month, double>> TurnoverPerYear = new Dictionary<int, Dictionary<Month, double>>();
             foreach (var item in Products)
             {
-                SaleRecordsForProducts.Add(GetSalesForProduct(item.Id));
+                SaleRecordsForProducts.Add(GetSalesForProduct(item.Id,out TurnoverPerYear));
             }
             return SaleRecordsForProducts;
 
@@ -81,8 +116,9 @@ namespace FoodWastePreventionSystem.BusinessLogic
 
 
 
-        public SalesForProduct GetSalesForProduct(Guid productId, Expression<Func<Transaction, bool>> TransactionPredicate = null)
+        public SalesForProduct GetSalesForProduct(Guid productId, out Dictionary<int, Dictionary<Month, double>> TurnoverPerYear, Expression<Func<Transaction, bool>> TransactionPredicate = null)
         {
+           
             Product Product = ProductRepo.Get(x => x.Id == productId);
 
             SalesForProduct SalesRecords = new SalesForProduct();
@@ -93,7 +129,7 @@ namespace FoodWastePreventionSystem.BusinessLogic
             Transaction[] TransactionsForProduct = TransactionPredicate == null ? TransactionRepo.GetAll(x => x.Batch.ProductId == productId).OrderBy(x => x.DateOfTransaction).ToArray() : TransactionRepo.GetAll(x => x.Batch.ProductId == productId).Where(TransactionPredicate).OrderBy(x => x.DateOfTransaction).ToArray();
 
             Dictionary<int, Dictionary<Month, double>> SalesPerYear = new Dictionary<int, Dictionary<Month, double>>();
-            SalesPerYear = GroupSalesPerYear(TransactionsForProduct);
+            SalesPerYear = GroupSalesPerYear(TransactionsForProduct,out TurnoverPerYear);
 
             if (SalesPerYear != null)
             {
@@ -112,11 +148,12 @@ namespace FoodWastePreventionSystem.BusinessLogic
         }
 
 
-        public Dictionary<int, Dictionary<Month, double>> GroupSalesPerYear(Transaction[] tansactions)
+        public Dictionary<int, Dictionary<Month, double>> GroupSalesPerYear(Transaction[] tansactions, out Dictionary<int,Dictionary<Month,double>> turnoverReport)
         {
+            Dictionary<int, Dictionary<Month, double>> SalesPerYear = new Dictionary<int, Dictionary<Month, double>>();
+            turnoverReport = new Dictionary<int, Dictionary<Month, double>>();
             if (tansactions.Length > 0)
-            {
-                Dictionary<int, Dictionary<Month, double>> SalesPerYear = new Dictionary<int, Dictionary<Month, double>>();
+            {               
                 DateTime StartDate = tansactions.FirstOrDefault().DateOfTransaction;
                 DateTime EndDate = tansactions.LastOrDefault().DateOfTransaction;
                 int StartYear = StartDate.Year;
@@ -127,135 +164,187 @@ namespace FoodWastePreventionSystem.BusinessLogic
                 {
                     Transaction[] TransactionForYear = tansactions.Where(x => x.DateOfTransaction.Year == i).ToArray();
                     Dictionary<Month, double> SalesPerMonth = new Dictionary<Month, double>();
+                    Dictionary<Month, double> TurnoverPerMonth = new Dictionary<Month, double>();
+
+
                     foreach (var item in TransactionForYear)
                     {
-
+                        Dictionary<string,double> Report = ProcessQuantityAndTurnoverFromTransaction(item);
+                        double Quantity = Report["quantity"];
+                        double Turnover = Report["turnover"];
                         switch (item.DateOfTransaction.Month)
                         {
                             case 1:
                                 if (SalesPerMonth.ContainsKey(Month.January))
                                 {
-                                    SalesPerMonth[Month.January] += item.Quantity;
+                                    SalesPerMonth[Month.January] += Quantity;
+                                    TurnoverPerMonth[Month.January] += Turnover;
                                 }
                                 else
                                 {
-                                    SalesPerMonth.Add(Month.January, item.Quantity);
+                                    SalesPerMonth.Add(Month.January, Quantity);
+                                    TurnoverPerMonth.Add(Month.January ,Turnover);
                                 }
                                 break;
                             case 2:
                                 if (SalesPerMonth.ContainsKey(Month.February))
                                 {
-                                    SalesPerMonth[Month.February] += item.Quantity;
+                                    SalesPerMonth[Month.February] += Quantity;
+                                    TurnoverPerMonth[Month.February] += Turnover;
+
                                 }
                                 else
                                 {
-                                    SalesPerMonth.Add(Month.February, item.Quantity);
+                                    SalesPerMonth.Add(Month.February, Quantity);
+                                    TurnoverPerMonth.Add(Month.February, Turnover);
+
                                 }
                                 break;
                             case 3:
                                 if (SalesPerMonth.ContainsKey(Month.March))
                                 {
-                                    SalesPerMonth[Month.March] += item.Quantity;
+                                    SalesPerMonth[Month.March] += Quantity;
+                                    TurnoverPerMonth[Month.March] += Turnover;
+
                                 }
                                 else
                                 {
-                                    SalesPerMonth.Add(Month.March, item.Quantity);
+                                    SalesPerMonth.Add(Month.March, Quantity);
+                                    TurnoverPerMonth.Add(Month.March, Turnover);
+
                                 }
                                 break;
                             case 4:
                                 if (SalesPerMonth.ContainsKey(Month.April))
                                 {
-                                    SalesPerMonth[Month.April] += item.Quantity;
+                                    SalesPerMonth[Month.April] += Quantity;
+                                    TurnoverPerMonth[Month.April] += Turnover;
+
                                 }
                                 else
                                 {
-                                    SalesPerMonth.Add(Month.April, item.Quantity);
+                                    SalesPerMonth.Add(Month.April, Quantity);
+                                    TurnoverPerMonth.Add(Month.April, Turnover);
+
                                 }
                                 break;
                             case 5:
                                 if (SalesPerMonth.ContainsKey(Month.May))
                                 {
-                                    SalesPerMonth[Month.May] += item.Quantity;
+                                    SalesPerMonth[Month.May] += Quantity;
+                                    TurnoverPerMonth[Month.May] += Turnover;
+
                                 }
                                 else
                                 {
-                                    SalesPerMonth.Add(Month.May, item.Quantity);
+                                    SalesPerMonth.Add(Month.May, Quantity);
+                                    TurnoverPerMonth.Add(Month.May, Turnover);
+
                                 }
                                 break;
                             case 6:
                                 if (SalesPerMonth.ContainsKey(Month.June))
                                 {
-                                    SalesPerMonth[Month.June] += item.Quantity;
+                                    SalesPerMonth[Month.June] += Quantity;
+                                    TurnoverPerMonth[Month.June] += Turnover;
+
                                 }
                                 else
                                 {
-                                    SalesPerMonth.Add(Month.June, item.Quantity);
+                                    SalesPerMonth.Add(Month.June, Quantity);
+                                    TurnoverPerMonth.Add(Month.June, Turnover);
+
                                 }
                                 break;
                             case 7:
                                 if (SalesPerMonth.ContainsKey(Month.July))
                                 {
-                                    SalesPerMonth[Month.July] += item.Quantity;
+                                    SalesPerMonth[Month.July] += Quantity;
+                                    TurnoverPerMonth[Month.July] += Turnover;
+
                                 }
                                 else
                                 {
-                                    SalesPerMonth.Add(Month.July, item.Quantity);
+                                    SalesPerMonth.Add(Month.July, Quantity);
+                                    TurnoverPerMonth.Add(Month.July, Turnover);
+
                                 }
                                 break;
                             case 8:
                                 if (SalesPerMonth.ContainsKey(Month.August))
                                 {
-                                    SalesPerMonth[Month.August] += item.Quantity;
+                                    SalesPerMonth[Month.August] += Quantity;
+                                    TurnoverPerMonth[Month.August] += Turnover;
+
                                 }
                                 else
                                 {
-                                    SalesPerMonth.Add(Month.August, item.Quantity);
+                                    SalesPerMonth.Add(Month.August, Quantity);
+                                    TurnoverPerMonth.Add(Month.August, Turnover);
+
                                 }
                                 break;
                             case 9:
                                 if (SalesPerMonth.ContainsKey(Month.September))
                                 {
-                                    SalesPerMonth[Month.September] += item.Quantity;
+                                    SalesPerMonth[Month.September] += Quantity;
+                                    TurnoverPerMonth[Month.September] += Turnover;
+
                                 }
                                 else
                                 {
-                                    SalesPerMonth.Add(Month.September, item.Quantity);
+                                    SalesPerMonth.Add(Month.September, Quantity);
+                                    TurnoverPerMonth.Add(Month.September, Turnover);
+
                                 }
                                 break;
                             case 10:
                                 if (SalesPerMonth.ContainsKey(Month.October))
                                 {
-                                    SalesPerMonth[Month.October] += item.Quantity;
+                                    SalesPerMonth[Month.October] += Quantity;
+                                    TurnoverPerMonth[Month.October] += Turnover;
+
                                 }
                                 else
                                 {
-                                    SalesPerMonth.Add(Month.October, item.Quantity);
+                                    SalesPerMonth.Add(Month.October, Quantity);
+                                    TurnoverPerMonth.Add(Month.October, Turnover);
+
                                 }
                                 break;
                             case 11:
                                 if (SalesPerMonth.ContainsKey(Month.November))
                                 {
-                                    SalesPerMonth[Month.November] += item.Quantity;
+                                    SalesPerMonth[Month.November] += Quantity;
+                                    TurnoverPerMonth[Month.November] += Turnover;
+
                                 }
                                 else
                                 {
-                                    SalesPerMonth.Add(Month.November, item.Quantity);
+                                    SalesPerMonth.Add(Month.November, Quantity);
+                                    TurnoverPerMonth.Add(Month.November, Turnover);
+
                                 }
                                 break;
                             case 12:
                                 if (SalesPerMonth.ContainsKey(Month.December))
                                 {
-                                    SalesPerMonth[Month.December] += item.Quantity;
+                                    SalesPerMonth[Month.December] += Quantity;
+                                    TurnoverPerMonth[Month.December] += Turnover;
+
                                 }
                                 else
                                 {
-                                    SalesPerMonth.Add(Month.December, item.Quantity);
+                                    SalesPerMonth.Add(Month.December, Quantity);
+                                    TurnoverPerMonth.Add(Month.December, Turnover);
+
                                 }
                                 break;
                         }
                     }
 
                     SalesPerYear.Add(i, SalesPerMonth);
+                    turnoverReport.Add(i, TurnoverPerMonth);
 
                 }
 
@@ -267,14 +356,22 @@ namespace FoodWastePreventionSystem.BusinessLogic
             return null;
         }
 
+        public Dictionary<string,double> ProcessQuantityAndTurnoverFromTransaction(Transaction transaction)
+        {
+            Dictionary<string, double> Report = new Dictionary<string, double>();
+            Report.Add("quantity", transaction.Quantity);
+            Report.Add("turnover", transaction.TotalCost);
+            return Report;
+        }
 
         public List<SalesAuctionViewModel> GetSalesToAuctionRatio(Guid id)
         {
             List<SalesAuctionViewModel> TotalRatioRecords = new List<SalesAuctionViewModel>();
+            Dictionary<int, Dictionary<Month, double>> TurnoverReport = new Dictionary<int, Dictionary<Month, double>>();
 
 
-            SalesForProduct SalesRecord = GetSalesForProduct(id, x => x.TransactionType == TransactionType.Sale);
-            SalesForProduct AuctionRecords = GetSalesForProduct(id, x => x.TransactionType == TransactionType.Auction);
+            SalesForProduct SalesRecord = GetSalesForProduct(id,out TurnoverReport,x => x.TransactionType == TransactionType.Sale);
+            SalesForProduct AuctionRecords = GetSalesForProduct(id,out TurnoverReport, x => x.TransactionType == TransactionType.Auction);
 
             if (SalesRecord != null && AuctionRecords != null)
             {

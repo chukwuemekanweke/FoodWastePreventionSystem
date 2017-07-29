@@ -1,4 +1,4 @@
-﻿@model List<Auction>
+﻿@model PagedList.IPagedList<Auction>
 <table class="table table-bordred table-striped">
     <thead>
         <tr>
@@ -16,11 +16,13 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @if (Model.Count > 0)
         {
-            var Product = item.Batch.Product;
-            var Batch = item.Batch;
-            var QtyAvailable = Batch.QuantityPurchased - (Batch.QuantitySold + Batch.QuantityAuctioned + Batch.QuantityDisposedOf);
+            foreach (var item in Model)
+            {
+                var Product = item.Batch.Product;
+                var Batch = item.Batch;
+                var QtyAvailable = Batch.QuantityPurchased - (Batch.QuantitySold + Batch.QuantityAuctioned + Batch.QuantityDisposedOf);
             <tr>
                 <td>
                     <div>
@@ -28,7 +30,7 @@
                     </div>
                 </td>
                 <td>
-                    <div class="thumb-box"> <img src="@Url.Action("GetImage1","Products", new { id=Batch.ProductId})" alt="product Image"> </div>
+                    <div class="thumb-box"> <img src="@Url.Action("GetImage1", "Products", new { id = Batch.ProductId })" alt="product Image"> </div>
                     <b>@Product.Name</b>
                 </td>
                 <td>@Batch.ManufactureDate</td>
@@ -43,6 +45,17 @@
                 <td>
                     @Html.ActionLink("Batch Info", "BatchInformation", "Batches", new { id = item.BatchId }, new { @class = "btn btn-primary btn-xs" })
                     <button class="btn btn-warning btn-xs" v-on:click="showModal('@item.AuctionPrice','@item.Id')"><span class="fa fa-edit"></span>&nbsp;&nbsp; Edit Auction Price</button>
+                </td>
+            </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="9" class="text-center text-danger">
+                    <div>
+                        No Product In Your Store Is Currently On Auction
+                    </div>
                 </td>
             </tr>
         }

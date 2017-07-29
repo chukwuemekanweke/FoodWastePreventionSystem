@@ -20,10 +20,10 @@ namespace FoodWastePreventionSystem
             var kernel = new StandardKernel();
             GlobalConfiguration.Configuration.UseNinjectActivator(kernel);
 
-            GlobalConfiguration.Configuration
-                .UseSqlServerStorage("AppConnectionString");
-            app.UseHangfireDashboard();
-            app.UseHangfireServer();
+            //GlobalConfiguration.Configuration
+            //    .UseSqlServerStorage("AppConnectionString");
+            //app.UseHangfireDashboard();
+            //app.UseHangfireServer();
 
            
         }

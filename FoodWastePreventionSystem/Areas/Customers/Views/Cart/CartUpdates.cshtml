@@ -1,0 +1,46 @@
+﻿
+@model List<Cart>
+@{
+    var Total = Model.Count > 0 ? Model.Sum(x => x.Quantity * x.Auction.AuctionPrice) : 0;
+}
+<div class="pull-right cart tright">
+
+    <!-- Cart Updates -->
+    <div class="counter">
+        <a href="javascript:void(0);"><i class="icon-basket"></i> Your cart </a> : <span class="theme">@Total</span>
+    </div>
+
+    <!-- Bubble Cart Item -->
+    <div class="cartbubble">
+
+        <div class="arrow-box">
+            @if (Model.Count > 0)
+            {
+                foreach (var item in Model)
+                {
+                    <div class="clearfix">
+                        <a href="#">@item.Batch.Product.Name</a> <span class="theme pull-right">@item.Auction.AuctionPrice</span>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="clearfix">
+                    <a href="#">Cart Is Empty</a> <span class="theme pull-right"></span>
+                </div>
+            }
+
+            <hr />
+            <!-- Total -->
+            <div class="clearfix">
+                TOTAL <span class="theme pull-right">@Total</span>
+            </div>
+            <hr />
+            <div class="clearfix">
+                <a href="javascript:void(0)" id="closeit">Close</a>
+                <a href="checkout.html" class="btn theme btn-mini pull-right">Checkout</a>
+            </div>
+        </div>
+
+    </div>
+</div>

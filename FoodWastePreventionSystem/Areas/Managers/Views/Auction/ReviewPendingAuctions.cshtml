@@ -75,17 +75,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var item in Model)
+                                    @if (Model.Count > 0)
                                     {
-                                        var Product = item.Batch.Product;
-                                        var Batch = item.Batch;
-                                        var QtyAvailable = Batch.QuantityPurchased - (Batch.QuantitySold + Batch.QuantityDisposedOf + Batch.QuantityAuctioned);
+                                        foreach (var item in Model)
+                                        {
+                                            var Product = item.Batch.Product;
+                                            var Batch = item.Batch;
+                                            var QtyAvailable = Batch.QuantityPurchased - (Batch.QuantitySold + Batch.QuantityDisposedOf + Batch.QuantityAuctioned);
                                         <tr>
                                             <td>
                                                     @Batch.Id
                                             </td>
                                             <td>
-                                                <div class="thumb-box"> <img src="@Url.Action("GetImage1","Products", new { id = item.Batch.ProductId})" alt=""> </div>
+                                                <div class="thumb-box"> <img src="@Url.Action("GetImage1", "Products", new { id = item.Batch.ProductId })" alt=""> </div>
                                                 <b>@Product.Name</b>
                                             </td>
                                             <td>
@@ -138,7 +140,7 @@
                                         <td>
                                             @using (Html.BeginForm("ApproveAuctionProposal", "Auction", FormMethod.Post))
                                             {
-                                                @Html.Hidden("id",item.Id)
+                                                @Html.Hidden("id", item.Id)
                                             <button class="btn btn-default btn-xs" type="submit"><span class="fa fa-check"></span>&nbsp;&nbsp;Approve</button>
                                             }
                                             @using (Html.BeginForm("RejectAuctionProposal", "Auction", FormMethod.Post))
@@ -147,10 +149,21 @@
 
                                             <button class="btn btn-default btn-xs" type="submit"><span class="fa fa-trash"></span>&nbsp;&nbsp;Reject</button>
                                             }
-                                            <button class="btn btn-default btn-xs"><span class="fa fa-trash"></span>&nbsp;&nbsp;Details</button>
+                                            <a href="" class="btn btn-default btn-xs"><span class="fa fa-trash"></span>&nbsp;&nbsp;Details</a>
 
                                         </td>
                                     </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="9" class="text-center text-danger">
+                                                <div>
+                                                    You Do Not Have Any Pending Auction Proposals
+                                                </div>
+                                            </td>
+                                        </tr>
                                     }
                                     <tr>
                                         <td></td>

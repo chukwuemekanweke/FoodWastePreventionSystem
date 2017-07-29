@@ -1,0 +1,276 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>WasteEat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Metatag -->
+    @*<meta property="og:title" content="Tender Shop" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="Minimalist  Responsive eCommerce Template" />
+        <meta property="og:url" content="http://ninetheme.com/" />
+        <meta property="og:image" content="../../../ninetheme.com/logo.html" />*@
+
+    @*<link rel="stylesheet" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" href="css/font.css" />
+        <link rel="stylesheet" href="css/style.css" />*@
+    @Styles.Render("~/bundles/customer/styles")
+
+
+
+
+    <!-- Favicon -->
+    <link rel="icon" href="img/hsfavicon.png">
+
+    <!-- =========== -->
+    <!-- Google Font -->
+    <!-- =========== -->
+
+    <script type="text/javascript">
+
+        // Add Google Font name here
+
+        WebFontConfig = { google: { families: ['Bangers', 'Lato'] } };
+        (function () {
+            var wf = document.createElement('script');
+            wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+			'://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+            wf.type = 'text/javascript';
+            wf.async = 'true';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(wf, s);
+        })();
+
+    </script>
+
+    <style type="text/css">
+        /* Add Google Font name here */
+
+        .wf-active {
+            font-family: 'Lato',serif;
+            font-size: 13px;
+        }
+
+            .wf-active .logo {
+                font-family: 'Bangers', serif;
+            }
+    </style>
+
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if IE 7]>
+        <link rel="stylesheet" href="css/ie7.css" />
+    <![endif]-->
+
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body class="wf-active">
+    <!-- =========== -->
+    <!-- Top section -->
+    <!-- =========== -->
+
+    <div class="header-container">
+        <div class="container welcome">
+            <div class="row">
+                <div class="pull-left greet">
+                    Welcome shopper, <a href="login.html">login here</a>
+                </div>
+                @Html.Action("CartUpdates", "Cart")
+            </div>
+        </div>
+
+        <!-- ================ -->
+        <!-- Branding section -->
+        <!-- ================ -->
+
+        <div class="container head">
+            <div class="row">
+                <div class="col-sm-12 clearfix">
+                    <div class="top row">
+
+                        <div class="col-sm-8 logo text" style="display:none"><a href="index.html">TenderShop</a></div>
+                        <div class="col-sm-8 logo image"><a href="index.html"><img src="img/highreslogo.png" alt="" /></a></div>
+
+                        <div class="cart col-sm-4">
+                            <form action="#" class="topsearch">
+                                <input type="search" class="top-search" placeholder="Search" />
+                                <button type="submit"><i class="icon-search"></i></button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================ -->
+        <!-- Main Nav section -->
+        <!-- ================ -->
+
+        <div class="container-menu">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <nav class="horizontal-nav full-width">
+                            <ul class="nav" id="nav">
+                                <li>
+                                    <a href="#">Pages</a>
+                                    <ul class="nav">
+                                        <li><a href="index.html">Homepage Default</a></li>
+                                        <li><a href="index-filterable.html">Homepage Filterable</a></li>
+                                        <li><a href="index-carousel.html">Slider with Carousel</a></li>
+                                        <li><a href="page.html">Full page</a></li>
+                                        <li><a href="page-right-sidebar.html">Right sidebar</a></li>
+                                        <li><a href="page-left-sidebar.html">Left sidebar</a></li>
+                                        <li><a href="login.html">Login Page</a></li>
+                                        <li><a href="checkout.html">Checkout Page</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">Product</a>
+                                    <ul class="nav">
+                                        <li><a href="product-list.html">Products List Sortable</a></li>
+                                        <li><a href="product-list-sidebar.html">Products list with sidebar</a></li>
+                                        <li><a href="product.html">Product page</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="features.html">Features</a></li>
+                                <li>
+                                    <a href="#">Blog</a>
+                                    <ul class="nav">
+                                        <li><a href="blog-right-sidebar.html">blog right sidebar</a></li>
+                                        <li><a href="blog-left-sidebar.html">blog left sidebar</a></li>
+                                        <li><a href="post-right-sidebar.html">post right sidebar</a></li>
+                                        <li><a href="post-left-sidebar.html">post left sidebar</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="contact.html">Contact</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="homepagecontainer">
+        @RenderBody()
+    </div>
+
+
+    <!-- ============== -->
+    <!-- Footer section -->
+    <!-- ============== -->
+
+    <footer>
+        <div class="container">
+            <section class="row foot">
+                <article class="col-sm-3">
+                    <strong>Quick Links</strong>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Returns Policies</a></li>
+                        <li><a href="#">News</a></li>
+                        <li><a href="#">Feedback</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </article>
+                <article class="col-sm-3">
+                    <strong>Latest Post</strong>
+                    <ul>
+                        <li><a href="post-right-sidebar.html">Big things are on the way</a><br /><small>posted on April 24, 2012</small></li>
+                        <li><a href="post-right-sidebar.html">Product Image Galleries</a><br /><small>posted on June 13, 2012</small></li>
+                        <li><a href="post-right-sidebar.html">So many options Reign is feature-packed</a><br /><small>posted on May 9, 2012</small></li>
+                    </ul>
+                </article>
+                <article class="col-sm-3">
+                    <strong>Tweets</strong>
+                    <div id="tweet"></div>
+                </article>
+                <article class="col-sm-3">
+                    <strong>Newsletter</strong>
+                    <div>
+                        <form class="form-inline">
+                            <input class="input-medium" type="text" placeholder="Email address">
+                            <button class="btn"><i class="icon-direction"></i></button>
+                        </form>
+                    </div>
+                    <address class="row">
+                        <div class="pull-left clabel"><i class="icon-location"></i></div>
+                        <div class="pull-left cdata">1234 Street City, ST 73243 California</div>
+                    </address>
+                    <address class="row">
+                        <div class="pull-left clabel"><i class="icon-phone"></i></div>
+                        <div class="pull-left cdata">888-555-1234</div>
+                    </address>
+                    <address class="row">
+                        <div class="pull-left clabel"><i class="icon-mail"></i></div>
+                        <div class="pull-left cdata"><a href="#">hello@Tendershop.com</a></div>
+                    </address>
+
+                </article>
+            </section>
+
+        </div>
+        <section class="row doubleline">
+            <div class="container">
+                <div class="col-sm-6">
+
+                    @*<div class="payment amex"></div>*@
+                    <div class="payment mastercard"></div>
+                    <div class="payment visa"></div>
+                    @*<div class="payment paypal"></div>*@
+                    <!--
+                    <div class="payment cirrus"></div>
+                    <div class="payment delta"></div>
+                    <div class="payment direct-debit"></div>
+                    <div class="payment discover"></div>
+                    <div class="payment ebay"></div>
+                    <div class="payment googlecheckout"></div>
+                    <div class="payment maestro"></div>
+                    <div class="payment moneybookers"></div>
+                    <div class="payment sagepay"></div>
+                    <div class="payment solo"></div>
+                    <div class="payment switch"></div>
+                    <div class="payment visaelectron"></div>
+                    <div class="payment 2checkout"></div>
+                    <div class="payment westernunion"></div>
+                    -->
+                </div>
+                <div class="col-sm-6 currency">
+                    <a href="#" class="active">USD</a> <a href="#">GBP</a> <a href="#">MYR</a> <a href="#">AUD</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="row social">
+            <div class="container">
+                <div class="pull-left">&copy; 2012 TenderShop</div>
+                <div class="pull-right">
+                    <ul>
+                        <li><a href="#"><i class="icon-facebook"></i></a></li>
+                        <li><a href="#"><i class="icon-twitter"></i></a></li>
+                        <li><a href="#"><i class="icon-gplus"></i></a></li>
+                        <li><a href="#"><i class="icon-pinterest"></i></a></li>
+                        <li><a href="#"><i class="icon-tumblr"></i></a></li>
+                        <li><a href="#"><i class="icon-instagrem"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </footer>
+
+    <script type="text/javascript" src="../../../ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    @*<script type="text/javascript" src="js/jquery.tweet.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/shop.js"></script>
+        <script type="text/javascript" src="js/script.js"></script>*@
+    @Scripts.Render("~/bundles/customer/scripts")
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

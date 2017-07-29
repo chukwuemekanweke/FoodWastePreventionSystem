@@ -1,4 +1,5 @@
-﻿using FoodWastePreventionSystem.Infrastructure;
+﻿using FoodWastePreventionSystem.BusinessLogic.BusinessLogicModels;
+using FoodWastePreventionSystem.Infrastructure;
 using FoodWastePreventionSystem.Models;
 using System;
 using System.Collections.Generic;
@@ -15,12 +16,23 @@ namespace FoodWastePreventionSystem.BusinessLogic
         {
         }
 
-        public List<Batch> ViewProductsOnAuction()
+        public List<OnAuctionVM> ViewProductsOnAuction()
         {
+            OnAuctionVM AuctionRecords = new OnAuctionVM();
             List<Auction> ActiveAuction = AuctionRepo.GetAll(x => (x.Batch.QuantitySold + x.Batch.QuantityAuctioned) < x.Batch.QuantityPurchased).ToList();
-            List<Batch> ProductOnAuctionRecords = ActiveAuction.Select(x => x.Batch).ToList();
-            return ProductOnAuctionRecords;
-        }
+            List < OnAuctionVM > FullAuctionReport = new List<OnAuctionVM>();
+            foreach (var item in ActiveAuction)
+            {
+                FullAuctionReport.Add(new OnAuctionVM() {
+                    Auction = item,
+                    Batch = item.Batch,
+                    Product = item.Batch.Product
+                });
+
+            }
+
+            return FullAuctionReport;
+        }       
 
         public ProductToBeAuctioned EditAuctionDateAndPrice(Guid productToBeAuctionId, double price, DateTime auctionDate)
         {
@@ -28,9 +40,7 @@ namespace FoodWastePreventionSystem.BusinessLogic
             Record.DateOfAuction = auctionDate;
             Record.AuctionPrice = price;
             return ProductToBeAuctionedRepo.Update(Record);
-        }
-
-        
+        }      
 
        
 

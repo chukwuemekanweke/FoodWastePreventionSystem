@@ -1,0 +1,74 @@
+﻿@model List<Cart>
+@{
+    ViewBag.Title = "MyCart";
+}
+
+
+<div class="container">
+
+    <!-- Checkout Page -->
+    <section class="order">
+
+        <div class="row standard">
+            <header class="col-sm-12 prime">
+                <h3>Your Cart</h3>
+            </header>
+        </div>
+
+        <div class="row cart">
+            <div class="col-sm-12">
+                <div class="wrap-table">
+                    @using (Html.BeginForm("Checkout","Cart",FormMethod.Post))
+                    {
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <td width="70%">Item</td>
+                                    <td width="10%">Price</td>
+                                    <td width="10%">Quantity</td>
+                                    <td width="10%">Total</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="cart-img pull-left hidden-phone"><img src="@Url.Action("GetImage1", "Product", new { Area = "Managers", id = item.Batch.ProductId })" alt="Product Image" /></div>
+                                            <div class="item pull-left">
+                                                <span><a href="#"><i class="icon-cancel-circled"></i></a> <a href="#">Sample Product Added in Cart</a> <a href="#"><i class="icon-remove-sign"></i></a></span>
+                                            </div>
+                                        </td>
+                                        <td><i>$ @item.Auction.AuctionPrice</i></td>
+                                        <td><input type="text" class="col-sm-1" value="1" /></td>
+                                        <td><strong>$ @(item.Auction.AuctionPrice * item.Quantity)</strong></td>
+                                    </tr>
+                                }
+
+                                <tr>
+                                    <td>
+                                        <div class="cart-img pull-left hidden-phone"><img src="img/products/2.jpg" alt="" /></div>
+                                        <div class="item pull-left">
+                                            <span><a href="#"><i class="icon-cancel-circled"></i></a> <a href="#">Sample Product Added in Cart</a> <a href="#"><i class="icon-remove-sign"></i></a></span>
+                                        </div>
+                                    </td>
+                                    <td><i>$ 98.00</i></td>
+                                    <td><input type="text" class="col-sm-1" value="3" /></td>
+                                    <td><strong>$ 98.00</strong></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3"><div class="item">Total</div></td>
+                                    <td>$ @Model.Sum(x => (x.Quantity * x.Auction.AuctionPrice))</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row cart-pay">
+                            <div class="col-sm-6 col-sm-offset-6 cart-checkout"><button class="btn"><i class="icon-arrows-ccw"></i> Update Cart</button> <button class="btn theme"><i class="icon-check"></i> Check Out </button></div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>

@@ -34,6 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -83,6 +84,10 @@
     </Reference>
     <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net46\RestSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -218,6 +223,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Customers\Controllers\CartController.cs" />
+    <Compile Include="Areas\Customers\Controllers\CustomerHomeController.cs" />
+    <Compile Include="Areas\Customers\CustomersAreaRegistration.cs" />
+    <Compile Include="Areas\Customers\Models\ViewModels.cs" />
+    <Compile Include="Areas\Customers\PaymentClass.cs" />
     <Compile Include="Areas\Managers\Controllers\AnalysisController.cs" />
     <Compile Include="Areas\Managers\Controllers\AuctionController.cs" />
     <Compile Include="Areas\Managers\Controllers\BatchesController.cs" />
@@ -260,6 +270,50 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Customers\assets\css\bootstrap.min.css" />
+    <Content Include="Areas\Customers\assets\css\font.css" />
+    <Content Include="Areas\Customers\assets\css\font\entypo.svg" />
+    <Content Include="Areas\Customers\assets\css\style.css" />
+    <Content Include="Areas\Customers\assets\fonts\glyphicons-halflings-regular-2.html" />
+    <Content Include="Areas\Customers\assets\fonts\glyphicons-halflings-regular-3.html" />
+    <Content Include="Areas\Customers\assets\fonts\glyphicons-halflings-regular-4.html" />
+    <Content Include="Areas\Customers\assets\fonts\glyphicons-halflings-regular.html" />
+    <Content Include="Areas\Customers\assets\fonts\glyphicons-halflings-regulard41d.html" />
+    <Content Include="Areas\Customers\assets\img\banner\banner-width1.png" />
+    <Content Include="Areas\Customers\assets\img\banner\banner-width2.png" />
+    <Content Include="Areas\Customers\assets\img\banner\banner-width3.png" />
+    <Content Include="Areas\Customers\assets\img\banner\banner-width4.png" />
+    <Content Include="Areas\Customers\assets\img\banner\banner-width5.png" />
+    <Content Include="Areas\Customers\assets\img\banner\samplepromo.png" />
+    <Content Include="Areas\Customers\assets\img\bg_direction_nav.png" />
+    <Content Include="Areas\Customers\assets\img\blank.gif" />
+    <Content Include="Areas\Customers\assets\img\brands\branda.jpg" />
+    <Content Include="Areas\Customers\assets\img\brands\brandb.jpg" />
+    <Content Include="Areas\Customers\assets\img\brands\brandc.jpg" />
+    <Content Include="Areas\Customers\assets\img\brands\brandd.jpg" />
+    <Content Include="Areas\Customers\assets\img\brands\brande.jpg" />
+    <Content Include="Areas\Customers\assets\img\brands\brandf.jpg" />
+    <Content Include="Areas\Customers\assets\img\brands\brandg.jpg" />
+    <Content Include="Areas\Customers\assets\img\brands\brandh.jpg" />
+    <Content Include="Areas\Customers\assets\img\fancybox_loading.gif" />
+    <Content Include="Areas\Customers\assets\img\fancybox_overlay.png" />
+    <Content Include="Areas\Customers\assets\img\fancybox_sprite.png" />
+    <Content Include="Areas\Customers\assets\img\highreslogo.png" />
+    <Content Include="Areas\Customers\assets\img\hsfavicon.png" />
+    <Content Include="Areas\Customers\assets\img\payment.png" />
+    <Content Include="Areas\Customers\assets\img\products\1.gif" />
+    <Content Include="Areas\Customers\assets\img\products\2.jpg" />
+    <Content Include="Areas\Customers\assets\img\products\3.gif" />
+    <Content Include="Areas\Customers\assets\img\products\4.gif" />
+    <Content Include="Areas\Customers\assets\img\products\5.gif" />
+    <Content Include="Areas\Customers\assets\img\products\6.gif" />
+    <Content Include="Areas\Customers\assets\img\star.html" />
+    <Content Include="Areas\Customers\assets\img\tt.png" />
+    <Content Include="Areas\Customers\assets\img\ttt.png" />
+    <Content Include="Areas\Customers\assets\js\bootstrap.min.js" />
+    <Content Include="Areas\Customers\assets\js\jquery.tweet.js" />
+    <Content Include="Areas\Customers\assets\js\script.js" />
+    <Content Include="Areas\Customers\assets\js\shop.js" />
     <Content Include="Areas\Managers\assets\css\bootstrap.css" />
     <Content Include="Areas\Managers\assets\css\components.css" />
     <Content Include="Areas\Managers\assets\css\core.css" />
@@ -361,6 +415,20 @@
     <Content Include="Areas\Managers\Views\Transaction\SelectProductToAddTransaction.cshtml" />
     <Content Include="Areas\Managers\Views\Batches\_Batches.cshtml" />
     <Content Include="Areas\Managers\Views\Analysis\Index.cshtml" />
+    <Content Include="Areas\Managers\Views\Analysis\ProfitForProduct.cshtml" />
+    <Content Include="Areas\Managers\Views\Analysis\TurnoverForProduct.cshtml" />
+    <Content Include="Areas\Managers\Views\Analysis\TurnoverReportDetails.cshtml" />
+    <Content Include="Areas\Customers\Views\web.config" />
+    <Content Include="Areas\Customers\assets\css\font\entypo.eot" />
+    <Content Include="Areas\Customers\assets\css\font\entypo.ttf" />
+    <Content Include="Areas\Customers\assets\css\font\entypo.woff" />
+    <Content Include="Areas\Customers\assets\css\font\entypod41d.eot" />
+    <Content Include="Areas\Customers\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Customers\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Customers\Views\CustomerHome\Index.cshtml" />
+    <Content Include="Areas\Customers\Views\CustomerHome\ViewProduct.cshtml" />
+    <Content Include="Areas\Customers\Views\Cart\MyCart.cshtml" />
+    <Content Include="Areas\Customers\Views\Cart\CartUpdates.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

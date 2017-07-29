@@ -103,26 +103,29 @@ namespace FoodWastePreventionSystem.Models
         public TransactionType TransactionType { get; set; }
         public string AgentId { get; set; }
         public string AuctioneeId { get; set; }
+        //public Guid AuctionId { get; set; }
 
         //public Guid StoreId { get; set; }
         public double ProfitMade { get; set; }
 
         [ForeignKey(nameof(BatchId))]
         public virtual Batch Batch { get; set; }
+        //[ForeignKey(nameof(AuctionId))]
+        //public virtual Auction Auction { get; set; }
         //public  ApplicationUser User { get; set; }
         //public  ApplicationUser Auctionee { get; set; }
-        
+
         //public virtual Store Store { get; set; }
     }
 
-    
+
 
     public class AuctionTransactionStatus
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public Guid TransactionId { get; set; }
-        public AuctionState Status { get;set; }
+        public AuctionState Status { get; set; }
 
         [ForeignKey(nameof(TransactionId))]
         public virtual Transaction Transaction { get; set; }
@@ -171,4 +174,20 @@ namespace FoodWastePreventionSystem.Models
         public virtual Batch Batch { get; set; }
         //public virtual Store Store { get; set; }
     }
+
+    public class Cart
+    {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
+        public string CustomerId { get; set; }
+        public Guid BatchId { get; set; }
+        public Guid AuctionId { get; set; }
+        public int Quantity { get; set; }
+
+        [ForeignKey(nameof(BatchId))]
+        public virtual Batch Batch { get; set; }
+        [ForeignKey(nameof(AuctionId))]
+        public virtual Auction Auction { get; set; }
+    }
+
 }

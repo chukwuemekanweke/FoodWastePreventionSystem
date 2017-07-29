@@ -38,4 +38,9 @@ namespace FoodWastePreventionSystem.Models
     {
         Incomplete, Compleete,
     }
+
+    public enum BatchProfitLoss
+    {
+        None,Profit, Loss
+    }
 }

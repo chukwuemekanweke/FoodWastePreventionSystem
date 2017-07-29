@@ -1,0 +1,144 @@
+﻿
+@model TurnoverForProduct
+@{
+    var NumberOfYears = Model.TurnoverForProductInYear.Count;
+    var CurrentCount = 0;
+    var RecordsperRow = 3;
+    string[] HeaderColor = {  "panel-default","panel-color panel-primary", "panel-color panel-success", "panel-color panel-warning",
+                              "panel-color panel-info","panel-color panel-danger", "panel-color panel-purple",
+                              "panel-color panel-pink","panel-color panel-inverse" };
+    string[] ButtonColor = { "btn-default","btn-primary", "btn-success", "btn-warning","btn-info","btn-danger", "btn-purple",
+                             "btn-pink","btn-inverse" };
+
+}
+<div class="page-title-group">
+    <h4 class="page-title">Panels</h4>
+    <h5 class="text-muted page-title-alt">Sub Title</h5>
+</div>
+
+<div class="container">
+    @for (int i = 0; i < NumberOfYears; i += 3)
+    {
+        var First = Model.TurnoverForProductInYear[i];
+        var Second = Model.TurnoverForProductInYear[i + 1];
+        var Third = Model.TurnoverForProductInYear[i + 2];
+        <div class="row">
+            @if (First != null)
+            {
+                var Record = First;
+                <div class="col-lg-4">
+                    <div class="panel @HeaderColor[i%HeaderColor.Length]">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@Record.Year</h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    Annual Turnover: @Record.TurnoverPerMonth.Sum(x => x.Value)
+                                </li>
+                                <li class="list-group-item">
+                                    Average Monthly Turnover: @Record.TurnoverPerMonth.Average(x => x.Value)
+                                </li>
+                                <li class="list-group-item">
+                                    @{
+                                        var Max = Record.TurnoverPerMonth.Max(x => x.Value);
+                                        var MaxMonths = Record.TurnoverPerMonth.Where(x => x.Value == Max).Select(x => x.Key.ToString()).ToArray();
+
+                                    }
+                                    Highest Monthly Turnover: @Record.TurnoverPerMonth.Max(x => x.Value)
+                                </li>
+                                <li class="list-group-item">
+                                    Months With Highest Turnover: @string.Join(",", MaxMonths)
+                                </li>
+                                <li class="list-group-item">
+                                    Annual Turnover: @Record.TurnoverPerMonth.Sum(x => x.Value)
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="panel-footer">
+                            <a href="@Url.Action("TurnoverReportDetails","Analysis", new { id=ViewBag.id, year=Record.Year})" class="btn btn-rounded btn-md @ButtonColor[i%ButtonColor.Length]">.btn-default</a>
+                        </div>
+                    </div>
+                </div>
+                                        }
+            @if (Second != null)
+            {
+                var Record = Second;
+                <div class="col-lg-4">
+                    <div class="panel @HeaderColor[i%HeaderColor.Length]">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@Record.Year</h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    Annual Turnover: @Record.TurnoverPerMonth.Sum(x => x.Value)
+                                </li>
+                                <li class="list-group-item">
+                                    Average Monthly Turnover: @Record.TurnoverPerMonth.Average(x => x.Value)
+                                </li>
+                                <li class="list-group-item">
+                                    @{
+                                        var Max = Record.TurnoverPerMonth.Max(x => x.Value);
+                                        var MaxMonths = Record.TurnoverPerMonth.Where(x => x.Value == Max).Select(x => x.Key.ToString()).ToArray();
+
+                                    }
+                                    Highest Monthly Turnover: @Record.TurnoverPerMonth.Max(x => x.Value)
+                                </li>
+                                <li class="list-group-item">
+                                    Months With Highest Turnover: @string.Join(",", MaxMonths)
+                                </li>
+                                <li class="list-group-item">
+                                    Annual Turnover: @Record.TurnoverPerMonth.Sum(x => x.Value)
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="panel-footer">
+                            <a href="@Url.Action("TurnoverReportDetails","Analysis", new { id=ViewBag.id,year=Record.Year})" class="btn btn-rounded btn-md @ButtonColor[i%ButtonColor.Length]">.btn-default</a>
+                        </div>
+                    </div>
+                </div>
+                                        }
+            @if (Third != null)
+            {
+                var Record = Third;
+                <div class="col-lg-4">
+                    <div class="panel @HeaderColor[i%HeaderColor.Length]">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@Record.Year</h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    Annual Turnover: @Record.TurnoverPerMonth.Sum(x => x.Value)
+                                </li>
+                                <li class="list-group-item">
+                                    Average Monthly Turnover: @Record.TurnoverPerMonth.Average(x => x.Value)
+                                </li>
+                                <li class="list-group-item">
+                                    @{
+                                        var Max = Record.TurnoverPerMonth.Max(x => x.Value);
+                                        var MaxMonths = Record.TurnoverPerMonth.Where(x => x.Value == Max).Select(x => x.Key.ToString()).ToArray();
+
+                                    }
+                                    Highest Monthly Turnover: @Record.TurnoverPerMonth.Max(x => x.Value)
+                                </li>
+                                <li class="list-group-item">
+                                    Months With Highest Turnover: @string.Join(",", MaxMonths)
+                                </li>
+                                <li class="list-group-item">
+                                    Annual Turnover: @Record.TurnoverPerMonth.Sum(x => x.Value)
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="panel-footer">
+                            <a href="@Url.Action("TurnoverReportDetails","Analysis", new {id=ViewBag.id, year=Record.Year})" class="btn btn-rounded btn-md @ButtonColor[i%ButtonColor.Length]">.btn-default</a>
+                        </div>
+                    </div>
+                </div>
+                                        }
+        </div>
+                                        }
+
+
+</div>

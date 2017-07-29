@@ -160,7 +160,11 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
             return RedirectToAction("AboutToBeAuctioned");
         }
 
-
+        [Route("ReviewPendingAuctions/{searchTerm}/{page:int}")]
+        [Route("ReviewPendingAuctions/{searchTerm}")]
+        [Route("ReviewPendingAuctions/{searchCategory}")]
+        [Route("ReviewPendingAuctions/{page:int}")]
+        [Route("ReviewPendingAuctions")]
         public ActionResult ReviewPendingAuctions(string searchTerm, string searchCategory, int? page) 
            {
             var models = new List<ProductToBeAuctioned>();

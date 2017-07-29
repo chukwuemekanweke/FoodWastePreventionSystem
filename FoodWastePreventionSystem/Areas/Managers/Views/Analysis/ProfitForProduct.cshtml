@@ -1,0 +1,190 @@
+﻿@model ProfitForProductAnalysisVM
+@{
+    ViewBag.Title = "Profit";
+    List<ProfitLossForBatch> BatchProfits = Model.BatchProfitRecords;
+    ProfitsForProduct YearlyProfits = Model.YearlyProfitRecords;
+    var StartYear = YearlyProfits.StartYear;
+    var EndYear = YearlyProfits.EndYear;
+    var CurrentYear = StartYear;
+    var ListOfYearlyProfits = YearlyProfits.ProfitsForProductInYear;
+
+}
+
+
+<!-- Page-Title -->
+<div class="page-title-group">
+    <h4 class="page-title">Tabs & Accordions</h4>
+    <h5 class="text-muted page-title-alt">Sub Title</h5>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="tabs-vertical-env">
+                <ul class="nav tabs-vertical">
+                    <li class="active">
+                        <a href="#v-home" data-toggle="tab" aria-expanded="true">Profits For Batches </a>
+                    </li>
+                    <li class="">
+                        <a href="#v-profile" data-toggle="tab" aria-expanded="false">Profits Annualy</a>
+                    </li>
+                   
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="v-home">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card-box">
+                                    <div class="card-box-head  border-b m-t-0">
+                                        <h4 class="header-title"><b>Button Tables</b></h4>
+                                    </div>
+                                    <div class="card-box-content form-compoenent">
+
+                                        <div class="table-responsive data-table">
+                                            <table class="table table-bordred table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>BatchId</th>
+                                                        <th><b>Purchased</b></th>
+                                                        <th><b>Sold</b></th>
+                                                        <th><b>Auctioned</b></th>
+                                                        <th><b>Disposed</b></th>
+                                                        <th><b>State</b></th>
+                                                        <th>Purchase/Selling</th>
+                                                        <th><b>value</b></th>
+                                                        <th class="text-center"><b>Action</b></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in BatchProfits)
+                                                    {
+                                                        var batch = item.Batch;
+                                                        <tr>
+                                                            <td>
+                                                                @batch.Id
+                                                            </td>
+                                                            <td>
+                                                                @batch.QuantityPurchased
+                                                            </td>
+                                                            <td>@batch.QuantitySold</td>
+                                                            <td>@batch.QuantityAuctioned</td>
+                                                            <td>@batch.QuantityDisposedOf</td>
+                                                            @if (item.State == BatchProfitLoss.Profit)
+                                                            {
+                                                                <td><span class="badge btn-primary btn-sm">Profit</span></td>
+                                                            }
+                                                            else if (item.State == BatchProfitLoss.Loss)
+                                                            {
+                                                                <td><span class="badge btn-danger btn-sm">Loss</span></td>
+                                                            }
+                                                            else if (item.State == BatchProfitLoss.None)
+                                                            {
+                                                                <td><span class="badge btn-pink btn-sm">None Sold</span></td>
+                                                            }
+
+                                                            <td>@batch.PurchasePrice / @batch.SellingPrice</td>
+                                                            <td>@item.Value</td>
+                                                            <td class="text-center">
+                                                                @Html.ActionLink("BatchInformation", "Batches", new { id = batch.Id }, new { @class = "btn btn-default btn-xs" })
+                                                            </td>
+                                                        </tr>
+                                                    }
+
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="row mob-center">
+                                            <div class="col-sm-5">
+                                                <p>Showing 20-30 of 50 items</p>
+                                            </div>
+                                            <div class="col-sm-7">
+                                                <ul class="pagination pull-right">
+                                                    <li><a href="#"><span class="fa fa-angle-double-left"></span></a></li>
+                                                    <li class="active"><a href="#">1</a></li>
+                                                    <li><a href="#">2</a></li>
+                                                    <li><a href="#">3</a></li>
+                                                    <li><a href="#">4</a></li>
+                                                    <li><a href="#">5</a></li>
+                                                    <li><a href="#"><span class="fa fa-angle-double-right"></span></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane" id="v-profile">
+                        <div class="row">
+                            <div class="col-md-12">
+                                @foreach (var item in ListOfYearlyProfits)
+                                {
+                                    <div class="card-box">
+                                        <div class="card-box-head  border-b m-t-0">
+                                            <h4 class="header-title"><b>Profit For @item.Year</b> <span class="pull-right m-l-5"><i class="fa fa-cog"></i></span></h4>
+                                        </div>
+                                        <div class="card-box-content form-compoenent">
+
+                                            <div class="clearfix"></div>
+                                            <br>
+                                            <div class="table-responsive data-table">
+
+                                                <table class="table table-bordred table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Month</th>
+                                                            <th>Profit</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var MonthlyProfit in item.ProfitsPerMonth)
+                                                        {
+                                                            <tr>
+                                                                <td>
+                                                                    @MonthlyProfit.Key
+                                                                </td>
+                                                                <td class="@(MonthlyProfit.Value>=0?"":"text-danger")">
+                                                                    @MonthlyProfit.Value
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                        <tr>
+                                                            <td colspan="2">
+                                                                Total Profits For Year: @item.ProfitsPerMonth.Sum(x=>x.Value)
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                          
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

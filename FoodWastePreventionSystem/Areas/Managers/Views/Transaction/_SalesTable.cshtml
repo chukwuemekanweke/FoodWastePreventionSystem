@@ -9,6 +9,7 @@
             <th><b>Quantity</b></th>
             <th><b>Selling Price</b></th>
             <th><b>Total Cost</b></th>
+            <th>Bulk Purchase</th>
             <th><b>Agent</b></th>
             <th><b>Action</b></th>
         </tr>
@@ -38,6 +39,9 @@
                     </td>
                     <td>
                         @Transaction.TotalCost
+                    </td>
+                    <td>
+                        @Transaction.BulkPurchase
                     </td>
                     <td>
                         @item.Agent.UserName

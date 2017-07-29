@@ -33,9 +33,12 @@ namespace FoodWastePreventionSystem.BusinessLogic
             List<ProfitsForProduct> ProfitRecordsForProducts = new List<ProfitsForProduct>();
             IEnumerable<Product> Products = ProductPredicate == null ? ProductRepo.GetAll() : ProductRepo.GetAll().Where(ProductPredicate);
 
-            foreach (var item in Products)
+            if (Products != null)
             {
-                ProfitRecordsForProducts.Add(GetProfitForProduct(item.Id));
+                foreach (var item in Products)
+                {
+                    ProfitRecordsForProducts.Add(GetProfitForProduct(item.Id));
+                }
             }
             return ProfitRecordsForProducts;
 
@@ -45,11 +48,11 @@ namespace FoodWastePreventionSystem.BusinessLogic
         {
             Product Product = ProductRepo.Get(x => x.Id == productId);
             ProfitsForProduct ProfitRecords = new ProfitsForProduct();
+            ProfitRecords.Product = Product;
 
-
-            Batch[] ProductInStoreRecords = BatchRepo.GetAll(x => x.ProductId == productId).ToArray();
-            Guid[] ProductInStoreIds = ProductInStoreRecords.Select(x => x.Id).ToArray();
-            Transaction[] TransactionsForProduct = TransactionPredicate == null ? TransactionRepo.GetAll(x => x.Batch.ProductId == productId).OrderBy(x => x.DateOfTransaction).ToArray() : TransactionRepo.GetAll(x => x.Batch.ProductId == productId).Where(TransactionPredicate).OrderBy(x => x.DateOfTransaction).ToArray();
+            Transaction[] TransactionsForProduct = TransactionPredicate == null ?
+                TransactionRepo.GetAll(x => x.Batch.ProductId == productId).OrderBy(x => x.DateOfTransaction).ToArray() :
+                TransactionRepo.GetAll(x => x.Batch.ProductId == productId).Where(TransactionPredicate).OrderBy(x => x.DateOfTransaction).ToArray();
 
             Dictionary<int, Dictionary<Month, double>> ProfitsPerYear = new Dictionary<int, Dictionary<Month, double>>();
             ProfitsPerYear = GroupProfitsPerYear(TransactionsForProduct);
@@ -58,11 +61,13 @@ namespace FoodWastePreventionSystem.BusinessLogic
             {
                 int Year = item.Key;
                 Dictionary<Month, double> ProfitsPerMonth = item.Value;
-                ProfitRecords.ProfitsForProductInYear.Add(new ProfitsForProductInYear() { Year = Year, ProfitsPerMonth = ProfitsPerMonth, });
+                ProfitRecords.ProfitsForProductInYear.Add(new ProfitsForProductInYear()
+                { Year = Year,
+                    ProfitsPerMonth = ProfitsPerMonth,
+                });
 
             }
 
-            ProfitRecords.Product = Product;
 
             return ProfitRecords;
 
@@ -71,18 +76,18 @@ namespace FoodWastePreventionSystem.BusinessLogic
 
 
 
-        public Dictionary<int, Dictionary<Month, double>> GroupProfitsPerYear(Transaction[] tansactions)
+        public Dictionary<int, Dictionary<Month, double>> GroupProfitsPerYear(Transaction[] transactions)
         {
             Dictionary<int, Dictionary<Month, double>> TransactionsPerYear = new Dictionary<int, Dictionary<Month, double>>();
-            DateTime StartDate = tansactions.First().DateOfTransaction;
-            DateTime EndDate = tansactions.Last().DateOfTransaction;
+            DateTime StartDate = transactions.First().DateOfTransaction;
+            DateTime EndDate = transactions.Last().DateOfTransaction;
             int StartYear = StartDate.Year;
             int EndYear = EndDate.Year;
             int YearSpan = EndYear - StartYear;
 
             for (int i = StartYear; i <= EndYear; ++i)
             {
-                Transaction[] TransactionForYear = tansactions.Where(x => x.DateOfTransaction.Year == i).ToArray();
+                Transaction[] TransactionForYear = transactions.Where(x => x.DateOfTransaction.Year == i).ToArray();
                 Dictionary<Month, double> TransactionsPerMonth = new Dictionary<Month, double>();
                 foreach (var item in TransactionForYear)
                 {
@@ -92,121 +97,121 @@ namespace FoodWastePreventionSystem.BusinessLogic
                         case 1:
                             if (TransactionsPerMonth.ContainsKey(Month.January))
                             {
-                                TransactionsPerMonth[Month.January] += item.ProfitMade;
+                                TransactionsPerMonth[Month.January] += ProfitForTransaction(item);
                             }
                             else
                             {
-                                TransactionsPerMonth.Add(Month.January, item.ProfitMade);
+                                TransactionsPerMonth.Add(Month.January, ProfitForTransaction(item));
                             }
                             break;
                         case 2:
                             if (TransactionsPerMonth.ContainsKey(Month.February))
                             {
-                                TransactionsPerMonth[Month.February] += item.ProfitMade;
+                                TransactionsPerMonth[Month.February] += ProfitForTransaction(item);
                             }
                             else
                             {
-                                TransactionsPerMonth.Add(Month.February, item.ProfitMade);
+                                TransactionsPerMonth.Add(Month.February, ProfitForTransaction(item));
                             }
                             break;
                         case 3:
                             if (TransactionsPerMonth.ContainsKey(Month.March))
                             {
-                                TransactionsPerMonth[Month.March] += item.ProfitMade;
+                                TransactionsPerMonth[Month.March] += ProfitForTransaction(item);
                             }
                             else
                             {
-                                TransactionsPerMonth.Add(Month.March, item.ProfitMade);
+                                TransactionsPerMonth.Add(Month.March, ProfitForTransaction(item));
                             }
                             break;
                         case 4:
                             if (TransactionsPerMonth.ContainsKey(Month.April))
                             {
-                                TransactionsPerMonth[Month.April] += item.ProfitMade;
+                                TransactionsPerMonth[Month.April] += ProfitForTransaction(item);
                             }
                             else
                             {
-                                TransactionsPerMonth.Add(Month.April, item.ProfitMade);
+                                TransactionsPerMonth.Add(Month.April, ProfitForTransaction(item));
                             }
                             break;
                         case 5:
                             if (TransactionsPerMonth.ContainsKey(Month.May))
                             {
-                                TransactionsPerMonth[Month.May] += item.ProfitMade;
+                                TransactionsPerMonth[Month.May] += ProfitForTransaction(item);
                             }
                             else
                             {
-                                TransactionsPerMonth.Add(Month.May, item.ProfitMade);
+                                TransactionsPerMonth.Add(Month.May, ProfitForTransaction(item));
                             }
                             break;
                         case 6:
                             if (TransactionsPerMonth.ContainsKey(Month.June))
                             {
-                                TransactionsPerMonth[Month.June] += item.ProfitMade;
+                                TransactionsPerMonth[Month.June] += ProfitForTransaction(item);
                             }
                             else
                             {
-                                TransactionsPerMonth.Add(Month.June, item.ProfitMade);
+                                TransactionsPerMonth.Add(Month.June, ProfitForTransaction(item));
                             }
                             break;
                         case 7:
                             if (TransactionsPerMonth.ContainsKey(Month.July))
                             {
-                                TransactionsPerMonth[Month.July] += item.ProfitMade;
+                                TransactionsPerMonth[Month.July] += ProfitForTransaction(item);
                             }
                             else
                             {
-                                TransactionsPerMonth.Add(Month.July, item.ProfitMade);
+                                TransactionsPerMonth.Add(Month.July, ProfitForTransaction(item));
                             }
                             break;
                         case 8:
                             if (TransactionsPerMonth.ContainsKey(Month.August))
                             {
-                                TransactionsPerMonth[Month.August] += item.ProfitMade;
+                                TransactionsPerMonth[Month.August] += ProfitForTransaction(item);
                             }
                             else
                             {
-                                TransactionsPerMonth.Add(Month.August, item.ProfitMade);
+                                TransactionsPerMonth.Add(Month.August, ProfitForTransaction(item));
                             }
                             break;
                         case 9:
                             if (TransactionsPerMonth.ContainsKey(Month.September))
                             {
-                                TransactionsPerMonth[Month.September] += item.ProfitMade;
+                                TransactionsPerMonth[Month.September] += ProfitForTransaction(item);
                             }
                             else
                             {
-                                TransactionsPerMonth.Add(Month.September, item.ProfitMade);
+                                TransactionsPerMonth.Add(Month.September, ProfitForTransaction(item));
                             }
                             break;
                         case 10:
                             if (TransactionsPerMonth.ContainsKey(Month.October))
                             {
-                                TransactionsPerMonth[Month.October] += item.ProfitMade;
+                                TransactionsPerMonth[Month.October] += ProfitForTransaction(item);
                             }
                             else
                             {
-                                TransactionsPerMonth.Add(Month.October, item.ProfitMade);
+                                TransactionsPerMonth.Add(Month.October, ProfitForTransaction(item));
                             }
                             break;
                         case 11:
                             if (TransactionsPerMonth.ContainsKey(Month.November))
                             {
-                                TransactionsPerMonth[Month.November] += item.ProfitMade;
+                                TransactionsPerMonth[Month.November] += ProfitForTransaction(item);
                             }
                             else
                             {
-                                TransactionsPerMonth.Add(Month.November, item.ProfitMade);
+                                TransactionsPerMonth.Add(Month.November, ProfitForTransaction(item));
                             }
                             break;
                         case 12:
                             if (TransactionsPerMonth.ContainsKey(Month.December))
                             {
-                                TransactionsPerMonth[Month.December] += item.ProfitMade;
+                                TransactionsPerMonth[Month.December] += ProfitForTransaction(item);
                             }
                             else
                             {
-                                TransactionsPerMonth.Add(Month.December, item.ProfitMade);
+                                TransactionsPerMonth.Add(Month.December, ProfitForTransaction(item));
                             }
                             break;
                     }
@@ -315,5 +320,79 @@ namespace FoodWastePreventionSystem.BusinessLogic
                 Loss = LossQuantity,
             });
         }
+
+        public double ProfitForTransaction(Transaction transaction)
+        {
+            if (transaction.TransactionType == TransactionType.Sale) {
+                double Profit = ProfitForBatch(transaction.BatchId, transaction.BulkPurchase);
+            return transaction.Quantity * Profit;
+            }
+            else
+            {
+                double SellingPrice = transaction.TotalCost / transaction.Quantity;
+                double PurchasePrice = transaction.Batch.PurchasePrice;
+                return (SellingPrice - PurchasePrice) * transaction.Quantity;
+            }
+        }
+
+        public double ProfitForBatch(Guid BatchId, Boolean IsDiscount)
+        {
+            Batch Batch = BatchRepo.Get(x => x.Id == BatchId);
+            Product Product = Batch.Product;
+            double DiscountPercentage = Product.BulkPurchaseDiscountPercent;
+            double ProfitForBatch = Batch.SellingPrice - Batch.PurchasePrice;
+            return IsDiscount==false? ProfitForBatch : ProfitForBatch -   (Batch.SellingPrice * (DiscountPercentage / 100));
+        }
+
+        public List<ProfitLossForBatch> ProfitsForProductByBatch(Guid id)
+        {
+            List<ProfitLossForBatch> Record = new List<ProfitLossForBatch>();
+            List<Batch> Batches = new List<Batch>();
+            Product product = ProductRepo.Get(x => x.Id == id);
+            Batches = product.Batches.ToList();
+
+            foreach (var item in Batches)
+            {
+                double Value = CalculateProfitLossForBatch(item.Id);
+                Record.Add(new ProfitLossForBatch() {
+                    Batch = item,
+                    Transactions = item.Transactions.ToList(),
+                    Value = Value,
+                    State = Value < 0 ? BatchProfitLoss.Loss : (Value > 0 ? BatchProfitLoss.Profit : BatchProfitLoss.None),
+                });
+
+            }
+
+            return Record;
+
+        }
+
+        public double CalculateProfitLossForBatch(Guid batchId)
+        {
+            Batch Batch = BatchRepo.Get(x => x.Id == batchId);
+
+            double PurchasePrice = Batch.PurchasePrice;
+            double Value = 0;
+
+            List < Transaction > Transactions = new List<Transaction>();
+            Transactions = Batch.Transactions.ToList();
+            foreach (var item in Transactions)
+            {
+                Value += ProfitForTransaction(item);
+            }
+            return Value;
+        }
+
+        public double ExpectedProfitForBatch(Guid batchId)
+        {
+            double ExpectedProfit = 0;
+            Batch Batch = BatchRepo.Get(x => x.Id == batchId);
+            if (Batch != null)
+            {
+                ExpectedProfit = Batch.SellingPrice * Batch.QuantityPurchased - Batch.PurchasePrice * Batch.QuantityPurchased;
+            }
+            return ExpectedProfit;
+        }
+
     }
 }

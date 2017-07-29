@@ -14,7 +14,7 @@ namespace FoodWastePreventionSystem.Areas.Managers.Models
         public IEnumerable<Batch> InStoreRecords { get; set; }
         public IEnumerable<ProductToBeAuctioned> ToBeAuctionedRecords { get; set; }
         public IEnumerable<Auction> AuctionRecords { get; set; }
-        public SalesForProduct Sales { get; set; }       
+        public SalesForProduct Sales { get; set; }
 
         public ProductViewModel()
         {
@@ -80,7 +80,12 @@ namespace FoodWastePreventionSystem.Areas.Managers.Models
         public List<TransactionVM> TransactionRecords { get; set; }
     }
 
-    
+    public class ProfitForProductAnalysisVM
+    {
+        public List<ProfitLossForBatch> BatchProfitRecords { get; set; }
+        public ProfitsForProduct YearlyProfitRecords { get; set; }
+    }
+
 
 
 }

@@ -65,6 +65,26 @@ namespace FoodWastePreventionSystem.BusinessLogic.BusinessLogicModels
         }
     }
 
+    public class TurnoverForProductInYear
+    {
+        public int Year { get; set; }
+        public Dictionary<Month, double> TurnoverPerMonth { get; set; }
+    }
+
+    public class TurnoverForProduct
+    {
+        public Product Product { get; set; }
+        public int StartYear { get; set; }
+        public int EndYear { get; set; }
+        public List<TurnoverForProductInYear> TurnoverForProductInYear { get; set; }
+        public int YearSpan { get; set; }
+
+        public TurnoverForProduct()
+        {
+            TurnoverForProductInYear = new List<TurnoverForProductInYear>();
+        }
+    }
+
     public class LossForProductInYear
     {
         public int Year { get; set; }
@@ -125,5 +145,21 @@ namespace FoodWastePreventionSystem.BusinessLogic.BusinessLogicModels
         public Month Month { get; set; }
         public double Profit { get; set; }
         public double Loss { get; set; }
+    }
+
+
+    public class ProfitLossForBatch
+    {
+        public Batch Batch { get; set; }
+        public List<Transaction> Transactions { get; set; }
+        public double Value { get; set; }
+        public BatchProfitLoss State { get; set; }
+    }
+
+    public class OnAuctionVM
+    {
+        public Product Product { get; set; }
+        public Batch Batch { get; set; }
+        public Auction Auction { get; set; }
     }
 }

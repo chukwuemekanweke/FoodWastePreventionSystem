@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using FoodWastePreventionSystem.Areas.Managers.Models;
 using FoodWastePreventionSystem.BusinessLogic;
 using System.Diagnostics;
+using PagedList;
 
 namespace FoodWastePreventionSystem.Areas.Managers.Controllers
 {
@@ -29,6 +30,8 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
 
         private ApplicationUserManager userManager;
         private ApplicationUser loggedInUser;
+
+        private int PageSize = 5;
 
         public ApplicationUser LoggedInUser
         {
@@ -92,8 +95,14 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
             return View(model);
         }
 
-        public ActionResult BatchesForProduct(Guid id) =>                  
-             View(ProductRepo.Get(x => x.Id == id, "Batches").Batches);
+        [Route("BatchesForProduct/{id}/{page:int}")]
+        [Route("BatchesForProduct/{id}")]
+        public ActionResult BatchesForProduct(Guid id, int? page)
+        {
+            int pageNumber = (page ?? 1);
+            var model = ProductRepo.Get(x => x.Id == id, "Batches").Batches;
+            return View(model.ToPagedList(pageNumber, PageSize));
+        }
         
 
         public ActionResult BatchInformation(Guid id)
@@ -134,9 +143,10 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
             return View(Records);
         }
 
-        [HttpPost]
-        public PartialViewResult FetchListOfBatchesForProduct(Guid id)=>        
+       
+        public PartialViewResult FetchListOfBatchesForProduct(Guid id)=>       
              PartialView("_Batches", ProductRepo.Get(x => x.Id == id).Batches.ToList());
+        
         
     }
 }
