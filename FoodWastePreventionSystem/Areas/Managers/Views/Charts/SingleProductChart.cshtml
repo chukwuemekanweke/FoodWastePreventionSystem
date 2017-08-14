@@ -1,0 +1,176 @@
+﻿
+@{
+    ViewBag.Title = "SingleProductChart";
+}
+
+
+@{
+    ViewBag.Title = "CategoryChart";
+}
+
+
+<div class="page-title-group">
+    <h4 class="page-title">Chart Render</h4>
+</div>
+<div class="cb-page-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card-box">
+                            <div class="card-box-head">
+                                <h4 class="header-title m-t-0 pull-left">Line Chart</h4>
+                                <div class="pull-right">
+                                </div>
+                            </div>
+                            <div class="card-box-content">
+                                <div id="line-chart" class="bar-280"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card-box">
+                            <div class="card-box-head">
+                                <h4 class="header-title m-t-0 pull-left">Bar Chart</h4>
+                            </div>
+                            <div class="card-box-content">
+                                <div id="bar-chart" class="bar-280"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Areas/Managers/assets/js/jquery.jqplot.min.js"></script>
+    <script src="~/Areas/Managers/assets/js/jqplot.canvasAxisLabelRenderer.js"></script>
+
+    <script src="~/Areas/Managers/assets/js/jqplot.categoryAxisRenderer.js"></script>
+    <script src="~/Areas/Managers/assets/js/jqplot.barRenderer.js"></script>
+    <script src="~/Areas/Managers/assets/js/jqplot.canvasTextRenderer.js"></script>
+    <script src="~/Areas/Managers/assets/js/jqplot.canvasAxisTickRenderer.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+
+
+            singleSeries();
+
+
+        });
+
+
+        function singleSeries() {
+            $.ajax({
+                url: `@Url.Action("DrawChartForProduct", "Charts",new { Area="Managers"})/@ViewBag.productId/@ViewBag.operation`,
+                type: `get`,
+                dataType: `json`,
+                success: function (data) {
+                    processSingleSeriesLine(data);
+                    processSingleSeriesBar(data);
+                },
+            });
+        }
+
+        function processSingleSeriesBar(data) {
+            var chartData = [];
+
+            Object.keys(data).forEach(function (key) {
+                chartData.push([key, data[key]]);
+            });
+            var options = {
+                title: '@ViewBag.productName @ViewBag.operation chart',
+                series: [
+               {
+                   label: "@ViewBag.productName",
+                   rendererOptions: {
+                       barMargin: 20,
+                       shadowAlpha: 0.8
+                   }
+               }
+                ],
+                legend: {
+                    show: true, placement: 'outsideGrid', location: 'e'
+                }, axes: {
+                    xaxis: { renderer: $.jqplot.CategoryAxisRenderer },
+                    yaxis: {
+                        label: 'Totals Dollars',
+                        padMax: 1.2,
+                        tickOptions: { formatString: "#%'d" }
+                    }
+                },
+                axesDefaults: {
+                    tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+                    tickOptions: { angle: -30 }
+                },
+                seriesDefaults: {
+                    renderer: $.jqplot.BarRenderer,
+                    pointLabels: { show: true }
+                },
+            };
+
+            $.jqplot('bar-chart', [chartData], options);
+
+        }
+
+
+
+        function processSingleSeriesLine(data) {
+            var chartData = [];
+
+            var options = {
+                title: '@ViewBag.productName @ViewBag.operation chart',
+                axesDefaults: {
+                    labelRenderer: $.jqplot.CanvasAxisLabelRenderer
+                },
+                axes: {
+                    xaxis: {
+                        label: "Year"
+                    },
+                    yaxis: {
+                        label: "Value"
+                    }
+                },
+                seriesDefaults: {
+                    showMarker: true,
+                    rendererOptions: {
+                        smooth: true,
+                        animation: { show: true }
+                    }
+                },
+               series:[ { label: "@ViewBag.productName" }],              
+                legend: {
+                    show: true,
+                    placement: 'outsideGrid',
+                    location: 'e'
+                },
+                highlighter: {
+                    show: true,
+                },
+                cursor: {
+                    show: false,
+                }
+            };
+
+            Object.keys(data).forEach(function (key) {
+                chartData.push([parseInt(key), data[key]]);
+            });
+
+            $.jqplot('line-chart', [chartData], options);
+
+
+        }
+
+
+    </script>
+}
+
+
+
+

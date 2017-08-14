@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
+using FoodWastePreventionSystem.Migrations;
+using FoodWastePreventionSystem.Infrastructure;
 
 namespace FoodWastePreventionSystem.Models
 {
@@ -32,12 +34,18 @@ namespace FoodWastePreventionSystem.Models
         }
     }
 
+    public class ApplicationRole : IdentityRole
+    {
+        public ApplicationRole() : base() { }
+        public ApplicationRole(string name) : base(name) { }
+    }
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
             : base("IdentityDb", throwIfV1Schema: false)
         {
         }
+
 
         public static ApplicationDbContext Create()
         {

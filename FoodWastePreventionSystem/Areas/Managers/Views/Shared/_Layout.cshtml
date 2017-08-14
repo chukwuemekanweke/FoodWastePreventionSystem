@@ -18,12 +18,12 @@
 
     <!-- STYLESHEETS -->
     @*<link rel="stylesheet" href="assets/plugins/morris/morris.css">
-    <link rel="stylesheet" href="assets/css/bootstrap.css" type="text/css" />
-    <link rel="stylesheet" href="assets/css/core.css" type="text/css" />
-    <link rel="stylesheet" href="assets/css/components.css" type="text/css" />
-    <link rel="stylesheet" href="assets/css/icons.css" type="text/css" />
-    <link rel="stylesheet" href="assets/css/pages.css" type="text/css" />
-    <link rel="stylesheet" href="assets/css/responsive.css" type="text/css" />*@
+        <link rel="stylesheet" href="assets/css/bootstrap.css" type="text/css" />
+        <link rel="stylesheet" href="assets/css/core.css" type="text/css" />
+        <link rel="stylesheet" href="assets/css/components.css" type="text/css" />
+        <link rel="stylesheet" href="assets/css/icons.css" type="text/css" />
+        <link rel="stylesheet" href="assets/css/pages.css" type="text/css" />
+        <link rel="stylesheet" href="assets/css/responsive.css" type="text/css" />*@
     @Styles.Render("~/bundles/admin/styles")
 
 
@@ -54,6 +54,7 @@
                 </a>
                 <a href="javascript:void(0)" class="logo d-logo hidden visible-xs visible-sm">
                     <img src="~/Areas/Managers/assets/images/logo.png" alt="SmartBox" class="img-responsive hidden-xs" height="0">
+                    @*<img src="@Url.Action("GetLogo","Store")" alt="Logo" class="img-responsive hidden-xs" height="0">*@
                 </a>
                 <!-- Image Logo here -->
             </div>
@@ -72,75 +73,28 @@
                             <li class="dropdown">
                                 <a href="javascript:void(0)" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i></a>
                                 <ul class="dropdown-menu">
+                                 
                                     <li>
-                                        <a href="javascript:void(0)"><i class="ti-user m-r-10 text-custom"></i> Profile</a>
+                                        <a href="@Url.Action("Edit","Store", new { Area="Managers"})"><i class="ti-settings m-r-10 text-custom"></i> Edit Store</a>
                                     </li>
-                                    <li>
-                                        <a href="javascript:void(0)"><i class="ti-settings m-r-10 text-custom"></i> Settings</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0)"><i class="ti-lock m-r-10 text-custom"></i> Lock screen</a>
-                                    </li>
+                                   
                                     <li class="divider"></li>
                                     <li>
-                                        <a href="javascript:void(0)"><i class="ti-power-off m-r-10 text-danger"></i> Logout</a>
+                                       
+                                            <i class="ti-power-off m-r-10 text-danger"></i> @using (Html.BeginForm("LogOff", "Account", new { Area = "" }, FormMethod.Post, new { id = "logoutForm" }))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-xs btn-danger">Log off</button>
+
+                                            }
                                     </li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
-                                <a href="javascript:void(0)" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    Mega<span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="javascript:void(0)">Action</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0)">Another action</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0)">Something else here</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0)">Separated link</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="javascript:void(0)" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    New<span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="javascript:void(0)">New Theme</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0)">New Update</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0)">New World</a>
-                                    </li>
-                                </ul>
-                            </li>
+                           
                         </ul>
-                        <form role="search" class="navbar-left app-search pull-left hidden-xs">
-                            <input type="text" placeholder="Search project..." class="form-control">
-                            <a href="javascript:void(0)"><i class="fa fa-search"></i></a>
-                        </form>
+                        
                         <ul class="nav navbar-nav navbar-right pull-right">
-                            <li class="dropdown hidden-xs">
-                                <a href="javascript:void(0)" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    English<span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="javascript:void(0)">French</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0)">Russian</a>
-                                    </li>
-                                </ul>
-                            </li>
+                            
                             <li class="dropdown top-menu-item-xs">
                                 <a href="javascript:void(0)" data-target="#" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="true">
                                     <i class="fa fa-calendar"></i> <span class="badge badge-xs badge-danger">5</span>
@@ -341,7 +295,7 @@
                             </li>
                             <li class="dropdown top-menu-item-xs">
                                 <a href="javascript:void(0)" class="right-bar-toggle profile waves-effect waves-light">
-                                    <span class="user-name">Hoang.Thai</span>
+                                    <span class="user-name">@User.Identity.Name</span>
                                     <span class="caret"></span>
                                     <img src="~/Areas/Managers/assets/images/users/avatar-1.jpg" alt="user-img" class="img-circle">
                                 </a>
@@ -359,13 +313,13 @@
                 <!--- Divider -->
                 <div id="sidebar-menu">
                     <ul>
-                        <li class="menu-title">Navigation</li>
+                        <li class="menu-title">Navigation <br /> </li>
                         <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect"> <i class="fa fa-dashboard"></i> <span> Dashboard </span>  <span class="fa fa-angle-right cb-nav-arrow"></span> </a>
                             <ul class="list-unstyled">
                                 @*<li><a href="dashboard.html">Dashboard1</a> </li>*@
                             </ul>
-                        </li>das
+                        </li>
 
                         <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect "> <i class="fa fa-bell"></i> <span>Auctions </span> <span class="fa fa-angle-right cb-nav-arrow"></span> </a>
@@ -373,7 +327,7 @@
                                 <li>@Html.ActionLink("Items On Auction","ItemsOnAuction","Auction")</li>
                                 <li>@Html.ActionLink("About To Be Auctioned", "AboutToBeAuctioned", "Auction")</li>
                                 <li>@Html.ActionLink("Review Pending Auction Proposals", "ReviewPendingAuctions", "Auction")</li>
-                                
+
 
                             </ul>
                         </li>
@@ -385,13 +339,13 @@
 
                                 <li><a href="@Url.Action("Create","Products")">Create</a></li>
                                 <li><a href="@Url.Action("Index","Products")">List</a></li>
-                                @*<li><a href="@Url.Action("Batch")">Product Batches</a></li>*@                            
+                                @*<li><a href="@Url.Action("Batch")">Product Batches</a></li>*@
 
                             </ul>
                         </li>
 
                         <li>
-                            <a href="javascript:void(0);" class="waves-effect"> <i class="fa fa-database"></i> <span> Batches </span> <span class="fa fa-angle-right cb-nav-arrow"></span> </a> 
+                            <a href="javascript:void(0);" class="waves-effect"> <i class="fa fa-database"></i> <span> Batches </span> <span class="fa fa-angle-right cb-nav-arrow"></span> </a>
                             <ul class="list-unstyled ">
                                 <li><a href="@Url.Action("AddBatch","Batches")">AddBatch</a></li>
                                 <li><a href="@Url.Action("BatchView","Batches")">View Batches</a></li>
@@ -399,24 +353,28 @@
                         </li>
 
                         <li class="has_sub">
-                            <a href="javascript:void(0);" class="waves-effect "> <i class="fa fa-cart-plus"s></i> <span> Transactions </span> <span class="fa fa-angle-right cb-nav-arrow"></span> </a>
+                            <a href="javascript:void(0);" class="waves-effect "> <i class="fa fa-cart-plus" s></i> <span> Transactions </span> <span class="fa fa-angle-right cb-nav-arrow"></span> </a>
                             <ul class="list-unstyled ">
-                               <li>@Html.ActionLink("Auctions","Transactions","Transaction", new { type = TransactionType.Auction}, new { })</li>
-                                <li>@Html.ActionLink("Sales", "Transactions", "Transaction", new { type = TransactionType.Sale }, new { })</li>                                
-                                <li><a href="buttons.html">All</a> </li>
+                                <li>@Html.ActionLink("Auctions","Transactions","Transaction", new { type = TransactionType.Auction}, new { })</li>
+                                <li>@Html.ActionLink("Sales", "Transactions", "Transaction", new { type = TransactionType.Sale }, new { })</li>
                             </ul>
                         </li>
 
                         <li class="has_sub">
-                            <a href="javascript:void(0);" class="waves-effect "> <i class="fa fa-cart-plus" s></i> <span> Sales </span> <span class="fa fa-angle-right cb-nav-arrow"></span> </a>
+                            <a href="javascript:void(0);" class="waves-effect "> <i class="fa fa-money" s></i> <span> Sales </span> <span class="fa fa-angle-right cb-nav-arrow"></span> </a>
                             <ul class="list-unstyled ">
                                 <li>@Html.ActionLink("Register","SelectProductToAddTransaction","Transaction")</li>
-                                @*<li><a href="blank.html">Query Sales</a> </li>*@
+                            </ul>
+                        </li>
+                        <li class="has_sub">
+                            <a href="javascript:void(0);" class="waves-effect "> <i class="fa fa-area-chart" s></i> <span> Charts </span> <span class="fa fa-angle-right cb-nav-arrow"></span> </a>
+                            <ul class="list-unstyled ">
+                                <li>@Html.ActionLink("Charts", "Index", "Charts")</li>
                             </ul>
                         </li>
 
                         <li class="has_sub">
-                            <a href="javascript:void(0);" class="waves-effect "> <i class="fa fa-cart-plus" s></i> <span> Analysis </span> <span class="fa fa-angle-right cb-nav-arrow"></span> </a>
+                            <a href="javascript:void(0);" class="waves-effect "> <i class="fa fa-info-circle" s></i> <span> Analysis </span> <span class="fa fa-angle-right cb-nav-arrow"></span> </a>
                             <ul class="list-unstyled ">
                                 <li>@Html.ActionLink("Profit", "Index", "Analysis", new { type="profit" },null)</li>
                                 <li>@Html.ActionLink("Loss", "Index", "Analysis", new {type="loss" }, null)</li>
@@ -429,39 +387,39 @@
                             </ul>
                         </li>
 
-                        <li> <a href="#" class="waves-effect"> <i class="fa fa-trash-o"></i> <span> Dispose Of Product</span> </a> </li>
+                        @*<li> <a href="#" class="waves-effect"> <i class="fa fa-trash-o"></i> <span> Dispose Of Product</span> </a> </li>*@
 
 
                         <li class="text-muted menu-title">Component</li>
 
-                        @*<li class="has_sub">    
-                            <a href="javascript:void(0);" class="waves-effect"> <i class="fa fa-tasks"></i> <span> Category </span>  <span class="fa fa-angle-right cb-nav-arrow"></span> </a>
-                            <ul class="list-unstyled">
-                                <li><a href="form-elements.html">Categories</a> </li>
-                                <li><a href="login.html"> Create </a> </li>
-                                <li><a href="login2.html"> List</a> </li>
-                            </ul>
-                        </li>
-                        <li class="has_sub">
-                            <a href="javascript:void(0);" class="waves-effect"> <i class="fa fa-table"></i> <span> Tabels </span> <span class="fa fa-angle-right cb-nav-arrow"></span> </a>
-                            <ul class="list-unstyled">
-                                <li><a href="tables.html">Tabel 1</a> </li>
-                            </ul>
-                        </li>
-                        <li class="has_sub">
-                            <a href="javascript:void(0);" class="waves-effect"> <i class="fa fa-area-chart"></i> <span> Charts </span> <span class="fa fa-angle-right cb-nav-arrow"></span> </a>
-                            <ul class="list-unstyled">
-                                <li><a href="chart.html">Profit</a> </li>
-                                <li><a href="chart.html">Loss</a> </li>
-                                <li><a href="chart.html">Sales</a> </li>
-                                <li><a href="chart.html">Auction</a> </li>
+                        @*<li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect"> <i class="fa fa-tasks"></i> <span> Category </span>  <span class="fa fa-angle-right cb-nav-arrow"></span> </a>
+                                <ul class="list-unstyled">
+                                    <li><a href="form-elements.html">Categories</a> </li>
+                                    <li><a href="login.html"> Create </a> </li>
+                                    <li><a href="login2.html"> List</a> </li>
+                                </ul>
+                            </li>
+                            <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect"> <i class="fa fa-table"></i> <span> Tabels </span> <span class="fa fa-angle-right cb-nav-arrow"></span> </a>
+                                <ul class="list-unstyled">
+                                    <li><a href="tables.html">Tabel 1</a> </li>
+                                </ul>
+                            </li>
+                            <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect"> <i class="fa fa-area-chart"></i> <span> Charts </span> <span class="fa fa-angle-right cb-nav-arrow"></span> </a>
+                                <ul class="list-unstyled">
+                                    <li><a href="chart.html">Profit</a> </li>
+                                    <li><a href="chart.html">Loss</a> </li>
+                                    <li><a href="chart.html">Sales</a> </li>
+                                    <li><a href="chart.html">Auction</a> </li>
 
-                                <li class="text-muted menu-title">Group Chart</li>
-                                <li><a href="chart.html">Profit/Loss</a> </li>
-                                <li><a href="chart.html">Sales/Auction</a> </li>
+                                    <li class="text-muted menu-title">Group Chart</li>
+                                    <li><a href="chart.html">Profit/Loss</a> </li>
+                                    <li><a href="chart.html">Sales/Auction</a> </li>
 
-                            </ul>
-                        </li>*@
+                                </ul>
+                            </li>*@
 
                     </ul>
                     <div class="clearfix"></div>
@@ -487,7 +445,7 @@
         <!-- ============================================================== -->
         <!-- End Right content here -->
         <!-- ============================================================== -->
-       
+
     </div>
     <!-- END wrapper -->
     <!-- Page Loader -->
@@ -498,28 +456,10 @@
 
     <!-- SmartBox Js files -->
     <script>
-       var resizefunc = [];
+        var resizefunc = [];
     </script>
 
-    @*<script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/pace.min.js"></script>
-    <script src="assets/js/loader.js"></script>
-    <script src="assets/js/detect.js"></script>
-    <script src="assets/js/fastclick.js"></script>
-    <script src="assets/js/waves.js"></script>
-    <script src="assets/js/wow.min.js"></script>
-    <script src="assets/js/jquery.slimscroll.js"></script>
-    <script src="assets/js/jquery.nicescroll.js"></script>
-    <script src="assets/js/jquery.scrollTo.min.js"></script>
-    <script src="assets/pages/jquery.todo.js"></script>
-    <script src="assets/plugins/moment/moment.js"></script>
-    <script src="assets/plugins/morris/morris.min.js"></script>
-    <script src="assets/plugins/raphael/raphael-min.js"></script>
-    <script src="assets/plugins/jquery-sparkline/jquery.sparkline.min.js"></script>
-    <script src="assets/pages/jquery.charts-sparkline.js"></script>
-    <script src="assets/js/jquery.app.js"></script>
-    <script src="assets/js/cb-chart.js"></script>*@
+
 
     @Scripts.Render("~/bundles/admin/scripts")
     @RenderSection("scripts", required: false)
@@ -563,42 +503,42 @@
 
 
 @*<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-</head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                </ul>
+    <html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewBag.Title - My ASP.NET Application</title>
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+    </head>
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            </footer>
+        </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-</body>
-</html>*@
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+    </body>
+    </html>*@

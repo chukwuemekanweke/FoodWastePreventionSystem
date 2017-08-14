@@ -43,13 +43,14 @@ namespace FoodWastePreventionSystem.Areas.Customers
             string metadata = "", string resource = "https://api.paystack.co/transaction/initialize")
         {
             var client = new HttpClient { BaseAddress = new Uri(resource) };
-            client.DefaultRequestHeaders.Add("Authorization", _payStackSecretKey);
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {_payStackSecretKey}");
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var body = new Dictionary<string, string>()
             {
                 {"amount", amountInKobo.ToString() },
                 {"email",email },
-                {"metadata", metadata }
+                //{ "reference", "8pVGX8MEk85tgeEpVDt11"},
+                {"callback_url","http://localhost:60261/Customers/Cart/TransactionSuccessful" }
             };
             var content = new FormUrlEncodedContent(body);
             var response = await client.PostAsync(resource, content);
@@ -63,10 +64,11 @@ namespace FoodWastePreventionSystem.Areas.Customers
 
         public async Task<string> VerifyTransaction(string reference, string resource = "https://api.paystack.co/transaction/verify")
         {
+           
             var client = new HttpClient { BaseAddress = new Uri(resource) };
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {_payStackSecretKey}");
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Add("Authorization", _payStackSecretKey);
-            var response = await client.GetAsync(reference + "/");
+            var response = await client.GetAsync(resource + "/" + reference);
             if (response.IsSuccessStatusCode)
             {
                 string responseData = await response.Content.ReadAsStringAsync();

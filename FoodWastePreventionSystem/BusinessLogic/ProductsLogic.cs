@@ -23,10 +23,11 @@ namespace FoodWastePreventionSystem.BusinessLogic
         //    TransactionRepo = _TransactiontRepo;
         //}
 
+        private IRepository<Product> BackgroundProductRepo { get; set; }
+
         public ProductsLogic(IRepository<Product> _ProductRepo, IRepository<Batch> _ProductInStoreRepo, IRepository<Transaction> _TransactiontRepo, IRepository<Auction> _AuctionRepo, IRepository<ProductToBeAuctioned> _ProductToBeAuctionedRepo, IRepository<Loss> _LossRepo,IRepository<AuctionTransactionStatus> _AuctionTransactionStatusRepo) :
             base(_ProductRepo, _ProductInStoreRepo, _TransactiontRepo, _AuctionRepo, _ProductToBeAuctionedRepo, _LossRepo, _AuctionTransactionStatusRepo)
         {
-
         }
         public Product RegisterProduct(Product product)
         {
@@ -95,7 +96,12 @@ namespace FoodWastePreventionSystem.BusinessLogic
 
             foreach (var item in ProductsInStoreList)
             {
-                if (IsProductPast75PercentOfShelfLife(item))
+                DateTime ManufactureDate = item.ManufactureDate;
+                DateTime ExpiryDate = item.ExpiryDate;
+
+                if (ExpiryDate > DateTime.Now)
+                {
+                    if (IsProductPast75PercentOfShelfLife(item))
                 {
                     if (ProductToBeAuctionedRepo.GetAll(x => x.BatchId == item.Id).FirstOrDefault() == null &&
                         AuctionRepo.GetAll(x => x.BatchId == item.Id).FirstOrDefault() == null)
@@ -114,6 +120,7 @@ namespace FoodWastePreventionSystem.BusinessLogic
                     SoonToExpireProductsInList.Add(item);
                 }
             }
+            }
             return SoonToExpireProductsInList;
         }
 
@@ -122,10 +129,14 @@ namespace FoodWastePreventionSystem.BusinessLogic
             DateTime ManufactureDate = productInStore.ManufactureDate;
             DateTime ExpiryDate = productInStore.ExpiryDate;
 
-            int NumberOfDays = (ExpiryDate - ManufactureDate).Days;
-            int NumberOfDaysLeft = (ExpiryDate - DateTime.Now).Days;
-            double PercentOfShelfUsed = ((NumberOfDays - NumberOfDaysLeft) / NumberOfDays) * 100;
-            return PercentOfShelfUsed >= 75 ? true : false;
+           
+
+                int NumberOfDays = (ExpiryDate - ManufactureDate).Days;
+                int NumberOfDaysLeft = (ExpiryDate - DateTime.Now).Days;
+                double PercentOfShelfUsed = ((NumberOfDays - NumberOfDaysLeft) / NumberOfDays) * 100;
+                return PercentOfShelfUsed >= 75 ? true : false;
+           
+            
         }
 
         public DateTime ReturnAuctionDateUsingPercentageOfShelfLife(double DesiredPercentageOfShelfLife, Batch productInStore)

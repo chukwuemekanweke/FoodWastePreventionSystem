@@ -18,6 +18,7 @@ namespace FoodWastePreventionSystem.Infrastructure
         public virtual DbSet<ProductToBeAuctioned> ProductsToBeAuctioned  { get; set; }
         public virtual DbSet<Auction> Auctions { get; set; }
         public virtual DbSet<Loss> Losses { get; set; }
+        public virtual DbSet<Cart> Carts { get; set; }
         public virtual DbSet<AuctionTransactionStatus> AuctionTransactionStatus { get; set; }
 
 

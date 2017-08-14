@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewBag.Title = "Chart";
+}
+
+<div class="page-title-group">
+    <h4 class="page-title">Charts</h4>
+</div>
+
+<div class="container">
+
+
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="panel panel-color panel-purple">
+                @using (Html.BeginForm("DrawChart", "Charts", FormMethod.Post))
+                {
+                    <div class="panel-heading">
+                        <h3 class="panel-title"></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="jumbotron">
+
+                            <h3>SELECT<br /> PRODUCT</h3>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <input type="hidden" value="@ViewBag.operation" name="operation" />
+                                    <input type="hidden" value="single" name="type" />
+                                    @Html.DropDownList("id", (List<SelectListItem>)ViewBag.products, "Select Product", new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <input class="btn btn-success" value="Proceed" type="submit" />
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-color panel-purple">
+                @using (Html.BeginForm("DrawChart", "Charts", FormMethod.Post))
+                {
+                    <div class="panel-heading">
+                        <h3 class="panel-title"></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="jumbotron">
+
+                            <h3>SELECT<br /> CATEGORY</h3>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <input type="hidden" value="@ViewBag.operation" name="operation" />
+                                    <input type="hidden" value="category" name="type" />
+                                    @Html.DropDownList("id", (List<SelectListItem>)ViewBag.categories, "Select Category", new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <input class="btn btn-primary" value="Proceed" type="submit" />
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-color panel-purple">
+                @using (Html.BeginForm("DrawChart", "Charts", FormMethod.Post))
+                {
+                    <div class="panel-heading">
+                        <h3 class="panel-title"></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="jumbotron">
+                            <h3>ALL<br /> PRODUCTS</h3>
+                            <input type="hidden" value="@ViewBag.operation" name="operation" />
+                            <input type="hidden" value="all" name="type" />
+
+
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <input class="btn btn-warning" value="Proceed" type="submit" />
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+
+</div>

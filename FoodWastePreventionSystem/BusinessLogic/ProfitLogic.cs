@@ -35,10 +35,10 @@ namespace FoodWastePreventionSystem.BusinessLogic
 
             if (Products != null)
             {
-                foreach (var item in Products)
+                Products.ToList().ForEach(m =>
                 {
-                    ProfitRecordsForProducts.Add(GetProfitForProduct(item.Id));
-                }
+                    ProfitRecordsForProducts.Add(GetProfitForProduct(m.Id));
+                });
             }
             return ProfitRecordsForProducts;
 
@@ -79,146 +79,149 @@ namespace FoodWastePreventionSystem.BusinessLogic
         public Dictionary<int, Dictionary<Month, double>> GroupProfitsPerYear(Transaction[] transactions)
         {
             Dictionary<int, Dictionary<Month, double>> TransactionsPerYear = new Dictionary<int, Dictionary<Month, double>>();
-            DateTime StartDate = transactions.First().DateOfTransaction;
-            DateTime EndDate = transactions.Last().DateOfTransaction;
-            int StartYear = StartDate.Year;
-            int EndYear = EndDate.Year;
-            int YearSpan = EndYear - StartYear;
-
-            for (int i = StartYear; i <= EndYear; ++i)
+            if (transactions.Length > 0)
             {
-                Transaction[] TransactionForYear = transactions.Where(x => x.DateOfTransaction.Year == i).ToArray();
-                Dictionary<Month, double> TransactionsPerMonth = new Dictionary<Month, double>();
-                foreach (var item in TransactionForYear)
+                DateTime StartDate = transactions.First().DateOfTransaction;
+                DateTime EndDate = transactions.Last().DateOfTransaction;
+                int StartYear = StartDate.Year;
+                int EndYear = EndDate.Year;
+                int YearSpan = EndYear - StartYear;
+
+                for (int i = StartYear; i <= EndYear; ++i)
                 {
-
-                    switch (item.DateOfTransaction.Month)
+                    Transaction[] TransactionForYear = transactions.Where(x => x.DateOfTransaction.Year == i).ToArray();
+                    Dictionary<Month, double> TransactionsPerMonth = new Dictionary<Month, double>();
+                    foreach (var item in TransactionForYear)
                     {
-                        case 1:
-                            if (TransactionsPerMonth.ContainsKey(Month.January))
-                            {
-                                TransactionsPerMonth[Month.January] += ProfitForTransaction(item);
-                            }
-                            else
-                            {
-                                TransactionsPerMonth.Add(Month.January, ProfitForTransaction(item));
-                            }
-                            break;
-                        case 2:
-                            if (TransactionsPerMonth.ContainsKey(Month.February))
-                            {
-                                TransactionsPerMonth[Month.February] += ProfitForTransaction(item);
-                            }
-                            else
-                            {
-                                TransactionsPerMonth.Add(Month.February, ProfitForTransaction(item));
-                            }
-                            break;
-                        case 3:
-                            if (TransactionsPerMonth.ContainsKey(Month.March))
-                            {
-                                TransactionsPerMonth[Month.March] += ProfitForTransaction(item);
-                            }
-                            else
-                            {
-                                TransactionsPerMonth.Add(Month.March, ProfitForTransaction(item));
-                            }
-                            break;
-                        case 4:
-                            if (TransactionsPerMonth.ContainsKey(Month.April))
-                            {
-                                TransactionsPerMonth[Month.April] += ProfitForTransaction(item);
-                            }
-                            else
-                            {
-                                TransactionsPerMonth.Add(Month.April, ProfitForTransaction(item));
-                            }
-                            break;
-                        case 5:
-                            if (TransactionsPerMonth.ContainsKey(Month.May))
-                            {
-                                TransactionsPerMonth[Month.May] += ProfitForTransaction(item);
-                            }
-                            else
-                            {
-                                TransactionsPerMonth.Add(Month.May, ProfitForTransaction(item));
-                            }
-                            break;
-                        case 6:
-                            if (TransactionsPerMonth.ContainsKey(Month.June))
-                            {
-                                TransactionsPerMonth[Month.June] += ProfitForTransaction(item);
-                            }
-                            else
-                            {
-                                TransactionsPerMonth.Add(Month.June, ProfitForTransaction(item));
-                            }
-                            break;
-                        case 7:
-                            if (TransactionsPerMonth.ContainsKey(Month.July))
-                            {
-                                TransactionsPerMonth[Month.July] += ProfitForTransaction(item);
-                            }
-                            else
-                            {
-                                TransactionsPerMonth.Add(Month.July, ProfitForTransaction(item));
-                            }
-                            break;
-                        case 8:
-                            if (TransactionsPerMonth.ContainsKey(Month.August))
-                            {
-                                TransactionsPerMonth[Month.August] += ProfitForTransaction(item);
-                            }
-                            else
-                            {
-                                TransactionsPerMonth.Add(Month.August, ProfitForTransaction(item));
-                            }
-                            break;
-                        case 9:
-                            if (TransactionsPerMonth.ContainsKey(Month.September))
-                            {
-                                TransactionsPerMonth[Month.September] += ProfitForTransaction(item);
-                            }
-                            else
-                            {
-                                TransactionsPerMonth.Add(Month.September, ProfitForTransaction(item));
-                            }
-                            break;
-                        case 10:
-                            if (TransactionsPerMonth.ContainsKey(Month.October))
-                            {
-                                TransactionsPerMonth[Month.October] += ProfitForTransaction(item);
-                            }
-                            else
-                            {
-                                TransactionsPerMonth.Add(Month.October, ProfitForTransaction(item));
-                            }
-                            break;
-                        case 11:
-                            if (TransactionsPerMonth.ContainsKey(Month.November))
-                            {
-                                TransactionsPerMonth[Month.November] += ProfitForTransaction(item);
-                            }
-                            else
-                            {
-                                TransactionsPerMonth.Add(Month.November, ProfitForTransaction(item));
-                            }
-                            break;
-                        case 12:
-                            if (TransactionsPerMonth.ContainsKey(Month.December))
-                            {
-                                TransactionsPerMonth[Month.December] += ProfitForTransaction(item);
-                            }
-                            else
-                            {
-                                TransactionsPerMonth.Add(Month.December, ProfitForTransaction(item));
-                            }
-                            break;
+
+                        switch (item.DateOfTransaction.Month)
+                        {
+                            case 1:
+                                if (TransactionsPerMonth.ContainsKey(Month.January))
+                                {
+                                    TransactionsPerMonth[Month.January] += ProfitForTransaction(item);
+                                }
+                                else
+                                {
+                                    TransactionsPerMonth.Add(Month.January, ProfitForTransaction(item));
+                                }
+                                break;
+                            case 2:
+                                if (TransactionsPerMonth.ContainsKey(Month.February))
+                                {
+                                    TransactionsPerMonth[Month.February] += ProfitForTransaction(item);
+                                }
+                                else
+                                {
+                                    TransactionsPerMonth.Add(Month.February, ProfitForTransaction(item));
+                                }
+                                break;
+                            case 3:
+                                if (TransactionsPerMonth.ContainsKey(Month.March))
+                                {
+                                    TransactionsPerMonth[Month.March] += ProfitForTransaction(item);
+                                }
+                                else
+                                {
+                                    TransactionsPerMonth.Add(Month.March, ProfitForTransaction(item));
+                                }
+                                break;
+                            case 4:
+                                if (TransactionsPerMonth.ContainsKey(Month.April))
+                                {
+                                    TransactionsPerMonth[Month.April] += ProfitForTransaction(item);
+                                }
+                                else
+                                {
+                                    TransactionsPerMonth.Add(Month.April, ProfitForTransaction(item));
+                                }
+                                break;
+                            case 5:
+                                if (TransactionsPerMonth.ContainsKey(Month.May))
+                                {
+                                    TransactionsPerMonth[Month.May] += ProfitForTransaction(item);
+                                }
+                                else
+                                {
+                                    TransactionsPerMonth.Add(Month.May, ProfitForTransaction(item));
+                                }
+                                break;
+                            case 6:
+                                if (TransactionsPerMonth.ContainsKey(Month.June))
+                                {
+                                    TransactionsPerMonth[Month.June] += ProfitForTransaction(item);
+                                }
+                                else
+                                {
+                                    TransactionsPerMonth.Add(Month.June, ProfitForTransaction(item));
+                                }
+                                break;
+                            case 7:
+                                if (TransactionsPerMonth.ContainsKey(Month.July))
+                                {
+                                    TransactionsPerMonth[Month.July] += ProfitForTransaction(item);
+                                }
+                                else
+                                {
+                                    TransactionsPerMonth.Add(Month.July, ProfitForTransaction(item));
+                                }
+                                break;
+                            case 8:
+                                if (TransactionsPerMonth.ContainsKey(Month.August))
+                                {
+                                    TransactionsPerMonth[Month.August] += ProfitForTransaction(item);
+                                }
+                                else
+                                {
+                                    TransactionsPerMonth.Add(Month.August, ProfitForTransaction(item));
+                                }
+                                break;
+                            case 9:
+                                if (TransactionsPerMonth.ContainsKey(Month.September))
+                                {
+                                    TransactionsPerMonth[Month.September] += ProfitForTransaction(item);
+                                }
+                                else
+                                {
+                                    TransactionsPerMonth.Add(Month.September, ProfitForTransaction(item));
+                                }
+                                break;
+                            case 10:
+                                if (TransactionsPerMonth.ContainsKey(Month.October))
+                                {
+                                    TransactionsPerMonth[Month.October] += ProfitForTransaction(item);
+                                }
+                                else
+                                {
+                                    TransactionsPerMonth.Add(Month.October, ProfitForTransaction(item));
+                                }
+                                break;
+                            case 11:
+                                if (TransactionsPerMonth.ContainsKey(Month.November))
+                                {
+                                    TransactionsPerMonth[Month.November] += ProfitForTransaction(item);
+                                }
+                                else
+                                {
+                                    TransactionsPerMonth.Add(Month.November, ProfitForTransaction(item));
+                                }
+                                break;
+                            case 12:
+                                if (TransactionsPerMonth.ContainsKey(Month.December))
+                                {
+                                    TransactionsPerMonth[Month.December] += ProfitForTransaction(item);
+                                }
+                                else
+                                {
+                                    TransactionsPerMonth.Add(Month.December, ProfitForTransaction(item));
+                                }
+                                break;
+                        }
                     }
+
+                    TransactionsPerYear.Add(i, TransactionsPerMonth);
+
                 }
-
-                TransactionsPerYear.Add(i, TransactionsPerMonth);
-
             }
 
 
@@ -347,21 +350,21 @@ namespace FoodWastePreventionSystem.BusinessLogic
         public List<ProfitLossForBatch> ProfitsForProductByBatch(Guid id)
         {
             List<ProfitLossForBatch> Record = new List<ProfitLossForBatch>();
-            List<Batch> Batches = new List<Batch>();
             Product product = ProductRepo.Get(x => x.Id == id);
-            Batches = product.Batches.ToList();
 
-            foreach (var item in Batches)
-            {
+            product.Batches.ToList().ForEach(item=>{ 
+
                 double Value = CalculateProfitLossForBatch(item.Id);
-                Record.Add(new ProfitLossForBatch() {
+                Record.Add(new ProfitLossForBatch()
+                {
                     Batch = item,
                     Transactions = item.Transactions.ToList(),
                     Value = Value,
                     State = Value < 0 ? BatchProfitLoss.Loss : (Value > 0 ? BatchProfitLoss.Profit : BatchProfitLoss.None),
                 });
 
-            }
+            });
+           
 
             return Record;
 
@@ -370,16 +373,13 @@ namespace FoodWastePreventionSystem.BusinessLogic
         public double CalculateProfitLossForBatch(Guid batchId)
         {
             Batch Batch = BatchRepo.Get(x => x.Id == batchId);
-
             double PurchasePrice = Batch.PurchasePrice;
             double Value = 0;
 
-            List < Transaction > Transactions = new List<Transaction>();
-            Transactions = Batch.Transactions.ToList();
-            foreach (var item in Transactions)
-            {
-                Value += ProfitForTransaction(item);
-            }
+            Batch.Transactions.ToList().ForEach(m => {
+                Value += ProfitForTransaction(m);
+            });
+           
             return Value;
         }
 

@@ -4,23 +4,27 @@ using FoodWastePreventionSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 
 namespace FoodWastePreventionSystem.BusinessLogic
 {
     public class AuctionLogic : Logic
     {
-
-        public AuctionLogic(IRepository<Product> _ProductRepo, IRepository<Batch> _ProductInStoreRepo, IRepository<Transaction> _TransactiontRepo, IRepository<Auction> _AuctionRepo, IRepository<ProductToBeAuctioned> _ProductToBeAuctionedRepo, IRepository<Loss> _LossRepo, IRepository<AuctionTransactionStatus> _AuctionTransactionStausRepo) :
+        private SalesLogic SalesLogic;
+        public AuctionLogic(IRepository<Product> _ProductRepo, IRepository<Batch> _ProductInStoreRepo, IRepository<Transaction> _TransactiontRepo, 
+            IRepository<Auction> _AuctionRepo, IRepository<ProductToBeAuctioned> _ProductToBeAuctionedRepo, IRepository<Loss> _LossRepo,
+            IRepository<AuctionTransactionStatus> _AuctionTransactionStausRepo, SalesLogic _SalesL) :
             base(_ProductRepo, _ProductInStoreRepo, _TransactiontRepo, _AuctionRepo, _ProductToBeAuctionedRepo, _LossRepo, _AuctionTransactionStausRepo)
         {
+            SalesLogic = _SalesL;
         }
 
         public List<OnAuctionVM> ViewProductsOnAuction()
         {
             OnAuctionVM AuctionRecords = new OnAuctionVM();
             List<Auction> ActiveAuction = AuctionRepo.GetAll(x => (x.Batch.QuantitySold + x.Batch.QuantityAuctioned) < x.Batch.QuantityPurchased).ToList();
-            List < OnAuctionVM > FullAuctionReport = new List<OnAuctionVM>();
+            List<OnAuctionVM> FullAuctionReport = new List<OnAuctionVM>();
             foreach (var item in ActiveAuction)
             {
                 FullAuctionReport.Add(new OnAuctionVM() {
@@ -65,6 +69,18 @@ namespace FoodWastePreventionSystem.BusinessLogic
                 }
             }
             return CompletedTransactions;
+        }
+
+
+        public TransactionsForProduct GetAuctionsForProduct(Guid productId)
+        {
+            Dictionary<int, Dictionary<Month, double>> TurnoverPerYear = new Dictionary<int, Dictionary<Month, double>>();
+            return SalesLogic.GetTransactionsForProduct(productId, out TurnoverPerYear, x => x.TransactionType == TransactionType.Auction);
+        }
+
+        public List<TransactionsForProduct> GetAuctionsForProducts(Expression<Func<Product, bool>> ProductPredicate = null)
+        {
+            return SalesLogic.GetTransactionsForProducts(ProductPredicate, x => x.TransactionType == TransactionType.Auction);
         }
 
 

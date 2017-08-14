@@ -27,11 +27,7 @@ namespace FoodWastePreventionSystem.Controllers
             StoreRepo = storeRepo;
         }
 
-        //public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IRepository<Store> storeRepo)
-        //{
-        //    UserManager = userManager;
-        //    SignInManager = signInManager;
-        //}
+        
 
         public ApplicationSignInManager SignInManager
         {
@@ -57,6 +53,15 @@ namespace FoodWastePreventionSystem.Controllers
             }
         }
 
+        private ApplicationRolemanager RoleManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().GetUserManager<ApplicationRolemanager>();
+            }
+        }
+
+        [AllowAnonymous]
         public FileContentResult GetUserImage(string id)
         {
             ApplicationUser User = UserManager.FindById(id);
@@ -119,7 +124,6 @@ namespace FoodWastePreventionSystem.Controllers
                     ModelState.AddModelError("Username", "Username Is Not Valid");
                 }
             }
-
             UserName = model.Username;
             if (model.Username.Contains("@"))
             {
@@ -134,21 +138,20 @@ namespace FoodWastePreventionSystem.Controllers
                     UserName = user.UserName;
                 }
             }
-
             var result = await SignInManager.PasswordSignInAsync(UserName, model.Password, model.RememberMe, false);
             switch (result)
             {
                 case SignInStatus.Success:
-                    var user = await  UserManager.FindByIdAsync(User.Identity.GetUserId());
+                    var user = await UserManager.FindByEmailAsync(model.Username);
                     if (string.IsNullOrWhiteSpace(returnUrl))
                     {
                         if (user.IsManager)
                         {
-                            return RedirectToAction("Index", "Home", new { Area = "Managers" });
+                            return RedirectToAction("Index", "Products", new { Area = "Managers" });
                         }
                         else
                         {
-                            return RedirectToAction("Index", "Home");
+                            return RedirectToAction("Index", "CustomerHome", new { Area="Customers"});
                         }
                     }
                     return RedirectToLocal(returnUrl);                    
@@ -174,6 +177,19 @@ namespace FoodWastePreventionSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SignUp(AccountDetailsViewModel model)
         {
+            if (!RoleManager.RoleExists("admin"))
+            {
+                RoleManager.Create(new ApplicationRole("admin"));
+            }
+
+            if (!RoleManager.RoleExists("customer"))
+            {
+                RoleManager.Create(new ApplicationRole("customer"));
+            }
+
+
+
+
             if (ModelState.IsValid)
             {
                 Session[$"AccountDetailsInfo{Request.UserHostAddress}"] = model;
@@ -198,6 +214,8 @@ namespace FoodWastePreventionSystem.Controllers
             if (ModelState.IsValid)
             {
                 Session[$"LocationDetailsInfo{Request.UserHostAddress}"] = model;
+              
+
                 return RedirectToAction("Confirmation");
             }
             return View(model);
@@ -207,11 +225,13 @@ namespace FoodWastePreventionSystem.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Confirmation()
         {
+            string RoleName = "";
             AccountDetailsViewModel AccountDetails = Session[$"AccountDetailsInfo{Request.UserHostAddress}"] as AccountDetailsViewModel;
             LocationDetailsViewModel LocationDetails = Session[$"LocationDetailsInfo{Request.UserHostAddress}"] as LocationDetailsViewModel;
 
             var user = new ApplicationUser { UserName = AccountDetails.Username, Email = AccountDetails.Email, IsManager = AccountDetails.IsRetailer,FirstName= AccountDetails.FirstName, LastName = AccountDetails.LastName };
             var result = await UserManager.CreateAsync(user, AccountDetails.Password);
+
             if (result.Succeeded)
             {
                 if (AccountDetails.IsRetailer)
@@ -227,6 +247,7 @@ namespace FoodWastePreventionSystem.Controllers
 
 
                     user.StoreId = NewlyCreatedStore.Id;
+                    RoleName = "admin";
 
                 }
                 else
@@ -235,10 +256,31 @@ namespace FoodWastePreventionSystem.Controllers
                     user.State = LocationDetails.State;
                     user.Area = LocationDetails.Area;
                     user.Address = LocationDetails.Address;
-
+                    RoleName = "customer";
                 }
 
                 var result1 = await UserManager.UpdateAsync(user);
+                var User = UserManager.FindByEmail(user.Email);
+
+                if (!UserManager.IsInRole(User.Id, RoleName))
+                {
+                    UserManager.AddToRole(User.Id, RoleName);
+                }
+
+
+
+
+                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: true);
+                if (!UserManager.IsInRole(User.Id, "admin"))
+                {
+                    return RedirectToAction("Index", "Products", new { Area = "Managers" });
+                }
+                else
+                {
+                    return RedirectToAction("Index", "CustomerHome", new { Area = "Customers" });
+                }
+            }
+
                 if (!result.Succeeded)
                 {
                     string ErrorMesages = "";
@@ -250,10 +292,7 @@ namespace FoodWastePreventionSystem.Controllers
                     throw new Exception(ErrorMesages);
                 }
 
-
-                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: true);
-            }
-
+            
 
             return View();
         }
@@ -585,11 +624,12 @@ namespace FoodWastePreventionSystem.Controllers
         //
         // POST: /Account/LogOff
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "CustomerHome", new { Area="Customers"});
         }
 
         //

@@ -1,61 +1,157 @@
 ﻿@model LoginViewModel
 @{
     ViewBag.Title = "Log in";
+    Layout = "";
 }
 
-<h2>@ViewBag.Title.</h2>
-<div class="row">
-    <div class="col-md-8">
-        <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from ckthemes.com/html/smartbox/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 25 Apr 2017 23:45:22 GMT -->
+<head>
+
+    <!-- META TAGS -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
+    <meta name="author" content="SmartBox">
+
+    <!-- TITLE -->
+    <title>SmartBox | Bootstrap3 Admin Dashboard Template</title>
+
+    @Styles.Render("~/bundles/admin/styles")
+
+
+    <!-- HTML5 Shiv and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <!-- MODERNIZER -->
+    @Scripts.Render("~/bundles/modernizr")
+
+
+</head>
+
+<body class="loreg-page close-it rtl-page">
+    <!-- Begin page -->
+    <div id="logreg-wrapper" class="text-center">
+        <div class="container">
+            @*<a href="#"><img src="assets/images/logo-2.png" class="img-responsive center-block" alt="" /></a>*@
+            <p class="lead">Welcome back</p>
+            <p>Please login to your account</p>
+
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl, Area = "" }, FormMethod.Post, new { }))
             {
                 @Html.AntiForgeryToken()
-                <h4>Use a local account to log in.</h4>
-                <hr />
+
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Username, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
-                    </div>
+                    @*<input type="email" placeholder="Username" class="form-control" id="email" name="">*@
+                    @Html.TextBoxFor(m => m.Username, new { @class = "form-control", id="email", placeholder="Username", type="email" })
+                    @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                    </div>
+                    @*<input type="password" placeholder="Password" class="form-control" id="pwd" name="">*@
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", id = "pwd", placeholder = "Password" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                 </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <div class="checkbox">
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe)
+                <div class="cbox">
+                    <label for="cbox"><input type="checkbox" id="cbox" name="RememberMe"><span></span> Remember me</label>
+                    @*@Html.CheckBoxFor(m => m.RememberMe, new {id="cbox" })*@
+                    @*@Html.LabelFor(m => m.RememberMe)*@
+                </div>
+                <div class="form-group col-md-offset-1">
+                    <button type="submit" class="btn btn-success btn-md  ">Login</button>
+                </div>
+            }
+
+            <p class="copy">&copy; 2017. Smart<span>Box</span></p>
+        </div>
+    </div>
+    <!-- END wrapper -->
+    <!-- Page Loader -->
+    <div class="page-loader">
+        <a href="#"><img src="assets/images/logo-2.png" class="img-responsive center-block" alt="" /></a>
+        <span class="text-uppercase">Loading...</span>
+    </div>
+
+    <!-- SmartBox Js files -->
+    <script>
+        var resizefunc = [];
+    </script>
+
+    @Scripts.Render("~/bundles/admin/scripts")
+    @Scripts.Render("~/bundles/admin/styles")
+
+</body>
+
+<!-- Mirrored from ckthemes.com/html/smartbox/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 25 Apr 2017 23:45:22 GMT -->
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<div class="row">
+        <div class="col-md-8">
+            <section id="loginForm">
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <h4>Use a local account to log in.</h4>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Username, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Log in" class="btn btn-default" />
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
-                <p>
-                    @Html.ActionLink("Register as a new user", "Register")
-                </p>
-                @* Enable this once you have account confirmation enabled for password reset functionality
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <div class="checkbox">
+                                @Html.CheckBoxFor(m => m.RememberMe)
+                                @Html.LabelFor(m => m.RememberMe)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Log in" class="btn btn-default" />
+                        </div>
+                    </div>
                     <p>
-                        @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                    </p>*@
-            }
-        </section>
-    </div>
-    <div class="col-md-4">
-        <section id="socialLoginForm">
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-        </section>
-    </div>
-</div>
+                        @Html.ActionLink("Register as a new user", "Register")
+                    </p>
+
+                }
+            </section>
+        </div>
+
+    </div>*@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

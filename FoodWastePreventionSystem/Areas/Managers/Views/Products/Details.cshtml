@@ -43,9 +43,10 @@
                             <div class="card-box text-left profile-card">
 
                                 <img src="@Url.Action("GetImage1", "Products", new { id = Model.Product.Id })" class="img-responsive col-md-6 " alt="" />
-                                <img src="@Url.Action("GetImage1", "Products", new { id = Model.Product.Id })" class="img-responsive col-md-6  " alt="" />
+                                <img src="@Url.Action("GetImage2", "Products", new { id = Model.Product.Id })" class="img-responsive col-md-6  " alt="" />
+                                <div class="clearfix"></div>
 
-                                <h3>@Model.Product.Name</h3>
+                                <h3>@Model.Product.Name.ToUpper()</h3>
                                 <br />
                                 <div class="text-center">
                                     @Html.ActionLink("Add Batch", "AddBatch","Batches", new { id = Model.Product.Id }, new { @class= "btn btn-primary btn-md text-uppercase" })
@@ -59,7 +60,7 @@
                                     <li>Quantity per Carton <span>@Model.Product.QuantityPerCarton</span></li>
                                     <li>Bulk Purchase Discount <span>@(Model.Product.BulkPurchaseDiscountPercent)%</span></li>
                                     <li>Status <span>@(Model.Product.Blacklisted == true ? "Inactive" : "Active")</span></li>
-                                    <li>Total Sales Made <span>@(Model.Sales == null ? "0 SOLD" : $"{Model.Sales.SalesForProductInYear.Sum(x => x.SalesPerMonth.Sum(y => y.Value))} SOLD")</span></li>
+                                    <li>Total Sales Made <span>@(Model.Sales == null ? "0 SOLD" : $"{Model.Sales.TransactionsForProductInYear.Sum(x => x.TransactionsPerMonth.Sum(y => y.Value))} SOLD")</span></li>
 
                                 </ul>
                             </div>
@@ -127,6 +128,9 @@
                                                 Date Batch Was Purchased
                                             </li>
                                             <li class="list-group-item text-center">
+                                                @Html.ActionLink("Put up On Auction", "PlaceProductOnAuction", "Auction", new { id = item.Id, Area = "Managers" }, new { @class = "btn btn-md btn-warning btn-rounded btn-custom" })
+
+
                                                 @Html.ActionLink("Go To Batch Information", "BatchInformation", "Batches", new { id=item.Id, Area = "Managers" }, new { @class="btn btn-md btn-warning btn-rounded btn-custom"})
                                             </li>
 

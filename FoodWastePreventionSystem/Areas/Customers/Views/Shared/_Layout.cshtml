@@ -75,9 +75,11 @@
         <div class="container welcome">
             <div class="row">
                 <div class="pull-left greet">
-                    Welcome shopper, <a href="login.html">login here</a>
+                    @Html.Partial("_LoginPartial")                  
                 </div>
+               @if( User.Identity.IsAuthenticated){ 
                 @Html.Action("CartUpdates", "Cart")
+                }
             </div>
         </div>
 
@@ -90,14 +92,15 @@
                 <div class="col-sm-12 clearfix">
                     <div class="top row">
 
-                        <div class="col-sm-8 logo text" style="display:none"><a href="index.html">TenderShop</a></div>
-                        <div class="col-sm-8 logo image"><a href="index.html"><img src="img/highreslogo.png" alt="" /></a></div>
+                        <div class="col-sm-8 logo text" style="display:none"><a href="index.html">WasteEat</a></div>
+                        @*<div class="col-sm-8 logo image"><a href="index.html"><img src="~/Areas/Customers/assets/img/highreslogo.png" alt="logo" /></a></div>*@
 
                         <div class="cart col-sm-4">
-                            <form action="#" class="topsearch">
-                                <input type="search" class="top-search" placeholder="Search" />
+                            @using (Html.BeginForm("Index","CustomerHome", FormMethod.Get))
+                            {
+                                <input type="search" class="top-search" placeholder="Search" name="searchTerm" />
                                 <button type="submit"><i class="icon-search"></i></button>
-                            </form>
+                            }
                         </div>
 
                     </div>
@@ -128,6 +131,15 @@
                                         <li><a href="checkout.html">Checkout Page</a></li>
                                     </ul>
                                 </li>
+                                @User.IsInRole("admin")
+                                {
+                                <li>
+                                    <a href="#">Store Manager</a>
+                                    <ul class="nav">
+                                        @Html.ActionLink("Store Manager Dashboard", "Index", "Products", new { Area="Managers"}, new { })
+                                    </ul>
+                                </li>
+                                }
                                 <li>
                                     <a href="#">Product</a>
                                     <ul class="nav">
@@ -263,13 +275,15 @@
 
     </footer>
 
-    <script type="text/javascript" src="../../../ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    @*<script type="text/javascript" src="../../../ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>*@
     @*<script type="text/javascript" src="js/jquery.tweet.js"></script>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/shop.js"></script>
         <script type="text/javascript" src="js/script.js"></script>*@
     @Scripts.Render("~/bundles/customer/scripts")
+
+
     @RenderSection("scripts", required: false)
 
 </body>

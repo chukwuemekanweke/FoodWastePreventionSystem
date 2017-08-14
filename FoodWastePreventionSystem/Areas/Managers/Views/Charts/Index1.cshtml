@@ -1,0 +1,448 @@
+﻿
+@{
+    ViewBag.Title = "ChartRender";
+}
+
+<div class="page-title-group">
+    <h4 class="page-title">Chart Render</h4>
+</div>
+<div class="cb-page-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card-box">
+                            <div class="card-box-head">
+                                <h4 class="header-title m-t-0 pull-left">Line Chart</h4>
+                                <div class="pull-right">
+                                </div>
+                            </div>
+                            <div class="card-box-content">
+                                <div id="line-chart" class="bar-280"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card-box">
+                            <div class="card-box-head">
+                                <h4 class="header-title m-t-0 pull-left">MultiLine Chart</h4>
+                            </div>
+                            <div class="card-box-content">
+                                <div id="line-chart2" class="bar-280"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card-box">
+                            <div class="card-box-head">
+                                <h4 class="header-title m-t-0 pull-left">Bar Chart</h4>
+                            </div>
+                            <div class="card-box-content">
+                                <div id="bar-chart2" class="bar-280"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card-box">
+                            <div class="card-box-head">
+                                <h4 class="header-title m-t-0 pull-left">Bar Chart</h4>
+                            </div>
+                            <div class="card-box-content">
+                                <div id="bar-chart" class="bar-280"></div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Areas/Managers/assets/js/jquery.jqplot.min.js"></script>
+    <script src="~/Areas/Managers/assets/js/jqplot.canvasAxisLabelRenderer.js"></script>
+<script src="~/Areas/Managers/assets/js/jqplot.pieRenderer.js"></script>
+    <script src="~/Areas/Managers/assets/js/jqplot.categoryAxisRenderer.js"></script>
+    <script src="~/Areas/Managers/assets/js/jqplot.barRenderer.js"></script>
+    <script src="~/Areas/Managers/assets/js/jqplot.canvasTextRenderer.js"></script>
+    <script src="~/Areas/Managers/assets/js/jqplot.canvasAxisTickRenderer.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            @*var SeriesData = {
+                id: "@ViewBag.id",
+                operation: "@ViewBag.operation",
+            };*@
+
+            singleSeries();
+            multipleSeries();
+
+
+        });
+
+        function singleSeries() {
+            $.ajax({
+                url: `@Url.Action("GetTestRecord", "Charts",new { Area="Managers"})/1/2`,
+                type: `get`,
+                dataType: `json`,
+                success: function (data) {
+                    processSingleSeriesLine(data);
+                    processSingleSeriesBar(data);
+                },
+            });
+        }
+
+        function multipleSeries() {
+            $.ajax({
+                url: `@Url.Action("GetTestRecord2", "Charts",new { Area="Managers"})/1`,
+                type: `get`,
+                dataType: `json`,
+                success: function (data) {
+                    processMultipleSeriesLine(data);
+                    processMultipleSeriesBar(data);
+                },
+            });
+        }
+
+        function processSingleSeriesBar(data) {
+            var chartData = [];
+
+            Object.keys(data).forEach(function (key) {
+                chartData.push([key, data[key]]);
+            });
+            var options = {
+                title: 'Auction Chart',
+                series: [
+                {
+                    label: "product",
+                    rendererOptions: {
+                        barMargin: 20,
+                        shadowAlpha: 0.8
+                    }
+                }
+                ],
+                legend: {
+                    show: true, placement: 'outsideGrid', location: 'e'
+                },
+                axes: {
+                    xaxis: { renderer: $.jqplot.CategoryAxisRenderer },
+                    yaxis: {
+                        label: 'Totals Dollars',
+                        padMax: 1.2,
+                        tickOptions: { formatString: "#%'d" }
+                    }
+                },
+                axesDefaults: {
+                    tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+                    tickOptions: { angle: -30 },
+                    labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
+                },
+                seriesDefaults: {
+                    renderer: $.jqplot.BarRenderer,
+                    pointLabels: { show: true }
+                },
+            };
+
+            $.jqplot('bar-chart', [chartData], options);
+
+        }
+
+        function processMultipleSeriesPie(data) {
+            var chartData = [];
+            var series = [];
+
+            Object.keys(data).forEach(function (key) {
+                var value = 0;
+                Object.keys(data[key]).forEach(function (childKey) {
+                    value += data[key][childKey];
+                });
+                chartData.push([key, value]);
+
+            });
+
+            var options = {
+                title: 'Percentage of Revenue by Product Category',
+                seriesDefaults: {
+                    renderer: $.jqplot.PieRenderer,
+                    rendererOptions: {
+                        showDataLabels: true, startAngle: -90,
+                        dataLabelThreshold: 0,
+                        sliceMargin: 5
+                    }
+                },
+                seriesColors: ["#4bb2c5", "#F4CA4A", "#EAA228", "#E4CAAB","#F47241", "#AED8D0", "#F2C185", "#FC4F4B", "#9B8DF4", "#00F41D","#988167"],
+                dataRenderer: remoteDataCallback,
+                dataRendererOptions: { dataCallback: dataPull },
+                legend: { show: true, placement: 'outside', location: 'e' },
+            };
+
+            $.jqplot('pie-chart', chartData, options);
+
+        }
+
+        function processMultipleSeriesBar(data) {
+            var chartData = [];
+            var seriesNames = [];
+            var series = []
+            var yearCategory = []
+
+            Object.keys(data).forEach(function (key) {
+                series.push({ label: key });
+                seriesNames.push(key);
+                var productRecord = data[key];
+
+                Object.keys(productRecord).forEach(function (childKey) {
+                    if (yearCategory.indexOf(childKey) == -1) {
+                        yearCategory.push(childKey)
+                    }
+                });
+
+            });
+
+            yearCategory.sort();
+
+            for (var x = 0; x < seriesNames.length; x++) {
+                var seriesData = [];
+                var productName = seriesNames[x]
+                for (var y = 0; y < yearCategory.length; y++) {
+                    var year = yearCategory[y];
+                    if (data[productName][year] == undefined || data[productName][year] == null) {
+                        seriesData.push(1);
+                    }
+                    else {
+                        seriesData.push(data[productName][year]);
+                    }
+                }
+                chartData.push(seriesData);
+            }
+
+
+
+            var options = {
+                title: 'Sales Chart',
+                axesDefaults: {
+                    //tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+                    labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
+                    tickOptions: { angle: -30 }
+                },
+                seriesDefaults: {
+                    renderer: $.jqplot.BarRenderer,
+                    rendererOptions: {
+                        //barMargin: 6,
+                        //barPadding: 2,
+                        shadow: false
+                    }
+                },
+                series: series,
+                legend: {
+                    show: true, placement: 'insideGrid', location: 'nw'
+                },
+                axes: {
+                    xaxis: {
+                        label: 'Years',
+                        renderer: $.jqplot.CategoryAxisRenderer,
+                        ticks: yearCategory
+                    },
+                    yaxis: {
+                        label: 'Value',
+                        //padMax: 1.6,
+                        tickOptions: { formatString: "#%'d" }
+                    }
+                },
+            };
+
+
+
+            $.jqplot('bar-chart2', chartData, options);
+        }
+
+        function processSingleSeriesLine(data) {
+            var chartData = [];
+
+            var options = {
+                title: 'Turnover Chart',
+                axesDefaults: {
+                    labelRenderer: $.jqplot.CanvasAxisLabelRenderer
+                },
+                axes: {
+                    xaxis: {
+                        label: "Year"
+                    },
+                    yaxis: {
+                        label: "Value"
+                    }
+                },
+                series:[ { label: "product" }],
+                legend: {
+                    show: true, placement: 'outsideGrid', location: 'e'
+                },
+                seriesDefaults: {
+                    showMarker: true,
+                    rendererOptions: {
+                        smooth: true,
+                        animation: { show: true }
+                    }
+                },
+                highlighter: {
+                    show: true,
+                },
+                cursor: {
+                    show: false,
+                }
+            };
+
+            Object.keys(data).forEach(function (key) {
+                chartData.push([parseInt(key), data[key]]);
+            });
+
+            $.jqplot('line-chart', [chartData], options);
+
+
+        }
+
+        //function processMultipleSeriesLine(data) {
+        //    var chartData = [];
+
+        //    var seriesNames = [];
+        //    Object.keys(data).forEach(function (key) {
+        //        seriesNames.push({ label: key });
+        //    });
+
+        //    var options = {
+        //        title: 'My Line Chart',
+        //        axesDefaults: {
+        //            labelRenderer: $.jqplot.CanvasAxisLabelRenderer
+        //        },
+        //        axes: {
+        //            xaxis: {
+        //                label: "X Axis"
+        //            },
+        //            yaxis: {
+        //                label: "Y Axis"
+        //            }
+        //        },
+        //        seriesDefaults: {
+        //            showMarker: true,
+        //            rendererOptions: {
+        //                smooth: true,
+        //                animation: { show: true }
+        //            }
+        //        },
+        //        series: seriesNames,
+        //        legend: {
+        //            show: true,
+        //            placement: 'outsideGrid',
+        //            location: 'e'
+        //        },
+        //        highlighter: {
+        //            show: true,
+        //        },
+        //        cursor: {
+        //            show: false,
+
+        //        }
+        //    };
+
+        //    Object.keys(data).forEach(function(key) {
+        //        var chartSeries = [];
+        //        var object = data[key];
+        //        Object.keys(object).forEach(function (childKey) {
+        //            chartSeries.push([parseInt(childKey), object[childKey]]);
+        //        });
+        //        chartData.push(chartSeries);
+        //    });
+
+        //    console.log(chartData);
+
+        //    $.jqplot('line-chart2', chartData, options);
+
+
+        //}
+
+        function processMultipleSeriesLine(data) {
+            var chartData = [];
+
+            var series = [];
+            var yearCategory = [];
+            Object.keys(data).forEach(function (key) {
+                series.push({ label: key });
+
+                Object.keys(data[key]).forEach(function (childKey) {
+                    if(yearCategory.indexOf(childKey)==-1)
+                    {
+                        yearCategory.push(childKey);
+                    }
+                });
+            });
+
+            console.log(series)
+            console.log(yearCategory)
+
+            var options = {
+                title: 'Profit Chart',
+                axesDefaults: {
+                    labelRenderer: $.jqplot.CanvasAxisLabelRenderer
+                },
+                axes: {
+                    xaxis: {
+                        label: "X Axis"
+                    },
+                    yaxis: {
+                        label: "Y Axis"
+                    }
+                },
+                seriesDefaults: {
+                    showMarker: true,
+                    rendererOptions: {
+                        smooth: true,
+                        animation: { show: true }
+                    }
+                },
+                series: series,
+                legend: {
+                    show: true,
+                    placement: 'outsideGrid',
+                    location: 'e'
+                },
+                highlighter: {
+                    show: true,
+                },
+                cursor: {
+                    show: false,
+
+                }
+            };
+
+            yearCategory.sort();
+            Object.keys(data).forEach(function (key) {
+                var chartSeries = [];
+                var object = data[key];
+
+                for (var i = 0; i < yearCategory.length; i++) {
+                    var year = yearCategory[i]
+                    if (object[year] == undefined || object[year] == null) {
+                        chartSeries.push([parseInt(year), 0]);
+                    } else {
+                        chartSeries.push([parseInt(year), object[year]]);
+                    }
+                }
+
+
+                //Object.keys(object).forEach(function (childKey) {
+                //    chartSeries.push([parseInt(childKey), object[childKey]]);
+                //});
+                chartData.push(chartSeries);
+            });
+
+            console.log(chartData);
+
+            $.jqplot('line-chart2', chartData, options);
+
+
+        }
+
+    </script>
+}

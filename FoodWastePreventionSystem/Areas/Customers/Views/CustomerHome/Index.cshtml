@@ -1,6 +1,7 @@
 ﻿@model PagedList.IPagedList<OnAuctionVM>
 @{
     ViewBag.Title = "Index";
+    int i = 0;
 }
 
 <div class="slides home-col-sm-12">
@@ -37,11 +38,15 @@
 <section class="home-panel promo">
     <div class="container" style="display:block">
 
-        <div class="row">
-            <article class="col-sm-4"><a href="#"><img src="img/banner/samplepromo.png" alt="" /></a></article>
-            <article class="col-sm-4"><a href="#"><img src="img/banner/samplepromo.png" alt="" /></a></article>
-            <article class="col-sm-4"><a href="#"><img src="img/banner/samplepromo.png" alt="" /></a></article>
-        </div>
+        @*<div class="row">
+           @for (int x = 1; x < 4; x++)
+           {
+            <article class="col-sm-4"><a href="#"><img src="@Url.Action("GetImage1", "Products", new { Area="Managers",id = Model[x].Product.Id})"  alt="@Model[x].Product.Name" /></a></article>
+
+           }
+
+            
+        </div>*@
     </div>
 </section>
 
@@ -56,7 +61,7 @@
         <div class="row">
             <div class="col-sm-12">
 
-                <h6 class="subhead theme"><strong>FEATURED ITEMS</strong></h6>
+                <h6 class="subhead theme"><strong>FEATURED AUCTION ITEMS</strong></h6>
 
                 <div class="tab-content row">
 
@@ -64,15 +69,18 @@
                     <div class="tab-pane active" id="feat">
                         @foreach (var item in Model)
                         {
+                            Batch batch = item.Auction.Batch;
+                            //if (i > 1)
+                            //{
                             <article class="col-sm-4 product-box">
                                 <div class="product-inner">
                                     <div class="view view-thumb">
-                                        <div class="image"><img src="@Url.Action("GetImage1","Product", new { Area="Managers", id=item.Product.Id})" alt="" /></div>
+                                        <div class="image"><img class="img-responsive img-container" src="@Url.Action("GetImage1", "Products", new { Area = "Managers", id = item.Product.Id })" alt="" /></div>
                                         <div class="mask">
                                             <a href="http://ninetheme.com/tender/index.php?route=product/product&amp;product_id=65"></a>
                                             <p>@item.Product.Name</p>
-                                            @Html.ActionLink("View", "ViewProduct","CustomerHome", new { id = item.Auction.Id }, new { @class="info"})
-                                            @Html.ActionLink("View", "AddToCart","Cart", new { id = item.Product.Id }, new { @class = "info" })
+                                            @Html.ActionLink("View", "ViewProduct", "CustomerHome", new { id = item.Auction.Id }, new { @class = "info" })
+                                            @Html.ActionLink("Buy", "AddToCart", "Cart", new { id = item.Product.Id }, new { @class = "info" })
 
 
                                             <a href="product.html" class="info">View</a> <a href="checkout.html" class="info">Buy</a>
@@ -80,14 +88,23 @@
                                     </div>
 
                                     <h2 class="price">
-                                        <span class="price-old">$@item.Batch.SellingPrice</span> <span class="price-new">$@item.Auction.AuctionPrice</span>
+                                        <span class="price-old">#@item.Batch.SellingPrice</span> <span class="price-new">#@item.Auction.AuctionPrice</span>
                                     </h2>
-                                    <p>@Html.ActionLink("Product Details", "ViewProduct", "CustomerHome", new { id = item.Auction.Id }, new {  })
-</p>
+                                    <h2 class="price">
+                                        <span class="price-new">Available Units:</span> <span class="price-new">@(batch.QuantityPurchased - (batch.QuantitySold + batch.QuantityAuctioned + batch.QuantityDisposedOf))</span>
+                                    </h2>
+                                    <h2 class="price">
+                                        <span class="price-new">Expiry Date:</span> <span class="price-new">@batch.ExpiryDate.ToShortDateString()</span>
+                                    </h2>
+                                    <p>
+                                        @Html.ActionLink("Product Details", "ViewProduct", "CustomerHome", new { id = item.Auction.Id }, new { })
+                                    </p>
                                 </div>
                             </article>
-                        }                      
-                      
+                            @*}*@
+                            ++i;
+                        }
+
 
                         <div class="row mob-center">
                             <div class="col-sm-5">
@@ -118,7 +135,7 @@
         <!-- Brands -->
         <!-- ====== -->
 
-        <h6 class="subhead theme brands"><strong>DESIGNER BRANDS</strong></h6>
+        @*<h6 class="subhead theme brands"><strong>DESIGNER BRANDS</strong></h6>
 
         <div class="tab-brand">
             <div id="flexcarousel-brands" class="flexslider">
@@ -133,7 +150,7 @@
                     <li><img src="img/brands/brandh.jpg" alt="" /></li>
                 </ul>
             </div>
-        </div>
+        </div>*@
 
     </section>
 

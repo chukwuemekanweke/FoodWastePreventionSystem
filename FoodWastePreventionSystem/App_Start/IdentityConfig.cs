@@ -88,6 +88,25 @@ namespace FoodWastePreventionSystem
         }
     }
 
+
+
+    public class ApplicationRolemanager : RoleManager<ApplicationRole>, IDisposable
+    {
+        public ApplicationRolemanager(RoleStore<ApplicationRole> store)
+        : base(store)
+        {
+        }
+        public static ApplicationRolemanager Create(
+        IdentityFactoryOptions<ApplicationRolemanager> options,
+        IOwinContext context)
+        {
+            return new ApplicationRolemanager(new
+            RoleStore<ApplicationRole>(context.Get<ApplicationDbContext>()));
+        }
+    }
+
+
+
     // Configure the application sign-in manager which is used in this application.
     public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
     {

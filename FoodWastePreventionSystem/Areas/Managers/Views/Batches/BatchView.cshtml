@@ -16,7 +16,7 @@
                         <h4 class="header-title"><b>Select A Product</b></h4>
                     </div>
                     <div class="card-box-content form-compoenent">
-                        @using (Html.BeginForm("BatchesForProduct", "Batches", FormMethod.Post, new { id = "form" }))
+                        @using (Html.BeginForm("FetchBatchesForProduct", "Batches", FormMethod.Post, new { id = "form" }))
                         {
                             <div class="form-group">
                                 <label>Select A Product:</label>

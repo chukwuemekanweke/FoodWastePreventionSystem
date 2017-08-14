@@ -41,13 +41,10 @@ namespace FoodWastePreventionSystem.Infrastructure
         }
         private void AddBindings()
         {
-            kernel.Bind<BackgroundTasks>().To<BackgroundTasks>();
-            kernel.Bind<ProfitLogic>().To<ProfitLogic>();
-            kernel.Bind<SalesLogic>().To<SalesLogic>();
-            kernel.Bind<ProductsLogic>().To<ProductsLogic>();
-            kernel.Bind<BatchLogic>().To<BatchLogic>();
-            kernel.Bind<AuctionLogic>().To<AuctionLogic>();
+           
 
+
+            kernel.Bind<IRepository<Cart>>().To<Repository<Cart>>();
             kernel.Bind<IRepository<Product>>().To<Repository<Product>>();
             kernel.Bind<IRepository<Store>>().To<Repository<Store>>();
             kernel.Bind<IRepository<Batch>>().To<Repository<Batch>>();
@@ -56,6 +53,14 @@ namespace FoodWastePreventionSystem.Infrastructure
             kernel.Bind<IRepository<Loss>>().To<Repository<Loss>>();
             kernel.Bind<IRepository<Auction>>().To<Repository<Auction>>();
             kernel.Bind<IRepository<AuctionTransactionStatus>>().To<Repository<AuctionTransactionStatus>>();
+
+            kernel.Bind<BackgroundTasks>().To<BackgroundTasks>();
+            kernel.Bind<ProfitLogic>().To<ProfitLogic>();
+            kernel.Bind<SalesLogic>().To<SalesLogic>();
+            kernel.Bind<ProductsLogic>().To<ProductsLogic>();
+            kernel.Bind<BatchLogic>().To<BatchLogic>();
+            kernel.Bind<AuctionLogic>().To<AuctionLogic>();
+            kernel.Bind<Logic>().To<Logic>();
         }
     }
 }

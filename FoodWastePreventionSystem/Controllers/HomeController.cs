@@ -10,7 +10,7 @@ namespace FoodWastePreventionSystem.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "CustomerHome", new { Area = "Customers" });
         }
 
         public ActionResult About()

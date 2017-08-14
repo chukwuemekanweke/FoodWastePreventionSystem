@@ -34,37 +34,35 @@
                                 {
                                     <tr>
                                         <td>
-                                            <div class="cart-img pull-left hidden-phone"><img src="@Url.Action("GetImage1", "Product", new { Area = "Managers", id = item.Batch.ProductId })" alt="Product Image" /></div>
+                                            <div class="cart-img pull-left hidden-phone"><img src="@Url.Action("GetImage1", "Products", new { Area = "Managers", id = item.Auction.Batch.ProductId })" alt="Product Image" /></div>
                                             <div class="item pull-left">
-                                                <span><a href="#"><i class="icon-cancel-circled"></i></a> <a href="#">Sample Product Added in Cart</a> <a href="#"><i class="icon-remove-sign"></i></a></span>
+                                                <span>
+                                                    <a href="@Url.Action("RemoveProductFromCart","Cart", new { id = item.Id})"><i class="icon-cancel-circled"></i></a> <a href="#">@item.Auction.Batch.Product.Name</a>
+                                                   
+                                                   
+                                                        <a href="@Url.Action("RemoveProductFromCart","Cart", new { id = item.Id})"><i class="icon-remove-sign"></i></a>
+                                                    
+                                                </span>
                                             </div>
+                                            
                                         </td>
-                                        <td><i>$ @item.Auction.AuctionPrice</i></td>
-                                        <td><input type="text" class="col-sm-1" value="1" /></td>
-                                        <td><strong>$ @(item.Auction.AuctionPrice * item.Quantity)</strong></td>
+                                        <td><i># @item.Auction.AuctionPrice</i></td>
+                                        <td><input type="text" class="col-sm-1" value="@item.Quantity" /></td>
+                                        <td><strong># @(item.Auction.AuctionPrice * item.Quantity)</strong></td>
                                     </tr>
                                 }
 
-                                <tr>
-                                    <td>
-                                        <div class="cart-img pull-left hidden-phone"><img src="img/products/2.jpg" alt="" /></div>
-                                        <div class="item pull-left">
-                                            <span><a href="#"><i class="icon-cancel-circled"></i></a> <a href="#">Sample Product Added in Cart</a> <a href="#"><i class="icon-remove-sign"></i></a></span>
-                                        </div>
-                                    </td>
-                                    <td><i>$ 98.00</i></td>
-                                    <td><input type="text" class="col-sm-1" value="3" /></td>
-                                    <td><strong>$ 98.00</strong></td>
-                                </tr>
+                               
                                 <tr>
                                     <td colspan="3"><div class="item">Total</div></td>
-                                    <td>$ @Model.Sum(x => (x.Quantity * x.Auction.AuctionPrice))</td>
+                                    <td># @Model.Sum(x => (x.Quantity * x.Auction.AuctionPrice))</td>
                                 </tr>
                             </tbody>
                         </table>
                         <div class="row cart-pay">
-                            <div class="col-sm-6 col-sm-offset-6 cart-checkout"><button class="btn"><i class="icon-arrows-ccw"></i> Update Cart</button> <button class="btn theme"><i class="icon-check"></i> Check Out </button></div>
+                            <div class="col-sm-6 col-sm-offset-6 cart-checkout">@*<button class="btn"><i class="icon-arrows-ccw"></i> Update Cart</button>*@ <button class="btn theme"><i class="icon-check"></i> Check Out </button></div>
                         </div>
+                        <input type="hidden" value="@Model.Sum(x => (x.Quantity * x.Auction.AuctionPrice))" name="total"/>
                     }
                 </div>
             </div>

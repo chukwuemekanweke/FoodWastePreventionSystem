@@ -28,20 +28,24 @@
                 <!-- Product Images -->
                 <div class="wrap">
 
-                    <div id="flexslider-product" class="flexslider">
+                    @*<div id="flexslider-product" class="flexslider">
                         <ul class="slides">
-                            <li><a href="@Url.Action("GetImage1","Product", new { Area="Managers", id=Model.Product.Product.Id})"><img src="@Url.Action("GetImage1","Product", new { Area="Managers", id=Model.Product.Product.Id})" /></a></li>
-                            <li><a href="@Url.Action("GetImage2","Product", new { Area="Managers", id=Model.Product.Product.Id})"><img src="@Url.Action("GetImage2","Product", new { Area="Managers", id=Model.Product.Product.Id})" /></a></li>
-                            
+                            <li><a href="@Url.Action("GetImage1","Products", new { Area="Managers", id=Model.Product.Product.Id})"><img src="@Url.Action("GetImage1","Products", new { Area="Managers", id=Model.Product.Product.Id})" alt="Product" /></a></li>
+                            <li><a href="@Url.Action("GetImage2","Products", new { Area="Managers", id=Model.Product.Product.Id})"><img src="@Url.Action("GetImage2","Products", new { Area="Managers", id=Model.Product.Product.Id})" alt="Product" /></a></li>
+
                         </ul>
                     </div>
 
                     <div id="flexcarousel-product" class="flexslider visible-desktop">
                         <ul class="slides">
-                            <li><img src="@Url.Action("GetImage1","Product", new { Area="Managers", id=Model.Product.Product.Id})" alt="" /></li>
-                            <li><img src="@Url.Action("GetImage2","Product", new { Area="Managers", id=Model.Product.Product.Id})" alt="" /></li>
-                           
+                            <li><img src="@Url.Action("GetImage1","Products", new { Area="Managers", id=Model.Product.Product.Id})" alt="Product" /></li>
+                            <li><img src="@Url.Action("GetImage2","Products", new { Area="Managers", id=Model.Product.Product.Id})" alt="Product" /></li>
+
                         </ul>
+                    </div>*@
+
+                    <div class="image">
+                        <img  class="img-container img-thumbnail"src="@Url.Action("GetImage1","Products", new { Area="Managers", id=Model.Product.Product.Id})" alt="@Model.Product.Product.Name"/>
                     </div>
 
                 </div>
@@ -54,147 +58,172 @@
                 <div class="details wrapper">
 
                     <p><small>&#8220;@Model.Product.Product.Name&#8221;</small></p>
-                    <p class="price"><i class="icon-tag"></i> $ @Model.Product.Auction.AuctionPrice</p>
+                    <p class="price"><i class="icon-tag"></i> # @Model.Product.Auction.AuctionPrice</p>
 
-                   
-                      
-                        <div class="clearfix">
-                            @using (Html.BeginForm("AddToCart", "Cart", FormMethod.Post))
+
+
+                    <div class="clearfix">
+                       
+                            @using (Html.BeginForm("AddToCart", "Cart", FormMethod.Get))
                             {
-                            <div class="pull-left qty">
-                                @Html.Hidden("id", Model.Product.Auction.Id)
-                                <input name="quantity" type="number" class="qty" value="1" max="@AvailableUnits">
-                                <div class="total">
-                                    <a href="#"><i class="icon-plus-squared"></i></a>
-                                    <a href="#"><i class="icon-minus-squared"></i></a>
+                                <div class="pull-left qty">
+                                    @Html.Hidden("id", Model.Product.Auction.Id)
+                                    <input name="quantity" type="number" class="qty" value="1" max="@AvailableUnits">
+                                    <div class="total">
+                                        <a href="#"><i class="icon-plus-squared"></i></a>
+                                        <a href="#"><i class="icon-minus-squared"></i></a>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="pull-left"><a href="checkout.html" class="btn theme">Add to Cart</a></div>
-                            }
-                        </div>
-                   
+                                if (User.Identity.IsAuthenticated)
+                                {
+                                    <div class="pull-left"><input class="btn theme" value="Add To Cart" type="submit" /></div>
+                                    }
+                                    else
+                                    {
+                                        @Html.ActionLink("Login First", "Login", "Account", new { Area="",returnUrl = Url.Action("ViewProduct", "CustomerHome", new { id = Model.Product.Auction.Id }) }, new { @class="btn theme"})
+                                    }
 
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-6 decidernote">Hard to decide? Ask you friends :)</div>
-                        <div class="col-sm-6 decider">
-                            <a href="#"><i class="icon-facebook-circled"></i></a>
-                            <a href="#"><i class="icon-twitter-circled"></i></a>
-                            <a href="#"><i class="icon-gplus-circled"></i></a>
-                            <a href="#"><i class="icon-pinterest-circled"></i></a>
-                            <a href="#"><i class="icon-mail"></i></a>
-                        </div>
+
+                                }
+
                     </div>
 
-                    <hr>
+
+                        <hr>
+                            @*<div class="row">
+                                <div class="col-sm-6 decidernote">Hard to decide? Ask you friends :)</div>
+                                <div class="col-sm-6 decider">
+                                    <a href="#"><i class="icon-facebook-circled"></i></a>
+                                    <a href="#"><i class="icon-twitter-circled"></i></a>
+                                    <a href="#"><i class="icon-gplus-circled"></i></a>
+                                    <a href="#"><i class="icon-pinterest-circled"></i></a>
+                                    <a href="#"><i class="icon-mail"></i></a>
+                                </div>
+                            </div>*@
+
+                            <hr>
 
                     <!-- Product details -->
 
-                    <div class="accordion" id="accordion2">
-                        <div class="accordion-group">
-                            <div class="accordion-heading">
-                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#description">
-                                    <i class="icon-layout theme"></i> Product Description
-                                </a>
-                            </div>
-                            <div id="description" class="accordion-body collapse">
-                                <div class="accordion-inner">
-                                    @Batch.Product.Description
+                            <div class="accordion" id="accordion2">
+                                <div class="accordion-group">
+                                    <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#description">
+                                            <i class="icon-layout theme"></i> Product Description
+                                        </a>
+                                    </div>
+                                    <div id="description" class="accordion-body collapse">
+                                        <div class="accordion-inner">
+                                            @Batch.Product.Description
+                                        </div>
+                                    </div>
                                 </div>
+
                             </div>
+
                         </div>
 
                     </div>
-
                 </div>
-
-            </div>
-        </div>
 
         <!-- ================== -->
         <!-- Cross-sell section -->
         <!-- ================== -->
 
-        @if (Model.ProductsFromStore.Count > 0)
-        {
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="cross-wrapper">
-                        <hr />
-                        <header>Other Products From Store</header>
-
-                        <section class="row cross-product">
-                            @for (int i = 0; i < 4; i++)
+                            @if (Model.ProductsFromStore.Count > 0)
                             {
-                                var Record = Model.ProductsFromStore[i];
-                                <article class=" col-sm-3 product-box">
-                                    <div class="product-inner">
-                                        <span class="onsale">SALE</span>
-                                        <div class="view view-thumb">
-                                            <div class="image"><img src="@Url.Action("GetImage1","Product", new { Area="Managers", id=Record.Product.Id})" alt="" /></div>
-                                            <div class="mask">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="cross-wrapper">
+                                            <hr />
+                                            <header>Other Products From Store</header>
 
-                                                <p>@Record.Product.Name</p>
-                                                @Html.ActionLink("View", "ViewProduct", "CustomerHome", new { id = Record.Auction.Id }, new { @class = "info" })
-                                                @Html.ActionLink("View", "AddToCart", "Cart", new { id = Record.Product.Id }, new { @class = "info" })
-                                            </div>
+                                            <section class="row cross-product">
+                                                @for (int i = 0; i < Model.ProductsFromStore.Count; i++)
+                                                {
+                                                    var Record = Model.ProductsFromStore[i];
+                                                    using (Html.BeginForm("AddToCart", "Cart", FormMethod.Get))
+                                                    {
+                                                        <article class=" col-sm-3 product-box">
+                                                            <div class="product-inner">
+                                                                <span class="onsale">SALE</span>
+                                                                <div class="view view-thumb">
+                                                                    <div class="image"><img src="@Url.Action("GetImage1", "Products", new { Area = "Managers", id = Record.Product.Id })" alt="" /></div>
+                                                                    <div class="mask">
+
+                                                                        <p>@Record.Product.Name</p>
+                                                                        @Html.ActionLink("View", "ViewProduct", "CustomerHome", new { id = Record.Auction.Id }, new { @class = "info" })
+
+                                                                        <input type="hidden" name="id" value="@Record.Auction.Id" />
+                                                                        <input type="hidden" name="id" value="1" />
+                                                                        <input type="submit" class="info" value="Buy" />
+                                                                        @*@Html.ActionLink("Buy", "AddToCart", "Cart", new { id = Record.Product.Id }, new { @class = "info" })*@
+
+                                                                    </div>
+                                                                </div>
+
+                                                                <h2 class="price">
+                                                                    <span class="price-old">@Record.Batch.SellingPrice</span> <span class="price-new">@Record.Auction.AuctionPrice</span>
+                                                                </h2>
+                                                                <p>@Html.ActionLink("Product Details", "ViewProduct", "CustomerHome", new { id = Record.Auction.Id }, new { })
+                                                            </div>
+                                                        </article>
+                                                    }
+                                                }
+
+                                            </section>
                                         </div>
 
-                                        <h2 class="price">
-                                            <span class="price-old">@Record.Batch.SellingPrice</span> <span class="price-new">@Record.Auction.AuctionPrice</span>
-                                        </h2>
-                                        <p>@Html.ActionLink("Product Details", "ViewProduct", "CustomerHome", new { id = Record.Auction.Id }, new { })
                                     </div>
-                                </article>
+                                </div>
+                            }
+
+                            @if (Model.ProductsWithSimilarExpiryDate.Count > 0)
+                            {
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="cross-wrapper">
+                                            <hr />
+                                            <header>Other Products WIth Same Expiry Date</header>
+
+                                            <section class="row cross-product">
+                                                @for (int i = 0; i < Model.ProductsWithSimilarExpiryDate.Count; i++)
+                                                {
+                                                    var Record = Model.ProductsWithSimilarExpiryDate[i];
+                                                    using (Html.BeginForm("AddToCart", "Cart", FormMethod.Get))
+                                                    {
+                                                        <article class=" col-sm-3 product-box">
+                                                            <div class="product-inner">
+                                                                <span class="onsale">SALE</span>
+                                                                <div class="view view-thumb">
+                                                                    <div class="image"><img src="@Url.Action("GetImage1", "Products", new { Area = "Managers", id = Record.Product.Id })" alt="" /></div>
+                                                                    <div class="mask">
+
+                                                                        <p>@Record.Product.Name</p>
+                                                                        @Html.ActionLink("View", "ViewProduct", "CustomerHome", new { id = Record.Auction.Id }, new { @class = "info" })
+                                                                        <input type="hidden" name="id" value="@Record.Auction.Id" />
+                                                                        <input type="hidden" name="id" value="1" />
+                                                                        <input type="submit" class="info" value="Buy" />
+                                                                        @*@Html.ActionLink("Buy", "AddToCart", "Cart", new { id = Record.Product.Id }, new { @class = "info" })*@
+                                                                    </div>
+                                                                </div>
+
+                                                                <h2 class="price">
+                                                                    <span class="price-old">@Record.Batch.SellingPrice</span> <span class="price-new">@Record.Auction.AuctionPrice</span>
+                                                                </h2>
+                                                                <p>@Html.ActionLink("Product Details", "ViewProducts", "CustomerHome", new { id = Record.Auction.Id }, new { })
+                                                            </div>
+                                                        </article>
+                                                    }
+                                                }
+
+                                            </section>
+                                        </div>
+
+                                    </div>
+                                </div>
                             }
 
                         </section>
+
                     </div>
-
-                </div>
-            </div>
-        }
-
-        @if (Model.ProductsWithSimilarExpiryDate.Count > 0)
-        {
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="cross-wrapper">
-                        <hr />
-                        <header>Other Products WIth Same Expiry Date</header>
-
-                        <section class="row cross-product">
-                            @for (int i = 0; i < 4; i++)
-                            {
-                                var Record = Model.ProductsWithSimilarExpiryDate[i];
-                                <article class=" col-sm-3 product-box">
-                                    <div class="product-inner">
-                                        <span class="onsale">SALE</span>
-                                        <div class="view view-thumb">
-                                            <div class="image"><img src="@Url.Action("GetImage1","Product", new { Area="Managers", id=Record.Product.Id})" alt="" /></div>
-                                            <div class="mask">
-
-                                                <p>@Record.Product.Name</p>
-                                                @Html.ActionLink("View", "ViewProduct", "CustomerHome", new { id = Record.Auction.Id }, new { @class = "info" })
-                                                @Html.ActionLink("View", "AddToCart", "Cart", new { id = Record.Product.Id }, new { @class = "info" })
-                                            </div>
-                                        </div>
-
-                                        <h2 class="price">
-                                            <span class="price-old">@Record.Batch.SellingPrice</span> <span class="price-new">@Record.Auction.AuctionPrice</span>
-                                        </h2>
-                                        <p>@Html.ActionLink("Product Details", "ViewProduct", "CustomerHome", new { id = Record.Auction.Id }, new { })
-                                    </div>
-                                </article>
-                            }
-
-                        </section>
-                    </div>
-
-                </div>
-            </div>
-        }
-
-    </section>
-
-</div>

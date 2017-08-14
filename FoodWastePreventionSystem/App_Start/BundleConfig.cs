@@ -28,7 +28,8 @@ namespace FoodWastePreventionSystem
                       "~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/bundles/admin/styles").Include(
-                
+
+                "~/Areas/Managers/assets/css/jquery.jqplot.min.css",
 
                 "~/Areas/Managers/assets/plugins/morris/morris.css",
                 "~/Areas/Managers/assets/css/bootstrap.css",
@@ -90,10 +91,16 @@ namespace FoodWastePreventionSystem
                 ));
 
             bundles.Add(new ScriptBundle("~/bundles/customer/scripts").Include(
+                 "~/Scripts/jquery-{version}.js",
+               //"~/Areas/Customers/assets/js/jquery.min.js",
+               "~/Scripts/jquery.unobtrusive-ajax.min.js",
+
                 "~/Areas/Customers/assets/js/jquery.tweet.js",
                 "~/Areas/Customers/assets/js/bootstrap.min.js",
-                "~/Areas/Customers/assets/js/script.js",
-                "~/Areas/Customers/assets/js/shop.js"                 
+                "~/Areas/Customers/assets/js/shop.js",
+
+                "~/Areas/Customers/assets/js/script.js"
+                
 
 
 

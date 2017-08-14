@@ -1,0 +1,71 @@
+﻿@model List<OnAuctionVM>
+    @{ 
+        int i = 0;
+    }
+<section class="product">
+
+    <div class="row">
+        <header class="col-sm-12 prime">
+            <h3> Products Offered By @ViewBag.storeName</h3>
+        </header>
+    </div>
+
+    <div class="row">
+        <h6 class="subhead"><strong><i class="icon-menu"></i> SORT BY</strong></h6>
+        <div class="col-sm-12"><div class="line"></div></div>
+
+        <div class="query col-sm-12">
+            <ul class="nav nav-pills" id="myTab">
+                @foreach (var category in ViewBag.categories)
+                {
+                    <li class="@(i==0?"active":"")"><a href="#@category"  >@category</a></li>
+
+                    if(ViewBag.categories.Count == i)
+                    {
+                        i = 0;
+                    }
+                    else
+                    {
+                        ++i;
+
+                    }
+                }
+                
+            </ul>
+            <div class="line"></div>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="tab-content list-filtrelable">
+@foreach (var category in ViewBag.categories)
+{
+    <div class="@(i==0?"tab-pane active":"tab-pane")" id="@category">
+        @foreach (var item in Model.Where(x => x.Product.Category == category))
+        {
+            <article class=" col-sm-4 product-box">
+                <div class="product-inner">
+                    <span class="onsale">SALE</span>
+                    <div class="view view-thumb">
+                        <div class="image"><img class="img-responsive img-rounded" src="@Url.Action("GetImage1","Products", new { Area="Managers", id=item.Product.Id})" alt="Product Image" /></div>
+                        <div class="mask">
+
+                            <p>@item.Product.Description</p>
+                            <a href="@Url.Action("ViewProduct","Cart",new { id= item.Product.Id})" class="info">View</a> <a href="@Url.Action("AddToCart","Cart",new { id= item.Product.Id})" class="info">Buy</a>
+                        </div>
+                    </div>
+
+                    <h2 class="price">
+                        <span class="price-old">$@item.Batch.SellingPrice</span> <span class="price-new">$@item.Auction.AuctionPrice</span>
+                    </h2>
+                </div>
+            </article>    }
+        
+        
+    </div>
+}
+        </div>
+    </div>
+</section>

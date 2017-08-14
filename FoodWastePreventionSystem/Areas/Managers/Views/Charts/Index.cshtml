@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<div class="page-title-group">
+    <h4 class="page-title">Charts</h4>
+</div>
+
+<div class="container">
+   
+
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="panel panel-color panel-purple">
+                <div class="panel-heading">
+                    <h3 class="panel-title"></h3>
+                </div>
+                <div class="panel-body">
+                    <div class="jumbotron">
+                        <p>PROFIT</p>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    @Html.ActionLink("Proceed","Chart", "Charts", new { id="profit"}, new { @class="btn btn-primary"})
+                </div>     
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-color panel-purple">
+                <div class="panel-heading">
+                    <h3 class="panel-title"></h3>
+                </div>
+                <div class="panel-body">
+                    <div class="jumbotron">
+                        <p>SALES</p>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    @Html.ActionLink("Proceed", "Chart", "Charts", new { id = "sale" }, new { @class= "btn btn-success" })
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-color panel-purple">
+                <div class="panel-heading">
+                    <h3 class="panel-title"></h3>
+                </div>
+                <div class="panel-body">
+                    <div class="jumbotron">
+                        <p>AUCTION</p>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    @Html.ActionLink("Proceed", "Chart", "Charts", new { id = "auction" }, new { @class="btn btn-warning" })
+                </div>
+            </div>
+        </div>
+       
+    </div>
+
+</div>

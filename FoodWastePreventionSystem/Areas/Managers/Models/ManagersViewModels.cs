@@ -14,14 +14,14 @@ namespace FoodWastePreventionSystem.Areas.Managers.Models
         public IEnumerable<Batch> InStoreRecords { get; set; }
         public IEnumerable<ProductToBeAuctioned> ToBeAuctionedRecords { get; set; }
         public IEnumerable<Auction> AuctionRecords { get; set; }
-        public SalesForProduct Sales { get; set; }
+        public TransactionsForProduct Sales { get; set; }
 
         public ProductViewModel()
         {
             InStoreRecords = new List<Batch>();
             ToBeAuctionedRecords = new List<ProductToBeAuctioned>();
             AuctionRecords = new List<Auction>();
-            Sales = new SalesForProduct();
+            Sales = new TransactionsForProduct();
 
         }
     }

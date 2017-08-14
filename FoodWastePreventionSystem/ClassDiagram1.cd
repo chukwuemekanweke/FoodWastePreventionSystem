@@ -1,0 +1,821 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="FoodWastePreventionSystem.BundleConfig" Collapsed="true">
+    <Position X="32.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\BundleConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.FilterConfig" Collapsed="true">
+    <Position X="27.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\FilterConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.EmailService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\IdentityConfig.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FoodWastePreventionSystem.SmsService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\IdentityConfig.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FoodWastePreventionSystem.ApplicationUserManager" Collapsed="true">
+    <Position X="34.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\IdentityConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.ApplicationSignInManager" Collapsed="true">
+    <Position X="31" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\IdentityConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.RouteConfig" Collapsed="true">
+    <Position X="22.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\RouteConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Startup" Collapsed="true">
+    <Position X="22.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAgAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\Startup.Auth.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.WebApiConfig" Collapsed="true">
+    <Position X="31" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\WebApiConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.MvcApplication" Collapsed="true">
+    <Position X="18.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Global.asax.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.App_Start.NinjectWebCommon" Collapsed="true">
+    <Position X="22.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAACAAAQACAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\NinjectWebCommon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Customers.Controllers.CartController" Collapsed="true">
+    <Position X="18.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAABAAAAAEQAAAAAEACgAAQAAEAQAQAACA=</HashCode>
+      <FileName>Areas\Customers\Controllers\CartController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Customers.Controllers.CustomerHomeController" Collapsed="true">
+    <Position X="31" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAAAABAAAEAAAAEAAAEAEAAAAAA=</HashCode>
+      <FileName>Areas\Customers\Controllers\CustomerHomeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Customers.CustomersAreaRegistration" Collapsed="true">
+    <Position X="32.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Areas\Customers\CustomersAreaRegistration.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Customers.TransactionResult" Collapsed="true">
+    <Position X="31" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAACA=</HashCode>
+      <FileName>Areas\Customers\PaymentClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Customers.Data" Collapsed="true">
+    <Position X="34.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAABAAI=</HashCode>
+      <FileName>Areas\Customers\PaymentClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Customers.Payment" Collapsed="true">
+    <Position X="25.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAABAAAAAAAAgAA=</HashCode>
+      <FileName>Areas\Customers\PaymentClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Customers.Models.ViewProductVM" Collapsed="true">
+    <Position X="29.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Areas\Customers\Models\ViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.Controllers.AnalysisController" Collapsed="true">
+    <Position X="25.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIACAACBAEAAAAAAAAEBAAAAAAAAIEEwgAGAAACAAAA=</HashCode>
+      <FileName>Areas\Managers\Controllers\AnalysisController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.Controllers.AuctionController" Collapsed="true">
+    <Position X="20.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAgCBAEAgCAAIAEEAAAEQAAAAoAGQAAGAEEAACAA=</HashCode>
+      <FileName>Areas\Managers\Controllers\AuctionController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.Controllers.BatchesController" Collapsed="true">
+    <Position X="29.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAABCBAEAAAAAIQAEAAQgAAAAAIAEQAAEAEAAACAg=</HashCode>
+      <FileName>Areas\Managers\Controllers\BatchesController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.Controllers.ChartsController" Collapsed="true">
+    <Position X="24" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACACAACgAAAAigAgAAGBACAACAAAAAEAAAEAAAAABAA=</HashCode>
+      <FileName>Areas\Managers\Controllers\ChartsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.Controllers.ProductsController" Collapsed="true">
+    <Position X="29.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IIACAACBAGARAACIAAEAAAAQAAEAAEEqAAEAEAAAAAA=</HashCode>
+      <FileName>Areas\Managers\Controllers\ProductsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.Controllers.TransactionController" Collapsed="true">
+    <Position X="29.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AICCAACAAAAAEAAAAAEAAAAAAAAAgAEQAAEAEAAACAA=</HashCode>
+      <FileName>Areas\Managers\Controllers\TransactionController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.ManagersAreaRegistration" Collapsed="true">
+    <Position X="31" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Areas\Managers\ManagersAreaRegistration.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.Models.ChartsRenderer" Collapsed="true">
+    <Position X="25.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAACAAAAAQAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Areas\Managers\Models\Chart.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.Models.SalesAuctionMonthlyChart" Collapsed="true">
+    <Position X="25.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAADAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Areas\Managers\Models\ChartsViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.Models.SalesAuctionYearlyChart" Collapsed="true">
+    <Position X="31" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Areas\Managers\Models\ChartsViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.Models.ProfitLossMonthlyChart" Collapsed="true">
+    <Position X="22.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAAAAAACAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Areas\Managers\Models\ChartsViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.Models.ProfitLossYearlyChart" Collapsed="true">
+    <Position X="27.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAQAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Areas\Managers\Models\ChartsViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.Models.MonthlyProfitChart" Collapsed="true">
+    <Position X="34.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAASAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Areas\Managers\Models\ChartsViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.Models.YearlyProfitChart" Collapsed="true">
+    <Position X="34.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAASAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Areas\Managers\Models\ChartsViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.Models.MonthlyLossChart" Collapsed="true">
+    <Position X="32.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Areas\Managers\Models\ChartsViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.Models.YearlyLossChart" Collapsed="true">
+    <Position X="32.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQBAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Areas\Managers\Models\ChartsViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.Models.ChartPlotter" Collapsed="true">
+    <Position X="22.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Areas\Managers\Models\ChartsViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.Models.SeriesCreator" Collapsed="true">
+    <Position X="34.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Areas\Managers\Models\ChartsViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.Models.ReqColumnChart" Collapsed="true">
+    <Position X="18.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Areas\Managers\Models\ChartsViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.Models.ProductViewModel" Collapsed="true">
+    <Position X="32.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAQBAAAAAAAAAAAAABAAAAQAAA=</HashCode>
+      <FileName>Areas\Managers\Models\ManagersViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.Models.RegisterProductViewModel" Collapsed="true">
+    <Position X="32.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Areas\Managers\Models\ManagersViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.Models.BatchInformationVM" Collapsed="true">
+    <Position X="31" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAQAAAAAAAAAIAAAAAAAAAAAhA=</HashCode>
+      <FileName>Areas\Managers\Models\ManagersViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.Models.TransactionVM" Collapsed="true">
+    <Position X="18.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAEAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Areas\Managers\Models\ManagersViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.Models.AddTransactionVM" Collapsed="true">
+    <Position X="24" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Areas\Managers\Models\ManagersViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.Models.AuctionManagementVM" Collapsed="true">
+    <Position X="22.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Areas\Managers\Models\ManagersViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.Models.EditViewAuctionVM" Collapsed="true">
+    <Position X="18.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Areas\Managers\Models\ManagersViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Areas.Managers.Models.ProfitForProductAnalysisVM" Collapsed="true">
+    <Position X="18.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Areas\Managers\Models\ManagersViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.BusinessLogic.AuctionLogic" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAACAAAAAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAACgAQ=</HashCode>
+      <FileName>BusinessLogic\AuctionLogic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.BusinessLogic.BatchLogic" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>BusinessLogic\BatchLogic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.BusinessLogic.ChartLogic" Collapsed="true">
+    <Position X="5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACBFAAAEAAAKAJAGEBAAAAAAAAAAggAAAAAAAAAEA=</HashCode>
+      <FileName>BusinessLogic\ChartLogic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.BusinessLogic.Logic" Collapsed="true">
+    <Position X="8.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAIAAAAEAAAAEQAEAAAAAACAA=</HashCode>
+      <FileName>BusinessLogic\ILogic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.BusinessLogic.LossLogic" Collapsed="true">
+    <Position X="7.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIACAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BusinessLogic\LossLogic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.BusinessLogic.ProductsLogic" Collapsed="true">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABACCIIAAAAAgAAAgAAAAAgABAgAAAAAAABAA=</HashCode>
+      <FileName>BusinessLogic\ProductsLogic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.BusinessLogic.ProfitLogic" Collapsed="true">
+    <Position X="11.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAACABCAJAAAAAAAAAxAAAAQAAAAAAAQI=</HashCode>
+      <FileName>BusinessLogic\ProfitLogic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.BusinessLogic.SalesLogic" Collapsed="true">
+    <Position X="14" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EoAAAAAAAAAAQEAgAAAAAgAIAQIAAAQAAAEAAAAABAA=</HashCode>
+      <FileName>BusinessLogic\SalesLogic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.BusinessLogic.TransactionLogic" Collapsed="true">
+    <Position X="16.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAIEAAAA=</HashCode>
+      <FileName>BusinessLogic\TransactionLogic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.BusinessLogic.BusinessLogicModels.ProfitForProduct" Collapsed="true">
+    <Position X="34.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAAAACAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>BusinessLogic\BusinessLogicModels\Models.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.BusinessLogic.BusinessLogicModels.SaleForProduct" Collapsed="true">
+    <Position X="24" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>BusinessLogic\BusinessLogicModels\Models.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.BusinessLogic.BusinessLogicModels.ProfitsForProductInYear" Collapsed="true">
+    <Position X="31" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>BusinessLogic\BusinessLogicModels\Models.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.BusinessLogic.BusinessLogicModels.ProfitsForProduct" Collapsed="true">
+    <Position X="29.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgCAAAAAAAAAAAAAQACAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>BusinessLogic\BusinessLogicModels\Models.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.BusinessLogic.BusinessLogicModels.TransactionsForProductInYear" Collapsed="true">
+    <Position X="34.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BusinessLogic\BusinessLogicModels\Models.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.BusinessLogic.BusinessLogicModels.TransactionsForProduct" Collapsed="true">
+    <Position X="32.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgCAAAAAAAAAAAAAQACAAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BusinessLogic\BusinessLogicModels\Models.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.BusinessLogic.BusinessLogicModels.TurnoverForProductInYear" Collapsed="true">
+    <Position X="22.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BusinessLogic\BusinessLogicModels\Models.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.BusinessLogic.BusinessLogicModels.TurnoverForProduct" Collapsed="true">
+    <Position X="20.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgCAAAAAAAAAAAAAQACAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BusinessLogic\BusinessLogicModels\Models.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.BusinessLogic.BusinessLogicModels.LossForProductInYear" Collapsed="true">
+    <Position X="25.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BusinessLogic\BusinessLogicModels\Models.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.BusinessLogic.BusinessLogicModels.LossForProduct" Collapsed="true">
+    <Position X="24" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgCAAAAAAAAAAAAAQACAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>BusinessLogic\BusinessLogicModels\Models.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.BusinessLogic.BusinessLogicModels.SalesAuctionViewModel" Collapsed="true">
+    <Position X="29.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>BusinessLogic\BusinessLogicModels\Models.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.BusinessLogic.BusinessLogicModels.SalesAuctionMonthlyViewModel" Collapsed="true">
+    <Position X="27.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>BusinessLogic\BusinessLogicModels\Models.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.BusinessLogic.BusinessLogicModels.ProfitLossVM" Collapsed="true">
+    <Position X="25.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BusinessLogic\BusinessLogicModels\Models.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.BusinessLogic.BusinessLogicModels.ProfitLossMonthlyVM" Collapsed="true">
+    <Position X="24" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAAAAAACAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>BusinessLogic\BusinessLogicModels\Models.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.BusinessLogic.BusinessLogicModels.ProfitLossForBatch" Collapsed="true">
+    <Position X="20.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgBAAAAAA=</HashCode>
+      <FileName>BusinessLogic\BusinessLogicModels\Models.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.BusinessLogic.BusinessLogicModels.OnAuctionVM" Collapsed="true">
+    <Position X="24" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQACAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BusinessLogic\BusinessLogicModels\Models.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Controllers.AccountController" Collapsed="true">
+    <Position X="18.75" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Class Name="FoodWastePreventionSystem.Controllers.AccountController.ChallengeResult" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Controllers\AccountController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAABAChAAAACAAAAAFgAAAALAABKIIAIAEQAAQgAAA=</HashCode>
+      <FileName>Controllers\AccountController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Controllers.HomeController" Collapsed="true">
+    <Position X="32.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEACAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\HomeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Controllers.ManageController" Collapsed="true">
+    <Position X="27.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABACAQiAAgAAAAEFhAAAAAAEAIMIAAEEEgAAkAAA=</HashCode>
+      <FileName>Controllers\ManageController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Infrastructure.ApplicationContext" Collapsed="true">
+    <Position X="27.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CACAAAAAAAAgIAAAAAAACAAAAQAAAAAAAAAAAQAEAAQ=</HashCode>
+      <FileName>Infrastructure\AppContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Infrastructure.BackgroundTasks" Collapsed="true">
+    <Position X="25.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAACAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAABAAAAA=</HashCode>
+      <FileName>Infrastructure\BackgroundTasks.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Infrastructure.Repository&lt;T&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="34.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AA4AAAAAAAAAAABAAAAAAAUAAAEAAAgAAgAAIAAAAIA=</HashCode>
+      <FileName>Infrastructure\IRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Infrastructure.NinjectDependencyResolver" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAACgAAAAAAAAAAAAAAAAAIAAAAAEI=</HashCode>
+      <FileName>Infrastructure\NinjectDependencyResolver.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Infrastructure.StoreManager" Collapsed="true">
+    <Position X="25.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\StoreManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Infrastructure.UnitOfWork&lt;T&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="24" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAIAACACAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\UnitOfWork.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Migrations.Configuration" Collapsed="true">
+    <Position X="27.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Migrations\Configuration.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.ExternalLoginConfirmationViewModel" Collapsed="true">
+    <Position X="22.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.ExternalLoginListViewModel" Collapsed="true">
+    <Position X="24" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.SendCodeViewModel" Collapsed="true">
+    <Position X="32.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAIAAAAAAAAAAAAAAAAAAIAAAAgAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.VerifyCodeViewModel" Collapsed="true">
+    <Position X="25.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAEAAAAAAAgAAAAAAAAAAAAAAIAAAAgAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.ForgotViewModel" Collapsed="true">
+    <Position X="31" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.LoginViewModel" Collapsed="true">
+    <Position X="20.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAQAAAAAAAAAAAAACAAAAAAAgAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.AccountDetailsViewModel" Collapsed="true">
+    <Position X="20.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAEAAACAAAAAAAQAAAAAAAAAAAAACAAAAAAAAIAg=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.LocationDetailsViewModel" Collapsed="true">
+    <Position X="18.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAQAAAAAAAAAAIAAAAAAAAAAAAAAACAAAABQAAAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.ResetPasswordViewModel" Collapsed="true">
+    <Position X="20.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAgAAAAAAAAAAACAAAAAAAAIAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.ForgotPasswordViewModel" Collapsed="true">
+    <Position X="29.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.ApplicationUser" Collapsed="true">
+    <Position X="32.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgEAACAAgAAAIAAAAEAAAAAAAARACAAAABQAAAAg=</HashCode>
+      <FileName>Models\IdentityModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.ApplicationDbContext" Collapsed="true">
+    <Position X="29.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\IdentityModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.IndexViewModel" Collapsed="true">
+    <Position X="34.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAQAAAAAAAAAAAAAAQAAAEAEA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.ManageLoginsViewModel" Collapsed="true">
+    <Position X="29.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.FactorViewModel" Collapsed="true">
+    <Position X="25.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.SetPasswordViewModel" Collapsed="true">
+    <Position X="18.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.ChangePasswordViewModel" Collapsed="true">
+    <Position X="20.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAEAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.AddPhoneNumberViewModel" Collapsed="true">
+    <Position X="22.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.VerifyPhoneNumberViewModel" Collapsed="true">
+    <Position X="27.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.ConfigureTwoFactorViewModel" Collapsed="true">
+    <Position X="29.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.Store" Collapsed="true">
+    <Position X="24" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAIAAAAAAQAAAAAAAACAAAABQAAAAA=</HashCode>
+      <FileName>Models\Models.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.Product" Collapsed="true">
+    <Position X="27.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIACEAAAAAAgIAAAAEAAEAQAAAAABhAAAAAAAQAAGAA=</HashCode>
+      <FileName>Models\Models.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.Batch" Collapsed="true">
+    <Position X="27.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UACGAAAAAAABBAABAQBAAgAEAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Models\Models.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.Transaction" Collapsed="true">
+    <Position X="27.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQACAACAAAAQAAABEIAAAAAAAAAABAEAAAAAgAAAAEA=</HashCode>
+      <FileName>Models\Models.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.AuctionTransactionStatus" Collapsed="true">
+    <Position X="24" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACCAAAEAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Models.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.Loss" Collapsed="true">
+    <Position X="22.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQACAAAAAAAAAAAAEIAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Models\Models.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.ProductToBeAuctioned" Collapsed="true">
+    <Position X="31" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQICAAAAAAAAAAAAEAAEAAAAAAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>Models\Models.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.Auction" Collapsed="true">
+    <Position X="18.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQICAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Models.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FoodWastePreventionSystem.Models.Cart" Collapsed="true">
+    <Position X="34.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAACAAAAAAAABQAAAAAgAAAAAA=</HashCode>
+      <FileName>Models\Models.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="FoodWastePreventionSystem.Infrastructure.IRepository&lt;T&gt;" Collapsed="true">
+    <Position X="18.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAAAABAAAAAAAUAAAEAAAgAAgAAIAAAAIA=</HashCode>
+      <FileName>Infrastructure\IRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="FoodWastePreventionSystem.Models.TransactionType" Collapsed="true">
+    <Position X="25.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Enumerations.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="FoodWastePreventionSystem.Models.BatchAuctionState" Collapsed="true">
+    <Position X="20.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACgAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Enumerations.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="FoodWastePreventionSystem.Models.Month" Collapsed="true">
+    <Position X="24" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAEgAAABRAAAAAAQAwgAAAAAAQAAAAAAAAAAEEAAA=</HashCode>
+      <FileName>Models\Enumerations.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="FoodWastePreventionSystem.Models.AuctionState" Collapsed="true">
+    <Position X="18.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Enumerations.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="FoodWastePreventionSystem.Models.BatchProfitLoss" Collapsed="true">
+    <Position X="22.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAAAAAACAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Models\Enumerations.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -15,7 +15,7 @@ using PagedList;
 
 namespace FoodWastePreventionSystem.Areas.Managers.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "admin")]
     [RouteArea("Managers")]
     [RoutePrefix("Batches")]
     public class BatchesController : Controller
@@ -56,7 +56,9 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
         }
 
 
-        public BatchesController(IRepository<Product> _ProductRepo, IRepository<Batch> _ProductInStoreRepo, IRepository<Transaction> _TransactiontRepo, IRepository<Auction> _AuctionRepo, IRepository<ProductToBeAuctioned> _ProductToBeAuctionedRepo, IRepository<Loss> _LossRepo, IRepository<AuctionTransactionStatus> _AuctionStatusTransactionRepo)
+        public BatchesController(IRepository<Product> _ProductRepo, IRepository<Batch> _ProductInStoreRepo, IRepository<Transaction> _TransactiontRepo,
+            IRepository<Auction> _AuctionRepo, IRepository<ProductToBeAuctioned> _ProductToBeAuctionedRepo, IRepository<Loss> _LossRepo, 
+            IRepository<AuctionTransactionStatus> _AuctionStatusTransactionRepo, AuctionLogic _AuctionL)
         {
             ProductRepo = _ProductRepo;
             Auctionrepo = _AuctionRepo;
@@ -64,21 +66,20 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
             TransactionRepo = _TransactiontRepo;
             ToBeAuctionedRepo = _ProductToBeAuctionedRepo;
 
-            AuctionLogic = new AuctionLogic(_ProductRepo, _ProductInStoreRepo, _TransactiontRepo, _AuctionRepo, _ProductToBeAuctionedRepo, _LossRepo, _AuctionStatusTransactionRepo);
-
+            AuctionLogic = _AuctionL;
         }
 
         // GET: Managers/Batches
         public ActionResult BatchView()
         {
-            ViewBag.Products = ProductRepo.GetAll().ToList().Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).ToList();
+            ViewBag.Products = ProductRepo.GetAll(x=>x.StoreId==LoggedInUser.StoreId).ToList().Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).ToList();
             return View();
         }
              
 
         public ActionResult AddBatch(Guid? id)
         {           
-            ViewBag.Products = ProductRepo.GetAll().ToList().Select(x=> new SelectListItem() { Text = x.Name, Value=x.Id.ToString(), Selected=(x.Id==id)}).ToList();
+            ViewBag.Products = ProductRepo.GetAll(x => x.StoreId == LoggedInUser.StoreId).ToList().Select(x=> new SelectListItem() { Text = x.Name, Value=x.Id.ToString(), Selected=(x.Id==id)}).ToList();
             return View(new Batch());
         }
 
@@ -91,7 +92,7 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
                 ProductInStoreRepo.Add(model);
                 return RedirectToAction("BatchesForProduct",new {id=model.ProductId });                
             }
-            ViewBag.Products = ProductRepo.GetAll().ToList().Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).ToList();
+            ViewBag.Products = ProductRepo.GetAll(x => x.StoreId == LoggedInUser.StoreId).ToList().Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).ToList();
             return View(model);
         }
 
@@ -104,6 +105,11 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
             return View(model.ToPagedList(pageNumber, PageSize));
         }
         
+        [HttpPost]
+        public ActionResult FetchBatchesForProduct(Guid id)
+        {
+            return RedirectToAction("BatchesForProduct", new { id = id });
+        }
 
         public ActionResult BatchInformation(Guid id)
         {

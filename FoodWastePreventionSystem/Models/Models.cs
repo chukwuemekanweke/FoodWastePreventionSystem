@@ -21,6 +21,10 @@ namespace FoodWastePreventionSystem.Models
         public string State { get; set; }
         public string City { get; set; }
         public string Area { get; set; }
+        public string PaystackKey { get; set; }
+
+        public byte[] Image { get; set; }
+        public string Extension { get; set; }
     }
 
     public class Product
@@ -180,12 +184,10 @@ namespace FoodWastePreventionSystem.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public string CustomerId { get; set; }
-        public Guid BatchId { get; set; }
         public Guid AuctionId { get; set; }
         public int Quantity { get; set; }
 
-        [ForeignKey(nameof(BatchId))]
-        public virtual Batch Batch { get; set; }
+       
         [ForeignKey(nameof(AuctionId))]
         public virtual Auction Auction { get; set; }
     }

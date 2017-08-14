@@ -1,0 +1,217 @@
+﻿
+@{
+    ViewBag.Title = "CategoryChart";
+}
+
+
+<div class="page-title-group">
+    <h4 class="page-title">Chart Render</h4>
+</div>
+<div class="cb-page-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card-box">
+                            <div class="card-box-head">
+                                <h4 class="header-title m-t-0 pull-left">Line Chart</h4>
+                                <div class="pull-right">
+                                </div>
+                            </div>
+                            <div class="card-box-content">
+                                <div id="line-chart" class="bar-280"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card-box">
+                            <div class="card-box-head">
+                                <h4 class="header-title m-t-0 pull-left">Bar Chart</h4>
+                            </div>
+                            <div class="card-box-content">
+                                <div id="bar-chart" class="bar-280"></div>
+                            </div>
+                        </div>
+                    </div>                  
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Areas/Managers/assets/js/jquery.jqplot.min.js"></script>
+    <script src="~/Areas/Managers/assets/js/jqplot.canvasAxisLabelRenderer.js"></script>
+
+    <script src="~/Areas/Managers/assets/js/jqplot.categoryAxisRenderer.js"></script>
+    <script src="~/Areas/Managers/assets/js/jqplot.barRenderer.js"></script>
+    <script src="~/Areas/Managers/assets/js/jqplot.canvasTextRenderer.js"></script>
+    <script src="~/Areas/Managers/assets/js/jqplot.canvasAxisTickRenderer.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            multipleSeries();
+
+
+        });
+
+
+        function multipleSeries() {
+            $.ajax({
+                url: `@Url.Action("DrawChartForCategory", "Charts",new { Area="Managers"})/@ViewBag.operation/@ViewBag.category`,
+                type: `get`,
+                dataType: `json`,
+                success: function (data) {
+                    processMultipleSeriesLine(data);
+                    processMultipleSeriesBar(data);
+                },
+            });
+        }
+
+        function processMultipleSeriesBar(data) {
+            var chartData = [];
+            var seriesNames = [];
+            var series = []
+            var yearCategory = []
+
+            Object.keys(data).forEach(function (key) {
+                series.push({ label: key });
+                seriesNames.push(key);
+                var productRecord = data[key];
+
+                Object.keys(productRecord).forEach(function (childKey) {
+                    if (yearCategory.indexOf(childKey) == -1) {
+                        yearCategory.push(childKey)
+                    }
+                });
+
+            });
+
+            yearCategory.sort();
+
+
+            for (var x = 0; x < seriesNames.length; x++) {
+                var seriesData = [];
+                var productName = seriesNames[x]
+                for (var y = 0; y < yearCategory.length; y++) {
+                    var year = yearCategory[y];
+                    console.log(`${data[productName][year]}`);
+                    if (data[productName][year] == undefined || data[productName][year] == null) {
+                        seriesData.push(0);
+                    }
+                    else {
+                        seriesData.push(data[productName][year]);
+                    }
+                }
+                chartData.push(seriesData);
+            }
+
+
+
+            var options = {
+                title: '@ViewBag.operation chart',
+                axesDefaults: {
+                    //tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+                    labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
+                    tickOptions: { angle: -30 }
+                },
+                seriesDefaults: {
+                    renderer: $.jqplot.BarRenderer,
+                    rendererOptions: {
+                        //barMargin: 6,
+                        //barPadding: 2,
+                        shadow: false
+                    }
+                },
+                series: series,
+                legend: {
+                    show: true, placement: 'insideGrid', location: 'nw'
+                },
+                axes: {
+                    xaxis: {
+                        label: 'Years',
+                        renderer: $.jqplot.CategoryAxisRenderer,
+                        ticks: yearCategory
+                    },
+                    yaxis: {
+                        label: 'Value',
+                        //padMax: 1.6,
+                        tickOptions: { formatString: "#%'d" }
+                    }
+                },
+            };
+
+
+
+            $.jqplot('bar-chart', chartData, options);
+        }
+
+
+
+        function processMultipleSeriesLine(data) {
+            var chartData = [];
+
+            var seriesNames = [];
+            Object.keys(data).forEach(function (key) {
+                seriesNames.push({ label: key });
+            });
+
+            var options = {
+                title: '@ViewBag.operation chart',
+                axesDefaults: {
+                    labelRenderer: $.jqplot.CanvasAxisLabelRenderer
+                },
+                axes: {
+                    xaxis: {
+                        label: "X Axis"
+                    },
+                    yaxis: {
+                        label: "Y Axis"
+                    }
+                },
+                seriesDefaults: {
+                    showMarker: true,
+                    rendererOptions: {
+                        smooth: true,
+                        animation: { show: true }
+                    }
+                },
+                series: seriesNames,
+                legend: {
+                    show: true,
+                    placement: 'outsideGrid',
+                    location: 'e'
+                },
+                highlighter: {
+                    show: true,
+                },
+                cursor: {
+                    show: false,
+
+                }
+            };
+
+            Object.keys(data).forEach(function (key) {
+                var chartSeries = [];
+                var object = data[key];
+                Object.keys(object).forEach(function (childKey) {
+                    chartSeries.push([parseInt(childKey), object[childKey]]);
+                });
+                chartData.push(chartSeries);
+            });
+
+
+            $.jqplot('line-chart', chartData, options);
+
+
+        }
+
+    </script>
+}
+
+
+
+

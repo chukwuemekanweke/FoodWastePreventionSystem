@@ -311,6 +311,7 @@
     <Content Include="Areas\Customers\assets\img\tt.png" />
     <Content Include="Areas\Customers\assets\img\ttt.png" />
     <Content Include="Areas\Customers\assets\js\bootstrap.min.js" />
+    <Content Include="Areas\Customers\assets\js\jquery.min.js" />
     <Content Include="Areas\Customers\assets\js\jquery.tweet.js" />
     <Content Include="Areas\Customers\assets\js\script.js" />
     <Content Include="Areas\Customers\assets\js\shop.js" />
@@ -319,6 +320,7 @@
     <Content Include="Areas\Managers\assets\css\core.css" />
     <Content Include="Areas\Managers\assets\css\icons.css" />
     <Content Include="Areas\Managers\assets\css\ionicons.css" />
+    <Content Include="Areas\Managers\assets\css\jquery.jqplot.min.css" />
     <Content Include="Areas\Managers\assets\css\pages.css" />
     <Content Include="Areas\Managers\assets\css\responsive.css" />
     <Content Include="Areas\Managers\assets\fonts\fontawesome-webfont5b625b62.svg" />
@@ -340,10 +342,18 @@
     <Content Include="Areas\Managers\assets\js\detect.js" />
     <Content Include="Areas\Managers\assets\js\fastclick.js" />
     <Content Include="Areas\Managers\assets\js\fullcalendar.js" />
+    <Content Include="Areas\Managers\assets\js\jqplot.barRenderer.js" />
+    <Content Include="Areas\Managers\assets\js\jqplot.canvasAxisLabelRenderer.js" />
+    <Content Include="Areas\Managers\assets\js\jqplot.canvasAxisTickRenderer.js" />
+    <Content Include="Areas\Managers\assets\js\jqplot.canvasTextRenderer.js" />
+    <Content Include="Areas\Managers\assets\js\jqplot.categoryAxisRenderer.js" />
+    <Content Include="Areas\Managers\assets\js\jqplot.dateAxisRenderer.js" />
+    <Content Include="Areas\Managers\assets\js\jqplot.pieRenderer.js" />
     <Content Include="Areas\Managers\assets\js\jquery.app.js" />
     <Content Include="Areas\Managers\assets\js\jquery.circle-diagram.js" />
     <Content Include="Areas\Managers\assets\js\jquery.flot.js" />
     <Content Include="Areas\Managers\assets\js\jquery.flot.pie.js" />
+    <Content Include="Areas\Managers\assets\js\jquery.jqplot.min.js" />
     <Content Include="Areas\Managers\assets\js\jquery.min.js" />
     <Content Include="Areas\Managers\assets\js\jquery.nicescroll.js" />
     <Content Include="Areas\Managers\assets\js\jquery.scrollTo.min.js" />
@@ -429,6 +439,20 @@
     <Content Include="Areas\Customers\Views\CustomerHome\ViewProduct.cshtml" />
     <Content Include="Areas\Customers\Views\Cart\MyCart.cshtml" />
     <Content Include="Areas\Customers\Views\Cart\CartUpdates.cshtml" />
+    <Content Include="Areas\Customers\Views\Cart\Index.cshtml" />
+    <Content Include="Areas\Managers\Views\Charts\Index.cshtml" />
+    <Content Include="Areas\Managers\Views\Charts\Chart.cshtml" />
+    <Content Include="Areas\Managers\Views\Charts\Index1.cshtml" />
+    <Content Include="Areas\Managers\Views\Charts\SingleProductChart.cshtml" />
+    <Content Include="Areas\Managers\Views\Charts\CategoryChart.cshtml" />
+    <Content Include="Areas\Managers\Views\Charts\AllChart.cshtml" />
+    <Content Include="Areas\Managers\Views\Auction\PlaceProductOnAuction.cshtml" />
+    <Content Include="Areas\Customers\Views\Cart\TransactionSuccessful.cshtml" />
+    <Content Include="ClassDiagram1.cd" />
+    <Content Include="Areas\Customers\Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Areas\Managers\Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Areas\Customers\Views\CustomerHome\SortByStores.cshtml" />
+    <Content Include="Areas\Customers\Views\CustomerHome\ProductsByStore.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -483,7 +507,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Managers\Views\Charts\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

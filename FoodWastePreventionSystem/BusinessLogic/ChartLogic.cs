@@ -5,6 +5,7 @@ using FoodWastePreventionSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using System.Web.Helpers;
 
@@ -15,210 +16,160 @@ namespace FoodWastePreventionSystem.BusinessLogic
         private ProfitLogic ProfitLogic;
         private SalesLogic SalesLogic;
         private LossLogic LossLogic;
+        private AuctionLogic AuctionLogic;
         ChartsRenderer ChartsRenderer;
 
 
-        public ChartLogic(IRepository<Product> _ProductRepo, IRepository<Batch> _ProductInStoreRepo, IRepository<Transaction> _TransactiontRepo, IRepository<Auction> _AuctionRepo, IRepository<ProductToBeAuctioned> _ProductToBeAuctionedRepo, IRepository<Loss> _LossRepo, IRepository<AuctionTransactionStatus> _AuctionTransactionStatusRepo) :
+        public ChartLogic(IRepository<Product> _ProductRepo, IRepository<Batch> _ProductInStoreRepo, IRepository<Transaction> _TransactiontRepo, 
+            IRepository<Auction> _AuctionRepo, IRepository<ProductToBeAuctioned> _ProductToBeAuctionedRepo,
+            IRepository<Loss> _LossRepo, IRepository<AuctionTransactionStatus> _AuctionTransactionStatusRepo,
+            ProfitLogic _ProfitL, SalesLogic _SalesL, LossLogic _LossL, AuctionLogic _AuctionL) :
             base(_ProductRepo, _ProductInStoreRepo, _TransactiontRepo, _AuctionRepo, _ProductToBeAuctionedRepo, _LossRepo, _AuctionTransactionStatusRepo)
         {
-            ProfitLogic = new ProfitLogic(_ProductRepo, _ProductInStoreRepo, _TransactiontRepo, _AuctionRepo, _ProductToBeAuctionedRepo, _LossRepo,_AuctionTransactionStatusRepo);
-            SalesLogic = new SalesLogic(_ProductRepo, _ProductInStoreRepo, _TransactiontRepo, _AuctionRepo, _ProductToBeAuctionedRepo, _LossRepo, _AuctionTransactionStatusRepo);
-            LossLogic = new LossLogic(_ProductRepo, _ProductInStoreRepo, _TransactiontRepo, _AuctionRepo, _ProductToBeAuctionedRepo, _LossRepo, _AuctionTransactionStatusRepo);
+            ProfitLogic = _ProfitL;
+            SalesLogic = _SalesL;
+            LossLogic = _LossL;
+            AuctionLogic = _AuctionL;
             ChartsRenderer = new ChartsRenderer();
         }
 
-        public Chart ProfitChart(ReqColumnChart chartData)
+        public Dictionary<string, double> ProfitForProduct(Guid productId)
         {
-            int Year = chartData.year;
-            Chart Chart = null;
-            YearlyProfitChart[] YearlyData;
-            MonthlyProfitChart[] MonthlyData;
-            ProfitsForProduct ProfitRecords = ProfitLogic.GetProfitForProduct(chartData.productId);
-
-            int i = 0;
-            if (Year != 0)
+            Dictionary<string, double> Report = new Dictionary<string, double>();
+            ProfitsForProduct ProfitRecord = ProfitLogic.GetProfitForProduct(productId);
+            ProfitRecord.ProfitsForProductInYear.ForEach(x =>
             {
-                YearlyData = new YearlyProfitChart[ProfitRecords.ProfitsForProductInYear.Count];
-                foreach (var item in ProfitRecords.ProfitsForProductInYear)
-                {
-                    YearlyData[i] = new YearlyProfitChart()
-                    {
-                        Year = item.Year,
-                        Profit = item.ProfitsPerMonth.Sum(x => x.Value),
-                        SeriesTitle = $"Profit For {ProductRepo.Get(x => x.Id == chartData.productId).Name}",
-                    };
-                    ++i;
-                }
-
-                Chart = ChartsRenderer.DrawChart(YearlyData.ToList(), "Profit Chart [YEARLY]", chartData.chartType);
-            }
-            else
-            {
-                MonthlyData = new MonthlyProfitChart[12];
-                ProfitsForProductInYear ProfitsForProductInYear = ProfitRecords.ProfitsForProductInYear.FirstOrDefault(x => x.Year == Year);
-                foreach (var item in ProfitsForProductInYear.ProfitsPerMonth)
-                {
-                    MonthlyData[i] = new MonthlyProfitChart()
-                    {
-                        Month = item.Key,
-                        Profit = item.Value,
-                        SeriesTitle = $"Profit For {ProductRepo.Get(x => x.Id == chartData.productId).Name}",
-                    };
-                    ++i;
-                }
-
-                Chart = ChartsRenderer.DrawChart(MonthlyData.ToList(), $"Profit Chart [FOR {chartData.year}]", chartData.chartType);
-            }
-
-            return Chart;
-
+                Report.Add(x.Year.ToString(), x.ProfitsPerMonth.Sum(y => y.Value));
+            });
+            return Report;
         }
 
-        public Chart LossChart(ReqColumnChart chartData)
+        public Dictionary<string,double> AnnualProfitForProduct(Guid productId, int year)
         {
-            int Year = chartData.year;
-            Chart Chart = null;
-            YearlyLossChart[] YearlyData;
-            MonthlyLossChart[] MonthlyData;
-            LossForProduct Lossrecords = LossLogic.GetLossForProduct(chartData.productId);
-
-
-            int i = 0;
-            if (Year != 0)
+            Dictionary<string, double> Report = new Dictionary<string, double>();
+            ProfitsForProductInYear ProfitRecord = ProfitLogic.GetProfitForProduct(productId).ProfitsForProductInYear
+                                                    .FirstOrDefault(x=>x.Year==year);
+            if (ProfitRecord != null)
             {
-                YearlyData = new YearlyLossChart[Lossrecords.LossForProductInYear.Count];
-                foreach (var item in Lossrecords.LossForProductInYear)
-                {
-                    YearlyData[i] = new YearlyLossChart()
-                    {
-                        Year = item.Year,
-                        Loss = item.LossPerMonth.Sum(x => x.Value),
-                        SeriesTitle = $"Loss For {ProductRepo.Get(x => x.Id == chartData.productId).Name}",
-                    };
-                    ++i;
-                }
-
-                Chart = ChartsRenderer.DrawChart(YearlyData.ToList(), "Loss Chart [YEARLY]", chartData.chartType);
+                ProfitRecord.ProfitsPerMonth.Keys.ToList().ForEach(x=>{
+                    Report.Add(x.ToString(), ProfitRecord.ProfitsPerMonth[x]);
+                });
             }
-            else
-            {
-                MonthlyData = new MonthlyLossChart[12];
-                LossForProductInYear ProfitsForProductInYear = Lossrecords.LossForProductInYear.FirstOrDefault(x => x.Year == Year);
-                foreach (var item in ProfitsForProductInYear.LossPerMonth)
-                {
-                    MonthlyData[i] = new MonthlyLossChart()
-                    {
-                        Month = item.Key,
-                        Loss = item.Value,
-                        SeriesTitle = $"Loss For {ProductRepo.Get(x => x.Id == chartData.productId).Name}",
-                    };
-                    ++i;
-                }
-                Chart = ChartsRenderer.DrawChart(MonthlyData.ToList(), $"Loss Chart [FOR {chartData.year}]", chartData.chartType);
-            }
-
-            return Chart;
+            return Report;
         }
 
-        public Chart SalesAuctionChart(ReqColumnChart chartData)
+        public Dictionary<string, Dictionary<string, double>> ProfitForProducts(Expression<Func<Product, bool>> productPredicate = null)
         {
-            Chart Chart = null;
-            int year = chartData.year;
-            SalesAuctionYearlyChart[] YearlyData;
-            SalesAuctionMonthlyChart[] MonthlyData;
-            List<SalesAuctionViewModel> SalesAuctionRatioRecords = new List<SalesAuctionViewModel>();
-            SalesAuctionViewModel SalesAuctionRecord = new SalesAuctionViewModel();
+            Dictionary<string, Dictionary<string, double>> Report = new Dictionary<string, Dictionary<string, double>>();
+            List<Product> Product = ProductRepo.GetAll(productPredicate).ToList();
+            Product.ForEach(x => {
+                Report.Add(x.Name, ProfitForProduct(x.Id));
+            });
+            return Report;
+        }
 
-            int i = 0;
+        public Dictionary<string,Dictionary<string,double>> AnnualProfitForProducts(int year,Expression<Func<Product, bool>> productPredicate = null)
+        {
+            Dictionary<string, Dictionary<string, double>> Report = new Dictionary<string, Dictionary<string, double>>();
+            List<Product> Product = ProductRepo.GetAll(productPredicate).ToList();
+            Product.ForEach(x => {
+                Report.Add(x.Name, AnnualProfitForProduct(x.Id,year));
+            });
+            return Report;
+        }
 
-            if (year != 0)
+        public Dictionary<string, double> SalesForProduct(Guid productId)
+        {
+            Dictionary<int, Dictionary<Month, double>> TurnoverRecords;
+            Dictionary<string, double> Report = new Dictionary<string, double>();
+            TransactionsForProduct SalesRecords = SalesLogic.GetSalesForProduct(productId, out TurnoverRecords);
+
+            if (SalesRecords != null)
             {
-                SalesAuctionRecord = SalesLogic.GetSalesToAuctionRatio(chartData.productId).FirstOrDefault(x => x.Year == year);
-                MonthlyData = new SalesAuctionMonthlyChart[12];
-                foreach (var item in SalesAuctionRecord.Record)
+                SalesRecords.TransactionsForProductInYear.ForEach(x =>
                 {
-                    MonthlyData[i] = new SalesAuctionMonthlyChart()
-                    {
-                        Month = item.Month,
-                        Auction = item.AuctionQuantity,
-                        Sales = item.SalesQuantity,
-
-
-                    }; ++i;
-                }
-                Chart = ChartsRenderer.DrawChart(MonthlyData.ToList(), $"Sales/Auction Chart [FOR {chartData.year}]", chartData.chartType);
+                    Report.Add(x.Year.ToString(), x.TransactionsPerMonth.Sum(y => y.Value));
+                });
             }
-            else
+            return Report;
+        }
+
+        public Dictionary<string,double> AnnualSalesForProduct(Guid productId, int year)
+        {
+            Dictionary<int, Dictionary<Month, double>> TurnoverRecords;
+            Dictionary<string, double> Report = new Dictionary<string, double>();
+            TransactionsForProductInYear SalesRecord = SalesLogic.GetSalesForProduct(productId, out TurnoverRecords).TransactionsForProductInYear
+                                                    .FirstOrDefault(x => x.Year == year);
+            if (SalesRecord != null)
             {
-                SalesAuctionRatioRecords = SalesLogic.GetSalesToAuctionRatio(chartData.productId);
-                YearlyData = new SalesAuctionYearlyChart[SalesAuctionRatioRecords.Count()];
-                foreach (var item in SalesAuctionRatioRecords)
-                {
-
-                    YearlyData[i] = new SalesAuctionYearlyChart()
-                    {
-                        year = item.Year,
-                        Sales = item.Record.Sum(x => x.SalesQuantity),
-                        Auction = item.Record.Sum(x => x.AuctionQuantity),
-                    };
-
-                    ++i;
-                }
-                ChartsRenderer chart = new ChartsRenderer();
-                Chart = chart.DrawChart(YearlyData.ToList(), "Sales/Auction Chart [YEARLY]", chartData.chartType);
+                SalesRecord.TransactionsPerMonth.Keys.ToList().ForEach(x => {
+                    Report.Add(x.ToString(), SalesRecord.TransactionsPerMonth[x]);
+                });
             }
-            return Chart;
+            return Report;
+        }
+
+        public Dictionary<string, Dictionary<string, double>> SalesForProducts(Expression<Func<Product, bool>> productPredicate = null)
+        {
+            Dictionary<string, Dictionary<string, double>> Report = new Dictionary<string, Dictionary<string, double>>();
+            List<Product> Product = new List<Product>();
+               Product =  ProductRepo.GetAll(productPredicate).ToList();
+            Product.ForEach(x => {
+                Report.Add(x.Name, SalesForProduct(x.Id));
+            });
+            return Report;
+        }
+
+        public Dictionary<string,Dictionary<string,double>> AnnualSalesForProducts(int year,Expression<Func<Product, bool>> productPredicate = null)
+        {
+            Dictionary<string, Dictionary<string, double>> Report = new Dictionary<string, Dictionary<string, double>>();
+            List<Product> Product = ProductRepo.GetAll(productPredicate).ToList();
+            Product.ForEach(x => {
+                Report.Add(x.Name, AnnualProfitForProduct(x.Id,year));
+            });
+            return Report;
+        }
+
+         public Dictionary<string, double> AuctionsForProduct(Guid productId)
+        {
+            Dictionary<string, double> Report = new Dictionary<string, double>();
+            TransactionsForProduct Auctionrecords = AuctionLogic.GetAuctionsForProduct(productId);
+            Auctionrecords.TransactionsForProductInYear.ForEach(x => {
+                Report.Add(x.Year.ToString(), x.TransactionsPerMonth.Sum(y => y.Value));
+            });
+            return Report;
+        }
+
+        public Dictionary<string, double> AnnualAuctionForProduct(Guid productId, int year)
+        {
+            Dictionary<int, Dictionary<Month, double>> TurnoverRecords;
+            Dictionary<string, double> Report = new Dictionary<string, double>();
+            TransactionsForProductInYear AuctionRecord = AuctionLogic.GetAuctionsForProduct(productId).TransactionsForProductInYear
+                                                    .FirstOrDefault(x => x.Year == year);
+            if (AuctionRecord != null)
+            {
+                AuctionRecord.TransactionsPerMonth.Keys.ToList().ForEach(x => {
+                    Report.Add(x.ToString(), AuctionRecord.TransactionsPerMonth[x]);
+                });
+            }
+            return Report;
+        }
+
+        public Dictionary<string, Dictionary<string, double>> AuctionsForProducts(Expression<Func<Product, bool>> productPredicate = null)
+        {
+            Dictionary<string, Dictionary<string, double>> Report = new Dictionary<string, Dictionary<string, double>>();
+            List<Product> Product = ProductRepo.GetAll(productPredicate).ToList();
+            Product.ForEach(x => {
+                Report.Add(x.Name, AuctionsForProduct(x.Id));
+            });
+            return Report;
         }
 
 
-        public Chart ProfitLossChart(ReqColumnChart chartData)
-        {
-            Chart Chart = null;
-            int year = chartData.year;
-            ProfitLossYearlyChart[] YearlyData;
-            ProfitLossMonthlyChart[] MonthlyData;
-            List<ProfitLossVM> ProfitLossRatioRecords = new List<ProfitLossVM>();
-            ProfitLossVM ProfitLossRecord = new ProfitLossVM();
 
-            int i = 0;
 
-            if (year != 0)
-            {
-                ProfitLossRecord = ProfitLogic.GetProfitLossRatio(chartData.productId).FirstOrDefault(x => x.Year == year);
-                MonthlyData = new ProfitLossMonthlyChart[12];
-                foreach (var item in ProfitLossRecord.Records)
-                {
-                    MonthlyData[i] = new ProfitLossMonthlyChart()
-                    {
-                        Month = item.Month,
-                        Profit = item.Profit,
-                        Loss = item.Loss,
-                    };
-                    ++i;
-                }
 
-                Chart = ChartsRenderer.DrawChart(MonthlyData.ToList(), $"Profit/Loss Chart [FOR {chartData.year}]", chartData.chartType);
-            }
-            else
-            {
-                ProfitLossRatioRecords = ProfitLogic.GetProfitLossRatio(chartData.productId);
-                YearlyData = new ProfitLossYearlyChart[ProfitLossRatioRecords.Count()];
-                foreach (var item in ProfitLossRatioRecords)
-                {
-
-                    YearlyData[i] = new ProfitLossYearlyChart()
-                    {
-                        year = item.Year,
-                        Profit = item.Records.Sum(x => x.Profit),
-                        Loss = item.Records.Sum(x => x.Loss),
-                    };
-
-                    ++i;
-                }
-                Chart = ChartsRenderer.DrawChart(YearlyData.ToList(), "Profit/Loss Chart [YEARLY]", chartData.chartType);
-            }
-            return Chart;
-        }
+        
 
 
     }

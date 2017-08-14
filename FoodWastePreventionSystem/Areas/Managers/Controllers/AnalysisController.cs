@@ -14,7 +14,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace FoodWastePreventionSystem.Areas.Managers.Controllers
 {
-    [Authorize]
+    [Authorize(Roles="admin")]
     [RouteArea("Managers")]
     [RoutePrefix("Analysis")]
     public class AnalysisController : Controller
@@ -75,7 +75,7 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
         public ActionResult Index(string type)
         {
             ViewBag.type = type;
-            ViewBag.Products = ProductRepo.GetAll().ToList().Select(x => 
+            ViewBag.Products = ProductRepo.GetAll(x=>x.StoreId==LoggedInUser.StoreId).ToList().Select(x => 
             new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).ToList();
             return View();
         }
@@ -130,5 +130,6 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
             }
             return View(BatchAuctionRecords);
         }
+
     }
 }

@@ -14,14 +14,14 @@ using PagedList;
 
 namespace FoodWastePreventionSystem.Areas.Managers.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "admin")]
     [RouteArea("Managers")]
     [RoutePrefix("Auction")]
     public class AuctionController : Controller
     {
         private IRepository<Product> ProductRepo;
         private IRepository<Auction> Auctionrepo;
-        private IRepository<Batch> ProductInStoreRepo;
+        private IRepository<Batch> BatchRepo;
         private IRepository<Transaction> TransactionRepo;
         private IRepository<ProductToBeAuctioned> ToBeAuctionedRepo;
 
@@ -56,16 +56,17 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
         }
 
 
-        public AuctionController(IRepository<Product> _ProductRepo, IRepository<Batch> _ProductInStoreRepo, IRepository<Transaction> _TransactiontRepo, IRepository<Auction> _AuctionRepo, IRepository<ProductToBeAuctioned> _ProductToBeAuctionedRepo, IRepository<Loss> _LossRepo, IRepository<AuctionTransactionStatus> _AuctionStatusTransactionRepo)
+        public AuctionController(IRepository<Product> _ProductRepo, IRepository<Batch> _ProductInStoreRepo, IRepository<Transaction> _TransactiontRepo,
+            IRepository<Auction> _AuctionRepo, IRepository<ProductToBeAuctioned> _ProductToBeAuctionedRepo, IRepository<Loss> _LossRepo,
+            IRepository<AuctionTransactionStatus> _AuctionStatusTransactionRepo, ProductsLogic _Logic)
         {
             ProductRepo = _ProductRepo;
             Auctionrepo = _AuctionRepo;
-            ProductInStoreRepo = _ProductInStoreRepo;
+            BatchRepo = _ProductInStoreRepo;
             TransactionRepo = _TransactiontRepo;
             ToBeAuctionedRepo = _ProductToBeAuctionedRepo;
 
-            ProductsLogic = new ProductsLogic(_ProductRepo, _ProductInStoreRepo, _TransactiontRepo, _AuctionRepo, _ProductToBeAuctionedRepo, _LossRepo, _AuctionStatusTransactionRepo);
-
+            ProductsLogic = _Logic;
         }
 
 
@@ -283,6 +284,31 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
             Record.AuctionPrice = model.AuctionPrice;
             Auctionrepo.Update(Record);
             return RedirectToAction("ViewSoonToBeExpiredInventory", "Analysis");
+        }
+
+        public ActionResult PlaceProductOnAuction (Guid id)
+        {
+            Batch Batch = BatchRepo.Get(x => x.Id == id);
+            ViewBag.product = Batch.Product;
+            return View(Batch);
+        }
+
+        [HttpPost]
+        public ActionResult PlaceProductOnAuction(FormCollection collection)
+        {
+            Guid BatchId = Guid.Parse(collection["batchId"]);
+            double AuctionPrice = double.Parse(collection["auctionPrice"]);
+            Batch Batch = BatchRepo.Get(x => x.Id == BatchId);
+            Auctionrepo.Add(new Auction() {
+                AuctionPrice = AuctionPrice,
+                BatchId = BatchId
+            });
+
+            TempData["msg"] = $"{Batch.Product.Name} With Id of {BatchId} Has Been Put Up On Auction At {AuctionPrice} Naira";
+            TempData["class"] = "alert alert-success alert-dismissable";
+
+            ViewBag.product = Batch.Product;
+            return View(Batch);
         }
 
     }

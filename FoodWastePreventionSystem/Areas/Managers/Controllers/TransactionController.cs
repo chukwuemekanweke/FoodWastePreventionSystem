@@ -15,7 +15,7 @@ using FoodWastePreventionSystem.BusinessLogic;
 
 namespace FoodWastePreventionSystem.Areas.Managers.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "admin")]
     [RouteArea("Managers")]
     [RoutePrefix("Transaction")]
     public class TransactionController : Controller
@@ -23,7 +23,7 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
         private IRepository<Batch> BatchRepo;
         private IRepository<Transaction> TransactionRepo;
         private IRepository<Product> ProductRepo;
-        private int PageSize = 2;
+        private int PageSize = 5;
 
 
         private SalesLogic SalesLogic;
@@ -42,7 +42,6 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
         }
 
         private ApplicationUserManager userManager;
-        private ApplicationUser loggedInUser;
 
         public ApplicationUser LoggedInUser
         {
@@ -80,7 +79,7 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
             List<TransactionVM> AllSalesInfo = new List<TransactionVM>();
 
             if (type == TransactionType.Sale) {
-                List<Transaction> AllSales = TransactionRepo.GetAll(x => x.TransactionType == TransactionType.Sale).ToList();
+                List<Transaction> AllSales = TransactionRepo.GetAll(x => x.TransactionType == TransactionType.Sale && x.Batch.Product.StoreId==LoggedInUser.StoreId).ToList();
                 foreach (var item in AllSales)
                 {
                     AllSalesInfo.Add(new TransactionVM()
@@ -93,7 +92,7 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
             }
             else if(type == TransactionType.Auction)
             {
-                List<Transaction> AllSales = TransactionRepo.GetAll(x => x.TransactionType == TransactionType.Auction).ToList();
+                List<Transaction> AllSales = TransactionRepo.GetAll(x => x.TransactionType == TransactionType.Auction && x.Batch.Product.StoreId == LoggedInUser.StoreId).ToList();
                 foreach (var item in AllSales)
                 {
                     AllSalesInfo.Add(new TransactionVM()
@@ -119,7 +118,7 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
             {
                 if (id == null)
                 {
-                    AllSales = TransactionRepo.GetAll(x => x.TransactionType == TransactionType.Sale).ToList();
+                    AllSales = TransactionRepo.GetAll(x => x.TransactionType == TransactionType.Sale && x.Batch.Product.StoreId == LoggedInUser.StoreId).ToList();
                 }
                 else
                 {
@@ -139,7 +138,7 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
             {
                 if (id == null)
                 {
-                    AllSales = TransactionRepo.GetAll(x => x.TransactionType == TransactionType.Auction).ToList();
+                    AllSales = TransactionRepo.GetAll(x => x.TransactionType == TransactionType.Auction && x.Batch.Product.StoreId == LoggedInUser.StoreId).ToList();
                 }
                 else
                 {
@@ -160,7 +159,7 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
 
         public ActionResult SelectProductToAddTransaction()
         {
-            ViewBag.Products = ProductRepo.GetAll().Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).ToList();
+            ViewBag.Products = ProductRepo.GetAll(x=>x.StoreId==LoggedInUser.StoreId).Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).ToList();
             return View();
         }
 

@@ -20,7 +20,7 @@ using System.Data.Entity.Validation;
 
 namespace FoodWastePreventionSystem.Areas.Managers.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "admin")]
     [RouteArea("Managers")]
     [RoutePrefix("Products")]
     public class ProductsController : Controller
@@ -30,7 +30,7 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
         private IRepository<Auction> Auctionrepo;
         private IRepository<ProductToBeAuctioned> ToBeAuctionedRepo;
         private ApplicationUserManager userManager;
-        private BackgroundTasks cron;
+        private BackgroundTasks Cron { get; set; }
 
 
         private SalesLogic SalesLogic;
@@ -64,16 +64,16 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
         public ProductsController(IRepository<Product> _ProductRepo, IRepository<FoodWastePreventionSystem.Models.Batch> _ProductInStoreRepo,
                                     IRepository<Transaction> _TransactiontRepo, IRepository<Auction> _AuctionRepo,
                                     IRepository<ProductToBeAuctioned> _ProductToBeAuctionedRepo, IRepository<Loss> _LossRepo,
-                                    IRepository<AuctionTransactionStatus> _AuctionTransactionStausRepo, BackgroundTasks _cron)
+                                    IRepository<AuctionTransactionStatus> _AuctionTransactionStausRepo, 
+                                    AuctionLogic _AuctionL, ProductsLogic _ProductL, SalesLogic _SalesL, BackgroundTasks _cron)
         {
-            cron = _cron;
+            Cron = _cron;
             ProductRepo = _ProductRepo;
             Auctionrepo = _AuctionRepo;
             ToBeAuctionedRepo = _ProductToBeAuctionedRepo;
-            ProductLogic = new ProductsLogic(_ProductRepo, _ProductInStoreRepo, _TransactiontRepo, _AuctionRepo, _ProductToBeAuctionedRepo, _LossRepo, _AuctionTransactionStausRepo);
-            AuctionLogic = new AuctionLogic(_ProductRepo, _ProductInStoreRepo, _TransactiontRepo, _AuctionRepo, _ProductToBeAuctionedRepo, _LossRepo, _AuctionTransactionStausRepo);
-            SalesLogic = new SalesLogic(_ProductRepo, _ProductInStoreRepo, _TransactiontRepo, _AuctionRepo, _ProductToBeAuctionedRepo, _LossRepo, _AuctionTransactionStausRepo);
-
+            ProductLogic = _ProductL;
+            AuctionLogic = _AuctionL;
+            SalesLogic = _SalesL;
         }
 
         [Route("Index/{searchTerm}/{page:int}")]
@@ -84,22 +84,23 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
         [Route("")]
         public async Task<ActionResult> Index(string searchTerm, string searchCategory, int? page)
         {
+           
             //Background Tasks
-            //try
-            //{
-            //    cron.AddProductBackground(LoggedInUser.StoreId);
-            //}
-            //catch (DbEntityValidationException e)
-            //{
-            //    string error = "";
+            try
+            {
+                Cron.SearchForExpiredproduct(LoggedInUser.StoreId);
+            }
+            catch (Exception e)
+            {
+                string error = "";
 
-            //    foreach (var item in e.EntityValidationErrors)
-            //    {
-            //        error += item.Entry;
+                //foreach (var item in e.EntityValidationErrors)
+                //{
+                //    error += item.Entry;
 
-            //    }
-            //    return Content(error);
-            //}
+                //}
+                return Content(e.Message+"||||"+e.StackTrace);
+            }
 
 
 
@@ -126,7 +127,6 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
                 ViewBag.Catgory = searchCategory;
                 ViewBag.SearchTerm = searchTerm;
             }
-            Debug.WriteLine(searchCategory);
 
             int pageNumber = (page ?? 1);
             var result = await FetchCategories();
@@ -331,22 +331,25 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
 
         }
 
+        [AllowAnonymous]
         public FileContentResult GetImage1(Guid id)
         {
             Product prod = ProductRepo.Get(p => p.Id == id);
-            if (prod != null)
+            if (prod != null && prod.Image1!=null)
             {
-                return File(prod.Image1, prod.extension1);
+                 return File(prod.Image1, prod.extension1);
             }
             else
             {
                 return null;
             }
         }
+
+        [AllowAnonymous]
         public FileContentResult GetImage2(Guid id)
         {
             Product prod = ProductRepo.Get(p => p.Id == id);
-            if (prod != null)
+            if (prod != null && prod.Image1 != null)
             {
                 return File(prod.Image2, prod.extension2);
             }

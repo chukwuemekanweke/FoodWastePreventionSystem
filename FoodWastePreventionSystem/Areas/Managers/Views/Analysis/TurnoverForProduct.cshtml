@@ -20,8 +20,9 @@
     @for (int i = 0; i < NumberOfYears; i += 3)
     {
         var First = Model.TurnoverForProductInYear[i];
-        var Second = Model.TurnoverForProductInYear[i + 1];
-        var Third = Model.TurnoverForProductInYear[i + 2];
+
+        var Second = i+1<NumberOfYears?Model.TurnoverForProductInYear[i + 1]:null;
+        var Third = i + 2 < NumberOfYears ? Model.TurnoverForProductInYear[i + 2]:null;
         <div class="row">
             @if (First != null)
             {
@@ -56,7 +57,7 @@
                             </ul>
                         </div>
                         <div class="panel-footer">
-                            <a href="@Url.Action("TurnoverReportDetails","Analysis", new { id=ViewBag.id, year=Record.Year})" class="btn btn-rounded btn-md @ButtonColor[i%ButtonColor.Length]">.btn-default</a>
+                            <a href="@Url.Action("TurnoverReportDetails","Analysis", new { id=ViewBag.id, year=Record.Year})" class="btn btn-rounded btn-md @ButtonColor[i%ButtonColor.Length]">Details</a>
                         </div>
                     </div>
                 </div>
@@ -94,7 +95,7 @@
                             </ul>
                         </div>
                         <div class="panel-footer">
-                            <a href="@Url.Action("TurnoverReportDetails","Analysis", new { id=ViewBag.id,year=Record.Year})" class="btn btn-rounded btn-md @ButtonColor[i%ButtonColor.Length]">.btn-default</a>
+                            <a href="@Url.Action("TurnoverReportDetails","Analysis", new { id=ViewBag.id,year=Record.Year})" class="btn btn-rounded btn-md @ButtonColor[i%ButtonColor.Length]">Details</a>
                         </div>
                     </div>
                 </div>
@@ -132,7 +133,7 @@
                             </ul>
                         </div>
                         <div class="panel-footer">
-                            <a href="@Url.Action("TurnoverReportDetails","Analysis", new {id=ViewBag.id, year=Record.Year})" class="btn btn-rounded btn-md @ButtonColor[i%ButtonColor.Length]">.btn-default</a>
+                            <a href="@Url.Action("TurnoverReportDetails","Analysis", new {id=ViewBag.id, year=Record.Year})" class="btn btn-rounded btn-md @ButtonColor[i%ButtonColor.Length]">Details</a>
                         </div>
                     </div>
                 </div>

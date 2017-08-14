@@ -11,8 +11,9 @@
             <h4 class="header-title"><b>Edit Product</b></h4>
         </div>
         <div class="card-box-content form-compoenent">
-            @using (Html.BeginForm("", "", new { Area = "Managers" }, FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("Edit", "Products", new { Area = "Managers" }, FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
             {
+                @Html.ValidationSummary()
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(m => m.Product.Id, Model.Product.Id)
                 @Html.HiddenFor(m=>m.Product.StoreId,Model.Product.StoreId)
@@ -87,53 +88,7 @@
                                 </select>
                             </div>
                         </div>*@
-                    <div class="form-group">
-                        <label class="control-label col-sm-2">Inline Checkboxes</label>
-                        <div class="col-sm-10">
-                            <div class="checkbox checkbox-primary col-md-2">
-                                <input id="checkbox1" type="checkbox">
-                                <label for="checkbox1"> Option 1</label>
-                            </div>
-
-                            <div class="checkbox checkbox-primary col-md-2">
-                                <input id="checkbox2" type="checkbox">
-                                <label for="checkbox2"> Option 2</label>
-                            </div>
-
-                            <div class="checkbox checkbox-primary col-md-2">
-                                <input id="checkbox3" type="checkbox">
-                                <label for="checkbox3"> Option 3</label>
-                            </div>
-
-                            <div class="checkbox checkbox-primary col-md-2">
-                                <input id="checkbox4" type="checkbox">
-                                <label for="checkbox4"> Option 4</label>
-                            </div>
-
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2">Inline Checkboxes</label>
-                        <div class="col-sm-10">
-                            <div class="radio radio-primary col-md-2">
-                                <input id="radio1" type="radio" name="radio-name">
-                                <label for="radio1"> Option 1</label>
-                            </div>
-
-                            <div class="radio radio-primary col-md-2">
-                                <input id="radio2" type="radio" name="radio-name">
-                                <label for="radio2"> Option 2</label>
-                            </div>
-
-                            <div class="radio radio-primary col-md-2">
-                                <input id="radio3" type="radio" name="radio-name">
-                                <label for="radio3"> Option 3</label>
-                            </div>
-
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
+                 
                     <div class="form-group">
                         <div class="col-sm-10 col-sm-offset-2" id="imagePlaceholder">
                             <div>
@@ -144,7 +99,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2">File Input</label>
                         <div class="col-sm-10">
-                            <input type="file" class="form-control" id="fileUploader" name="imageFiles" multiple max="3">
+                            <input type="file" class="form-control" id="fileUploader" name="imageFiles" multiple >
                         </div>
                     </div>
                     <div class="form-group">
@@ -157,7 +112,7 @@
         </div>
     </div>
 </div>
-}
+
 
 <div>
     @Html.ActionLink("Back to List", "Index")

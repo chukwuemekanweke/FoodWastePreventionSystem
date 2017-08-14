@@ -45,23 +45,23 @@ namespace FoodWastePreventionSystem.BusinessLogic.BusinessLogicModels
         }
     }
 
-    public class SalesForProductInYear
+    public class TransactionsForProductInYear
     {
         public int Year { get; set; }
-        public Dictionary<Month, double> SalesPerMonth { get; set; }
+        public Dictionary<Month, double> TransactionsPerMonth { get; set; }
     }
 
-    public class SalesForProduct
+    public class TransactionsForProduct
     {
         public Product Product { get; set; }
         public int StartYear { get; set; }
         public int EndYear { get; set; }
-        public List<SalesForProductInYear> SalesForProductInYear { get; set; }
+        public List<TransactionsForProductInYear> TransactionsForProductInYear { get; set; }
         public int YearSpan { get; set; }
 
-        public SalesForProduct()
+        public TransactionsForProduct()
         {
-            SalesForProductInYear = new List<SalesForProductInYear>();
+            TransactionsForProductInYear = new List<TransactionsForProductInYear>();
         }
     }
 
