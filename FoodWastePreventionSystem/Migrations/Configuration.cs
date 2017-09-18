@@ -1,9 +1,9 @@
 namespace FoodWastePreventionSystem.Migrations
 {
-    
+    using System;
+    using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
-    using System.Web;
 
     internal sealed class Configuration : DbMigrationsConfiguration<FoodWastePreventionSystem.Infrastructure.ApplicationContext>
     {
@@ -13,11 +13,8 @@ namespace FoodWastePreventionSystem.Migrations
             AutomaticMigrationDataLossAllowed = true;
         }
 
-       
-
         protected override void Seed(FoodWastePreventionSystem.Infrastructure.ApplicationContext context)
         {
-
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 

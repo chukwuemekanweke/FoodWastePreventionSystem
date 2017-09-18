@@ -21,61 +21,61 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
     public class ChartsController : Controller
     {
 
-        Dictionary<string, double> TestRecord = new Dictionary<string, double>()
-        {
-            ["2010"] = 200,
-            ["2011"] = 114,
-            ["2012"] = 250,
-            ["2013"] = 250,
-            ["2014"] = 250,
-            ["2015"] = 150,
-            ["2016"] = 350,
-            ["2017"] = 550,
-            ["2018"] = 050,
-            ["2019"] = 210,
-            ["2020"] = 255,
-        };
+        //Dictionary<string, double> TestRecord = new Dictionary<string, double>()
+        //{
+        //    ["2010"] = 200,
+        //    ["2011"] = 114,
+        //    ["2012"] = 250,
+        //    ["2013"] = 250,
+        //    ["2014"] = 250,
+        //    ["2015"] = 150,
+        //    ["2016"] = 350,
+        //    ["2017"] = 550,
+        //    ["2018"] = 050,
+        //    ["2019"] = 210,
+        //    ["2020"] = 255,
+        //};
 
-        Dictionary<string, Dictionary<string, double>> TestRecord2 = new Dictionary<string, Dictionary<string, double>>()
-        {
-            ["Omo"] = new Dictionary<string, double>()
-            {
-                ["2010"] = 20,
-                ["2012"] = 20,
-                ["2013"] = 50,
-                ["2014"] = 20,
-            },
-            ["Indomie"] = new Dictionary<string, double>()
-            {
-                ["2010"] = 200,
-                ["2011"] = 154,
-                ["2012"] = 230,
-                ["2013"] = 400,
-                ["2014"] = 100,
-            },
-            ["Cowbell"] = new Dictionary<string, double>()
-            {
-                ["2010"] = 90,
-                ["2011"] = 114,
-                ["2012"] = 250,
-                ["2013"] = 500,
-                ["2014"] = 30,
-            },
-        };
+        //Dictionary<string, Dictionary<string, double>> TestRecord2 = new Dictionary<string, Dictionary<string, double>>()
+        //{
+        //    ["Omo"] = new Dictionary<string, double>()
+        //    {
+        //        ["2010"] = 20,
+        //        ["2012"] = 20,
+        //        ["2013"] = 50,
+        //        ["2014"] = 20,
+        //    },
+        //    ["Indomie"] = new Dictionary<string, double>()
+        //    {
+        //        ["2010"] = 200,
+        //        ["2011"] = 154,
+        //        ["2012"] = 230,
+        //        ["2013"] = 400,
+        //        ["2014"] = 100,
+        //    },
+        //    ["Cowbell"] = new Dictionary<string, double>()
+        //    {
+        //        ["2010"] = 90,
+        //        ["2011"] = 114,
+        //        ["2012"] = 250,
+        //        ["2013"] = 500,
+        //        ["2014"] = 30,
+        //    },
+        //};
 
-        [Route("GetTestRecord/{id}/{operation}")]
-        public JsonResult GetTestRecord(string id, string operation)
-        {
-            return Json(TestRecord, JsonRequestBehavior.AllowGet);
-        }
+        //[Route("GetTestRecord/{id}/{operation}")]
+        //public JsonResult GetTestRecord(string id, string operation)
+        //{
+        //    return Json(TestRecord, JsonRequestBehavior.AllowGet);
+        //}
 
 
-        [Route("GetTestRecord2/{operation}/{category}")]
-        [Route("GetTestRecord2/{operation}")]
-        public JsonResult GetTestRecord2(string operation, string category="")
-        {
-            return Json(TestRecord2, JsonRequestBehavior.AllowGet);
-        }
+        //[Route("GetTestRecord2/{operation}/{category}")]
+        //[Route("GetTestRecord2/{operation}")]
+        //public JsonResult GetTestRecord2(string operation, string category="")
+        //{
+        //    return Json(TestRecord2, JsonRequestBehavior.AllowGet);
+        //}
 
         public ActionResult Index1()
         {
@@ -115,9 +115,7 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
         }
 
 
-        public ChartsController(IRepository<Product> _ProductRepo, IRepository<Batch> _ProductInStoreRepo, IRepository<Transaction> _TransactiontRepo,
-            IRepository<Auction> _AuctionRepo, IRepository<ProductToBeAuctioned> _ProductToBeAuctionedRepo, IRepository<Loss> _LossRepo,
-            IRepository<AuctionTransactionStatus> _AuctionTransactionStatusRepo, SalesLogic _SalesL, ProfitLogic _ProfitL, ChartLogic _ChartL)
+        public ChartsController(IRepository<Product> _ProductRepo,  SalesLogic _SalesL, ProfitLogic _ProfitL, ChartLogic _ChartL)
         {
             ProductRepo = _ProductRepo;
             SalesLogic = _SalesL;

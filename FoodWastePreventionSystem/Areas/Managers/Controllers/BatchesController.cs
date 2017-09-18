@@ -129,12 +129,7 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
                 item.Auctionee = UserManager.FindById(item.Transaction.AuctioneeId);
 
             }
-            foreach (var item in SalesWithAgent)
-            {
-                Debug.WriteLine(item.Agent.UserName);
-                Debug.WriteLine(item.Transaction.Batch.ManufactureDate);
-                Debug.WriteLine(item.Transaction.Batch.Product.Name);
-            }
+           
 
             BatchInformationVM Records = new BatchInformationVM()
             {

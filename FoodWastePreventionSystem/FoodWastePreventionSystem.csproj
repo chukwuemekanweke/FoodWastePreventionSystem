@@ -232,6 +232,7 @@
     <Compile Include="Areas\Managers\Controllers\AuctionController.cs" />
     <Compile Include="Areas\Managers\Controllers\BatchesController.cs" />
     <Compile Include="Areas\Managers\Controllers\ChartsController.cs" />
+    <Compile Include="Areas\Managers\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Managers\Controllers\ProductsController.cs" />
     <Compile Include="Areas\Managers\Controllers\TransactionController.cs" />
     <Compile Include="Areas\Managers\ManagersAreaRegistration.cs" />
@@ -453,6 +454,7 @@
     <Content Include="Areas\Managers\Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Areas\Customers\Views\CustomerHome\SortByStores.cshtml" />
     <Content Include="Areas\Customers\Views\CustomerHome\ProductsByStore.cshtml" />
+    <Content Include="Areas\Managers\Views\Dashboard\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

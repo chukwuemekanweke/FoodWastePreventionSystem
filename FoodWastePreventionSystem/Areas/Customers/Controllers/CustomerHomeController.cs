@@ -49,10 +49,10 @@ namespace FoodWastePreventionSystem.Areas.Customers.Controllers
             {
                 ViewBag.SearchTerm = searchTerm;
                 var Records = AuctionLogic.ViewProductsOnAuction();
-                AuctionResult = Records.Where(x => x.Product.Name.Contains(searchTerm)).ToList();
+                AuctionResult = Records.Where(x => x.Product.Name.ToLower().Contains(searchTerm.ToLower())).ToList();
                 if (AuctionResult.Count == 0)
                 {
-                    AuctionResult = Records.Where(x => x.Product.Category.Contains(searchTerm)).ToList();
+                    AuctionResult = Records.Where(x => x.Product.Category.ToLower().Contains(searchTerm.ToLower())).ToList();
                 }
             }
             int pageNumber = (page ?? 1);           

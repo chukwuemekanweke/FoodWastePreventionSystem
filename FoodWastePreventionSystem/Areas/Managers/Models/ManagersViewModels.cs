@@ -87,5 +87,14 @@ namespace FoodWastePreventionSystem.Areas.Managers.Models
     }
 
 
+    public class DashboardVM
+    {
+        public int Products { get; set; }
+        public int Profit { get; set; }
+        public int Sales { get; set; }
+        public int Categories { get; set; }
+    }
+
+
 
 }

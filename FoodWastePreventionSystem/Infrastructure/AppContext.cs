@@ -24,7 +24,7 @@ namespace FoodWastePreventionSystem.Infrastructure
 
         public ApplicationContext(): base("name=AppConnectionString")
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationContext, Configuration>());
+            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationContext, Configuration>());
             //this.Configuration.LazyLoadingEnabled = false;
         }
     }
