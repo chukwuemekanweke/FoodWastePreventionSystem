@@ -5,6 +5,7 @@ using FoodWastePreventionSystem.Infrastructure;
 using FoodWastePreventionSystem.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,61 +22,7 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
     public class ChartsController : Controller
     {
 
-        //Dictionary<string, double> TestRecord = new Dictionary<string, double>()
-        //{
-        //    ["2010"] = 200,
-        //    ["2011"] = 114,
-        //    ["2012"] = 250,
-        //    ["2013"] = 250,
-        //    ["2014"] = 250,
-        //    ["2015"] = 150,
-        //    ["2016"] = 350,
-        //    ["2017"] = 550,
-        //    ["2018"] = 050,
-        //    ["2019"] = 210,
-        //    ["2020"] = 255,
-        //};
-
-        //Dictionary<string, Dictionary<string, double>> TestRecord2 = new Dictionary<string, Dictionary<string, double>>()
-        //{
-        //    ["Omo"] = new Dictionary<string, double>()
-        //    {
-        //        ["2010"] = 20,
-        //        ["2012"] = 20,
-        //        ["2013"] = 50,
-        //        ["2014"] = 20,
-        //    },
-        //    ["Indomie"] = new Dictionary<string, double>()
-        //    {
-        //        ["2010"] = 200,
-        //        ["2011"] = 154,
-        //        ["2012"] = 230,
-        //        ["2013"] = 400,
-        //        ["2014"] = 100,
-        //    },
-        //    ["Cowbell"] = new Dictionary<string, double>()
-        //    {
-        //        ["2010"] = 90,
-        //        ["2011"] = 114,
-        //        ["2012"] = 250,
-        //        ["2013"] = 500,
-        //        ["2014"] = 30,
-        //    },
-        //};
-
-        //[Route("GetTestRecord/{id}/{operation}")]
-        //public JsonResult GetTestRecord(string id, string operation)
-        //{
-        //    return Json(TestRecord, JsonRequestBehavior.AllowGet);
-        //}
-
-
-        //[Route("GetTestRecord2/{operation}/{category}")]
-        //[Route("GetTestRecord2/{operation}")]
-        //public JsonResult GetTestRecord2(string operation, string category="")
-        //{
-        //    return Json(TestRecord2, JsonRequestBehavior.AllowGet);
-        //}
+        
 
         public ActionResult Index1()
         {
@@ -88,6 +35,7 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
 
 
         private IRepository<Product> ProductRepo;
+        private IRepository<Transaction> TransactionRepo;
 
         private SalesLogic SalesLogic { get; set; }
         private ProfitLogic ProfitLogic { get; set; }
@@ -115,9 +63,10 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
         }
 
 
-        public ChartsController(IRepository<Product> _ProductRepo,  SalesLogic _SalesL, ProfitLogic _ProfitL, ChartLogic _ChartL)
+        public ChartsController(IRepository<Product> _ProductRepo, IRepository<Transaction> _TransactionRepo,  SalesLogic _SalesL, ProfitLogic _ProfitL, ChartLogic _ChartL)
         {
             ProductRepo = _ProductRepo;
+            TransactionRepo = _TransactionRepo;
             SalesLogic = _SalesL;
             ProfitLogic = _ProfitL;
             ChartLogic = _ChartL;
@@ -262,81 +211,44 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
             ViewBag.operation = operation;
             return Json(Record, JsonRequestBehavior.AllowGet);
         }
+       
 
+        public ActionResult ProductChart()
+        {
+            return View();
+        }
 
+        public PartialViewResult PrepareTransactionChart(Guid id)
+        {
+            List<ChartsModel> quantityRecords = new List<ChartsModel>();
+            List<ChartsModel> amountRecords = new List<ChartsModel>();
 
+            Product product = ProductRepo.Get(x => x.Id == id);
+            Transaction[] transactions = TransactionRepo.GetAll(x => x.Batch.ProductId == id).ToArray();
+            int[] years = transactions.Select(x => x.DateOfTransaction.Year).Distinct().ToArray();
+            for (int i = 0; i < years.Length; i++)
+            {
+                double quantityValue = transactions.Where(x => x.DateOfTransaction.Year == years[i]).Sum(x=>x.Quantity);
+                double amountValue = transactions.Where(x => x.DateOfTransaction.Year == years[i]).Sum(x => x.TotalCost);
 
+                quantityRecords.Add(new ChartsModel
+                {
+                    Year = years[i],
+                    Value = quantityValue,                    
+                });
 
+                amountRecords.Add(new ChartsModel
+                {
+                    Year = years[i],
+                    Value = amountValue,
+                });
 
+            }
+            ViewBag.quantity = JsonConvert.SerializeObject(quantityRecords);
+            ViewBag.amount = JsonConvert.SerializeObject(amountRecords);
 
-
-        //[HttpGet]
-        //[Route("FetchYearSpanForSpecifiedProduct/{productId}/dataType")]
-        //public JsonResult FetchYearSpanForSpecifiedProduct(string productId, string dataType)
-        //{
-        //    Guid Id = Guid.Parse(productId);
-        //    List<string> Years = new List<string>();
-        //    Dictionary<string, double> Records = new Dictionary<string, double>();
-        //    switch (dataType)
-        //    {
-        //        case "profit":
-        //            Records = ChartLogic.ProfitForProduct(Id);
-        //            break;
-        //        case "sales":
-        //            Records = ChartLogic.SalesForProduct(Id);
-        //            break;
-        //        case "auction":
-        //            Records = ChartLogic.AuctionsForProduct(Id);
-        //            break;
-        //    }
-
-        //    foreach (var record in Records)
-        //    {
-        //        if (!Years.Contains(record.Key))
-        //        {
-        //            Years.Add(record.Key);
-        //        }
-        //    }
-
-        //    return Json(Years, JsonRequestBehavior.AllowGet);
-        //}
-
-        //public JsonResult FetchYearSpanForProducts(string dataType, string category = "")
-        //{
-        //    List<string> Years = new List<string>();
-        //    Dictionary<string, Dictionary<string, double>> Records = new Dictionary<string, Dictionary<string, double>>();
-        //    switch (dataType)
-        //    {
-        //        case "profit":
-        //            Records = string.IsNullOrWhiteSpace(category) ? ChartLogic.ProfitForProducts() : ChartLogic.ProfitForProducts(x => x.Category == category);
-
-        //            break;
-        //        case "sales":
-        //            Records = string.IsNullOrWhiteSpace(category) ? ChartLogic.SalesForProducts() : ChartLogic.SalesForProducts(x => x.Category == category);
-        //            break;
-        //        case "auction":
-        //            Records = string.IsNullOrWhiteSpace(category) ? ChartLogic.AuctionsForProducts() : ChartLogic.AuctionsForProducts(x => x.Category == category);
-
-        //            break;
-        //    }
-
-        //    foreach (var record in Records)
-        //    {
-        //        string[] years = record.Value.Keys.Distinct().ToArray();
-        //        foreach (var item in years)
-        //        {
-        //            if (!years.Contains(item))
-        //            {
-        //                Years.Add(item);
-        //            }
-        //        }
-
-        //    }
-
-        //    return Json(Years, JsonRequestBehavior.AllowGet);
-        //}
-
-
+            return PartialView();
+        }
 
 
     }

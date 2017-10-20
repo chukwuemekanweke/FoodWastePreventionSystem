@@ -84,6 +84,32 @@ namespace FoodWastePreventionSystem.BusinessLogic
             return ProfitForProductsList;
         }
 
+        public void ListProductsToBeAuctioned()
+        {
+            List<ProductToBeAuctioned> productsToBeAuctioned = new List<ProductToBeAuctioned>();
+            ProductToBeAuctionedRepo.GetAll(x => x.HasBeenReviewedByManager == true).ToList().ForEach(productToBeAuctioned=> {
+                if (productToBeAuctioned.DateOfAuction.Date == DateTime.Now.Date)
+                {
+                    productsToBeAuctioned.Add(productToBeAuctioned);
+                }
+            });
+
+            productsToBeAuctioned.ForEach(product => {
+                AuctionRepo.Add(new Auction
+                {
+                    AuctionPrice = product.AuctionPrice,
+                    BatchId = product.BatchId,
+                });
+            });
+
+            productsToBeAuctioned.Select(x => x.Id).ToList().ForEach(id =>
+            {
+                ProductToBeAuctionedRepo.Delete(id);
+            });
+
+
+
+        }
 
 
 
@@ -131,8 +157,8 @@ namespace FoodWastePreventionSystem.BusinessLogic
 
            
 
-                int NumberOfDays = (ExpiryDate - ManufactureDate).Days;
-                int NumberOfDaysLeft = (ExpiryDate - DateTime.Now).Days;
+                double NumberOfDays = (ExpiryDate - ManufactureDate).TotalDays;
+                double NumberOfDaysLeft = (ExpiryDate - DateTime.Now).TotalDays;
                 double PercentOfShelfUsed = ((NumberOfDays - NumberOfDaysLeft) / NumberOfDays) * 100;
                 return PercentOfShelfUsed >= 75 ? true : false;
            
@@ -173,7 +199,12 @@ namespace FoodWastePreventionSystem.BusinessLogic
             return RetrieveProductInStoreRecordsForProduct(productId).Select(x => x.Id).ToArray();
         }
 
-
+        public List<Product> GetProductsByStore(Guid storeId)
+        {
+           return  ProductRepo.GetAll(x => x.StoreId == storeId).ToList();
+        }
+        
+        
 
 
     }

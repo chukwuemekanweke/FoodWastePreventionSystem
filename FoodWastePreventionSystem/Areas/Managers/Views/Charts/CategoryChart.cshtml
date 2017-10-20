@@ -65,6 +65,7 @@
                 type: `get`,
                 dataType: `json`,
                 success: function (data) {
+                    console.log(data)
                     processMultipleSeriesLine(data);
                     processMultipleSeriesBar(data);
                 },
@@ -166,7 +167,10 @@
                 },
                 axes: {
                     xaxis: {
-                        label: "X Axis"
+                        label: "X Axis",
+                        pad: 0,
+                        tickInterval:1,
+
                     },
                     yaxis: {
                         label: "Y Axis"

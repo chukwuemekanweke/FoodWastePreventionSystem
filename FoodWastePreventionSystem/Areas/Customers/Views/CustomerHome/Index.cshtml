@@ -86,9 +86,14 @@
                                             <a href="product.html" class="info">View</a> <a href="checkout.html" class="info">Buy</a>
                                         </div>
                                     </div>
-
                                     <h2 class="price">
-                                        <span class="price-old">#@item.Batch.SellingPrice</span> <span class="price-new">#@item.Auction.AuctionPrice</span>
+                                        <span class="price-new">Store Name:</span> <span class="price-new">@(batch.Product.Store.Name)</span>
+                                    </h2>
+                                    <h2 class="price">
+                                        <span class="price-new">Store Location:</span> <span class="price-new">@(batch.Product.Store.City +", "+batch.Product.Store.State)</span>
+                                    </h2>
+                                    <h2 class="price">
+                                        <span class="price-old">#@item.Batch.SellingPrice</span> <span class="price-new">₦@item.Auction.AuctionPrice.ToString("n")</span>
                                     </h2>
                                     <h2 class="price">
                                         <span class="price-new">Available Units:</span> <span class="price-new">@(batch.QuantityPurchased - (batch.QuantitySold + batch.QuantityAuctioned + batch.QuantityDisposedOf))</span>

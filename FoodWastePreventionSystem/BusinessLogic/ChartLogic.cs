@@ -133,10 +133,16 @@ namespace FoodWastePreventionSystem.BusinessLogic
          public Dictionary<string, double> AuctionsForProduct(Guid productId)
         {
             Dictionary<string, double> Report = new Dictionary<string, double>();
-            TransactionsForProduct Auctionrecords = AuctionLogic.GetAuctionsForProduct(productId);
-            Auctionrecords.TransactionsForProductInYear.ForEach(x => {
-                Report.Add(x.Year.ToString(), x.TransactionsPerMonth.Sum(y => y.Value));
-            });
+
+            try
+            {
+                TransactionsForProduct Auctionrecords = AuctionLogic.GetAuctionsForProduct(productId);
+
+                Auctionrecords.TransactionsForProductInYear.ForEach(x => {
+                    Report.Add(x.Year.ToString(), x.TransactionsPerMonth.Sum(y => y.Value));
+                });
+            }
+            catch { }
             return Report;
         }
 

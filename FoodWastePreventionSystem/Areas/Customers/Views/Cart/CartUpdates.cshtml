@@ -19,7 +19,7 @@
                 foreach (var item in Model)
                 {
                     <div class="clearfix">
-                        <a href="#">@item.Auction.Batch.Product.Name</a> <span class="theme pull-right">@item.Auction.AuctionPrice</span>
+                        <a href="#">@item.Auction.Batch.Product.Name</a> <span class="theme pull-right">₦@item.Auction.AuctionPrice.ToString("n")</span>
                     </div>
                 }
             }
@@ -33,7 +33,7 @@
             <hr />
             <!-- Total -->
             <div class="clearfix">
-                TOTAL <span class="theme pull-right">@Total</span>
+                TOTAL <span class="theme pull-right">₦@Total.ToString("n")</span>
             </div>
             <hr />
             <div class="clearfix">

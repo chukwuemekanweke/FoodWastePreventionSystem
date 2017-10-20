@@ -23,5 +23,10 @@ namespace FoodWastePreventionSystem.BusinessLogic
             return false;
         }
 
+        public List<Batch> GetBatchesForAllProductsForStore(Guid storeId)
+        {
+            return BatchRepo.GetAll(x => x.Product.StoreId == storeId).ToList();
+        }
+
     }
 }

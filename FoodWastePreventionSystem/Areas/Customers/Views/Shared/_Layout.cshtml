@@ -92,8 +92,8 @@
                 <div class="col-sm-12 clearfix">
                     <div class="top row">
 
-                        <div class="col-sm-8 logo text" style="display:none"><a href="index.html">WasteEat</a></div>
-                        <div class="col-sm-8 logo image"><a href="index.html"><img src="~/Areas/Customers/assets/img/highreslogo.png" alt="logo" /></a></div>
+                        <div class="col-sm-8 logo text" style="display:none"><a href="@Url.Action("Index","CustomerHome", new { Area="Customers"})">WasteEat</a></div>
+                        <div class="col-sm-8 logo image"><a href="@Url.Action("Index","CustomerHome", new { Area="Customers"})"><img src="~/Areas/Customers/assets/img/highreslogo.png" alt="logo" /></a></div>
 
                         <div class="cart col-sm-4">
                             @using (Html.BeginForm("Index","CustomerHome", FormMethod.Get))
@@ -169,7 +169,7 @@
     <!-- ============== -->
 
     <footer>
-        <div class="container">
+        @*<div class="container">
             <section class="row foot">
                 <article class="col-sm-3">
                     <strong>Quick Links</strong>
@@ -218,7 +218,7 @@
                 </article>
             </section>
 
-        </div>
+        </div>*@
         <section class="row doubleline">
             <div class="container">
                 <div class="col-sm-6">
@@ -252,7 +252,7 @@
 
         <section class="row social">
             <div class="container">
-                <div class="pull-left">&copy; 2012 TenderShop</div>
+                <div class="pull-left">&copy; @DateTime.Now.Year WasteEat</div>
                 <div class="pull-right">
                     <ul>
                         <li><a href="#"><i class="icon-facebook"></i></a></li>

@@ -237,12 +237,14 @@
     <Compile Include="Areas\Managers\Controllers\TransactionController.cs" />
     <Compile Include="Areas\Managers\ManagersAreaRegistration.cs" />
     <Compile Include="Areas\Managers\Models\Chart.cs" />
+    <Compile Include="Areas\Managers\Models\ChartsModel.cs" />
     <Compile Include="Areas\Managers\Models\ChartsViewModel.cs" />
     <Compile Include="Areas\Managers\Models\ManagersViewModels.cs" />
     <Compile Include="BusinessLogic\AuctionLogic.cs" />
     <Compile Include="BusinessLogic\BatchLogic.cs" />
     <Compile Include="BusinessLogic\BusinessLogicModels\Models.cs" />
     <Compile Include="BusinessLogic\ChartLogic.cs" />
+    <Compile Include="BusinessLogic\EmailLogic.cs" />
     <Compile Include="BusinessLogic\ILogic.cs" />
     <Compile Include="BusinessLogic\LossLogic.cs" />
     <Compile Include="BusinessLogic\ProductsLogic.cs" />
@@ -378,6 +380,7 @@
     <Content Include="Areas\Managers\Scripts\IndexScript.js" />
     <Content Include="Areas\Managers\Scripts\ManagerScripts.js" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\EmailTemplate.html" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -455,6 +458,7 @@
     <Content Include="Areas\Customers\Views\CustomerHome\SortByStores.cshtml" />
     <Content Include="Areas\Customers\Views\CustomerHome\ProductsByStore.cshtml" />
     <Content Include="Areas\Managers\Views\Dashboard\Index.cshtml" />
+    <Content Include="Areas\Managers\Views\Charts\PrepareTransactionChart.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

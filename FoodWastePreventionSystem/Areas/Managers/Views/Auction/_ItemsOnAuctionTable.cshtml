@@ -11,6 +11,8 @@
             <th><b>Sold</b></th>
             <th><b>Disposed Of</b></th>
             <th><b>Available</b></th>
+            <th><b>Auction Price</b></th>
+            <th><b></b></th>
 
 
         </tr>
@@ -33,14 +35,14 @@
                     <div class="thumb-box"> <img src="@Url.Action("GetImage1", "Products", new { id = Batch.ProductId })" alt="product Image"> </div>
                     <b>@Product.Name</b>
                 </td>
-                <td>@Batch.ManufactureDate</td>
-                <td>@Batch.ExpiryDate</td>
-                <td>@Batch.DateWhichInventoryWasPurchased</td>
+                <td>@Batch.ManufactureDate.ToShortDateString()</td>
+                <td class="text-danger">@Batch.ExpiryDate.ToShortDateString()</td>
+                <td>@Batch.DateWhichInventoryWasPurchased.ToShortDateString()</td>
                 <td>@Batch.QuantityAuctioned Units</td>
                 <td>@Batch.QuantitySold Units</td>
                 <td>@Batch.QuantityDisposedOf Units</td>
                 <td>@QtyAvailable Units</td>
-                <td v-model>@item.AuctionPrice</td>
+                <td>₦@item.AuctionPrice.ToString("n")</td>
 
                 <td>
                     @Html.ActionLink("Batch Info", "BatchInformation", "Batches", new { id = item.BatchId }, new { @class = "btn btn-primary btn-xs" })

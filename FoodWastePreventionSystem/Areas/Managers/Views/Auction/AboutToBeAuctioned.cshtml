@@ -3,7 +3,6 @@
     ViewBag.Title = "ViewAboutToBeAuctioned";
 }
 
-<h2>ViewAboutToBeAuctioned</h2>
 <div class="cb-page-content" id="app">
     <div class="container">
         <div class="row">
@@ -130,7 +129,8 @@
                                             <div class="form-group">
                                                 <ul class="list-group">
                                                     <li class="list-group-item">Product : {{productName}}</li>
-                                                    <li class="list-group-item">Auction Price:  {{oldAuctionPrice}}</li>
+                                                    <li class="list-group-item">Old Auction Price:  {{oldAuctionPrice}}</li>
+                                                    <li class="list-group-item">New Auction Price:  {{auctionPrice}}</li>
                                                     <li class="list-group-item">Auction Date: {{date}}</li>
                                                     <li class="list-group-item">Batch Id:{{batchId}}</li>
                                                 </ul>
@@ -144,7 +144,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-sm-2">Auction Date</label>
                                                     <div class="col-sm-10">
-                                                        <input type="text" id="datetimepicker1" class="form-control" placeholder="Enter password" v-model.lazy="date">
+                                                        <input type="text" id="datetimepicker1" class="form-control" placeholder="Enter password" v-model="date">
                                                     </div>
                                                 </div>
                                                 @*<br />

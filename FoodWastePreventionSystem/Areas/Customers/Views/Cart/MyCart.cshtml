@@ -46,16 +46,16 @@
                                             </div>
                                             
                                         </td>
-                                        <td><i># @item.Auction.AuctionPrice</i></td>
+                                        <td><i>₦@item.Auction.AuctionPrice.ToString("n")</i></td>
                                         <td><input type="text" class="col-sm-1" value="@item.Quantity" /></td>
-                                        <td><strong># @(item.Auction.AuctionPrice * item.Quantity)</strong></td>
+                                        <td><strong>₦@((item.Auction.AuctionPrice * item.Quantity).ToString("n"))</strong></td>
                                     </tr>
                                 }
 
                                
                                 <tr>
                                     <td colspan="3"><div class="item">Total</div></td>
-                                    <td># @Model.Sum(x => (x.Quantity * x.Auction.AuctionPrice))</td>
+                                    <td>₦@Model.Sum(x => (x.Quantity * x.Auction.AuctionPrice)..ToString("n"))</td>
                                 </tr>
                             </tbody>
                         </table>

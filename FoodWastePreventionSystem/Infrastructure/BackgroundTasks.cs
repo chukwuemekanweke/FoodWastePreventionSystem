@@ -14,17 +14,43 @@ namespace FoodWastePreventionSystem.Infrastructure
 
         //public IRepository<Product> ProductRepo { get; set; }
         private ProductsLogic ProductLogic {get;set;}
+        private EmailLogic EmailLogic { get; set; }
 
-        public BackgroundTasks( ProductsLogic _ProductL)
+        public BackgroundTasks( ProductsLogic _ProductL, EmailLogic _EmailL)
         {
             ProductLogic = _ProductL;
+            EmailLogic = _EmailL;
         }
 
-        public void SearchForExpiredproduct(Guid storeId)
+        public void SearchForExpiredproduct()
         {
             try
             {
-                RecurringJob.AddOrUpdate("search-for-auction-products", ()=> ProductLogic.ProductsPast75PercentOfShelfLife(), Cron.Minutely);
+                RecurringJob.AddOrUpdate("search-for-auction-products", ()=> ProductLogic.ProductsPast75PercentOfShelfLife(), Cron.Daily);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public void AddProductToAuctionTable()
+        {
+            try
+            {
+                RecurringJob.AddOrUpdate("add-product-to-auction-table", () => ProductLogic.ListProductsToBeAuctioned(), Cron.Daily);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public void SendInventoryEmails()
+        {
+            try
+            {
+                RecurringJob.AddOrUpdate("send-inventory-emails", () => EmailLogic.PrepareMail(), Cron.Daily);
             }
             catch (Exception e)
             {
@@ -45,7 +71,7 @@ namespace FoodWastePreventionSystem.Infrastructure
         //            DateProductWasRegistered = DateTime.Now,
         //            BulkPurchaseDiscountPercent = 6,
         //            StoreId = storeId,
-                    
+
         //        }), Cron.Minutely);
         //    }
         //    catch (DbEntityValidationException e)

@@ -44,9 +44,12 @@
                         @Transaction.BulkPurchase
                     </td>
                     <td>
+                        @if (item.Transaction.TransactionType == TransactionType.Sale)
+                        {
                         @item.Agent.UserName
                         <br />
                         @item.Agent.Email
+                        }
                     </td>
                     <td>
                         @using (Html.BeginForm("BatchInformation", "Batches", FormMethod.Get))

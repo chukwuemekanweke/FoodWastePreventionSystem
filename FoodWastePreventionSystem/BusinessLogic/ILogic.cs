@@ -22,10 +22,23 @@ namespace FoodWastePreventionSystem.BusinessLogic
         public IRepository<Batch> BatchRepo { get; set; }
         public IRepository<Loss> LossRepo { get; set; }
         public IRepository<AuctionTransactionStatus> AuctionTransactionStatusRepo { get; set; }
+        public IRepository<Store> StoreRepo { get; set; }
 
 
-        public Logic(IRepository<Product> _ProductRepo, IRepository<Batch> _ProductInStoreRepo, IRepository<Transaction> _TransactiontRepo, IRepository<Auction> _AuctionRepo, IRepository<ProductToBeAuctioned> _ProductToBeAuctionedRepo, IRepository<Loss> _LossRepo, IRepository<AuctionTransactionStatus> _AuctionTransactionStatusRepo)
+        public Logic(IRepository<Product> _ProductRepo, IRepository<Batch> _ProductInStoreRepo, IRepository<Transaction> _TransactiontRepo, 
+                     IRepository<Auction> _AuctionRepo, IRepository<ProductToBeAuctioned> _ProductToBeAuctionedRepo,
+                     IRepository<Loss> _LossRepo, IRepository<AuctionTransactionStatus> _AuctionTransactionStatusRepo, 
+                     IRepository<Store> _storeRepo):this(_ProductRepo,_ProductInStoreRepo,_TransactiontRepo,_AuctionRepo,_ProductToBeAuctionedRepo,_LossRepo,_AuctionTransactionStatusRepo)
 
+        {
+            
+            StoreRepo = _storeRepo;
+
+        }
+
+        public Logic(IRepository<Product> _ProductRepo, IRepository<Batch> _ProductInStoreRepo, IRepository<Transaction> _TransactiontRepo,
+                     IRepository<Auction> _AuctionRepo, IRepository<ProductToBeAuctioned> _ProductToBeAuctionedRepo,
+                     IRepository<Loss> _LossRepo, IRepository<AuctionTransactionStatus> _AuctionTransactionStatusRepo)
         {
             ProductRepo = _ProductRepo;
             BatchRepo = _ProductInStoreRepo;
@@ -34,7 +47,6 @@ namespace FoodWastePreventionSystem.BusinessLogic
             ProductToBeAuctionedRepo = _ProductToBeAuctionedRepo;
             LossRepo = _LossRepo;
             AuctionTransactionStatusRepo = _AuctionTransactionStatusRepo;
-
         }
 
        

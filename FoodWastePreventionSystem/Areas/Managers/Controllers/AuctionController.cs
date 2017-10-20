@@ -81,19 +81,19 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
 
             if (!string.IsNullOrWhiteSpace(searchTerm) && !string.IsNullOrWhiteSpace(searchCategory))
             {
-                models =  Auctionrepo.GetAll(x => x.Batch.Product.StoreId == LoggedInUser.StoreId).Where(x => x.Batch.Product.Category == searchCategory && x.Batch.Product.Name.ToLower().Contains(searchTerm.ToLower()) == true).ToList();
+                models =  Auctionrepo.GetAll(x => x.Batch.Product.StoreId == LoggedInUser.StoreId).Where(x => x.Batch.Product.Category == searchCategory && x.Batch.Product.Name.ToLower().Contains(searchTerm.ToLower()) == true).OrderBy(x=>x.Batch.ExpiryDate).ToList();
             }
             else if (!string.IsNullOrWhiteSpace(searchTerm) && string.IsNullOrWhiteSpace(searchCategory))
             {
-                models =  Auctionrepo.GetAll(x => x.Batch.Product.StoreId == LoggedInUser.StoreId).Where(x => x.Batch.Product.Name.ToLower().Contains(searchTerm.ToLower()) == true).ToList();
+                models =  Auctionrepo.GetAll(x => x.Batch.Product.StoreId == LoggedInUser.StoreId).Where(x => x.Batch.Product.Name.ToLower().Contains(searchTerm.ToLower()) == true).OrderBy(x => x.Batch.ExpiryDate).ToList();
             }
             else if (string.IsNullOrWhiteSpace(searchTerm) && !string.IsNullOrWhiteSpace(searchCategory))
             {
-                models =  Auctionrepo.GetAll(x => x.Batch.Product.StoreId == LoggedInUser.StoreId).Where(x => x.Batch.Product.Category == searchCategory).ToList();
+                models =  Auctionrepo.GetAll(x => x.Batch.Product.StoreId == LoggedInUser.StoreId).Where(x => x.Batch.Product.Category == searchCategory).OrderBy(x => x.Batch.ExpiryDate).ToList();
             }
             else
             {
-                models =  Auctionrepo.GetAll(x => x.Batch.Product.StoreId == LoggedInUser.StoreId).ToList();
+                models =  Auctionrepo.GetAll(x => x.Batch.Product.StoreId == LoggedInUser.StoreId).OrderBy(x => x.Batch.ExpiryDate).ToList();
             }
 
             if (string.IsNullOrWhiteSpace(searchCategory))
@@ -214,10 +214,10 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
         [HttpPost]
         public ActionResult RejectAuctionProposal(Guid id)
         {
-            ProductToBeAuctioned Record = ToBeAuctionedRepo.Get(x => x.Id == id);            
+            string productName = ToBeAuctionedRepo.Get(x => x.Id == id).Batch.Product.Name;            
             ToBeAuctionedRepo.Delete(id);
             TempData["class"] = "alert alert-warning alert-dismissable";
-            TempData["message"] = $"Auction Proposal For {Record.Batch.Product.Name} Has Been Rejected";
+            TempData["message"] = $"Auction Proposal For {productName} Has Been Rejected";
             return RedirectToAction("ReviewPendingAuctions");
         }
 

@@ -50,12 +50,15 @@
         <div class="topbar">
             <!-- LOGO -->
             <div class="topbar-left">
-                <a href="javascript:void(0)" class="logo d-logo hidden-xs hidden-sm">
-                </a>
-                <a href="javascript:void(0)" class="logo d-logo hidden visible-xs visible-sm">
-                    <img src="~/Areas/Managers/assets/images/logo.png" alt="SmartBox" class="img-responsive hidden-xs" height="0">
+                   
+               
+                    @*<p class="text-center">@Html.Action("StoreName","Dashboard", new {Area="Managers" })</p>
+                    <p class="text-center">@Html.Action("UserName", "Dashboard", new { Area = "Managers" })</p>
+                    <p class="text-center">@Html.Action("UserEmail", "Dashboard", new { Area = "Managers" })</p>*@
+
+                    @*<img src="~/Areas/Managers/assets/images/logo.png" alt="SmartBox" class="img-responsive hidden-xs" height="0">*@
                     @*<img src="@Url.Action("GetLogo","Store")" alt="Logo" class="img-responsive hidden-xs" height="0">*@
-                </a>
+                
                 <!-- Image Logo here -->
             </div>
 
@@ -77,7 +80,12 @@
                                     <li>
                                         @*<a href="@Url.Action("Edit","Store", new { Area="Managers"})"><i class="ti-settings m-r-10 text-custom"></i> Edit Store</a>*@
                                     </li>
-                                   
+                                   <li>
+                                       <p class="text-center">@Html.Action("UserName", "Dashboard", new { Area = "Managers" })</p>
+                                   </li>
+                                    <li>
+                                        <p class="text-center">@Html.Action("UserEmail", "Dashboard", new { Area = "Managers" })</p>
+                                    </li>
                                     <li class="divider"></li>
                                     <li>
                                        
@@ -313,13 +321,9 @@
                 <!--- Divider -->
                 <div id="sidebar-menu">
                     <ul>
-                        <li class="menu-title">Navigation <br /> </li>
-                        <li class="has_sub">
-                            <a href="javascript:void(0);" class="waves-effect"> <i class="fa fa-dashboard"></i> <span> Dashboard </span>  <span class="fa fa-angle-right cb-nav-arrow"></span> </a>
-                            <ul class="list-unstyled">
-                                @*<li><a href="@Url.Action("Index","Dashboard", new { Area="Managers"})">Dashboard1</a> </li>*@
-                            </ul>
-                        </li>
+                        <li class="menu-title" style="font-size:large">@Html.Action("StoreName", "Dashboard", new { Area = "Managers" })
+ <br /> </li>
+                       
 
                         <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect "> <i class="fa fa-bell"></i> <span>Auctions </span> <span class="fa fa-angle-right cb-nav-arrow"></span> </a>
@@ -376,10 +380,9 @@
                         <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect "> <i class="fa fa-info-circle" s></i> <span> Analysis </span> <span class="fa fa-angle-right cb-nav-arrow"></span> </a>
                             <ul class="list-unstyled ">
-                                <li>@Html.ActionLink("Profit", "Index", "Analysis", new { type="profit" },null)</li>
-                                <li>@Html.ActionLink("Loss", "Index", "Analysis", new {type="loss" }, null)</li>
+                                <li>@Html.ActionLink("Profit/Loss", "Index", "Analysis", new { type="profit" },null)</li>
                                 <li>@Html.ActionLink("Turn Over", "Index", "Analysis", new { type="turnover"}, null)</li>
-                                <li>@Html.ActionLink("Duration Cycle", "Index", "Analysis", new {type="duration" }, null)</li>
+                                @*<li>@Html.ActionLink("Duration Cycle", "Index", "Analysis", new {type="duration" }, null)</li>*@
 
 
 

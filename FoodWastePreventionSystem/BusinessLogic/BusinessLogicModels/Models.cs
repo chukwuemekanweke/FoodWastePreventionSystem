@@ -162,4 +162,15 @@ namespace FoodWastePreventionSystem.BusinessLogic.BusinessLogicModels
         public Batch Batch { get; set; }
         public Auction Auction { get; set; }
     }
+
+    public class StoreInformation
+    {
+        public Store Store { get; set; }
+        public List<ApplicationUser> StoreManagers { get; set; }
+
+        public StoreInformation()
+        {
+            StoreManagers = new List<ApplicationUser>();
+        }
+    }
 }

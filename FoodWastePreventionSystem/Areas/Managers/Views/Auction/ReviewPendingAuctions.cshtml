@@ -94,12 +94,12 @@
                                                 <div class="panel panel-default">
                                                     <div class="panel-heading">
                                                         <h4 class="panel-title">
-                                                            <a data-toggle="collapse" data-parent="#accordion-test-2" href="#collapseOne-1" aria-expanded="false" class="collapsed">
+                                                            <a data-toggle="collapse" data-parent="#accordion-test-2" href="#@item.Id" aria-expanded="false" class="collapsed">
                                                                 Date Information For Batch
                                                             </a>
                                                         </h4>
                                                     </div>
-                                                    <div id="collapseOne-1" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                                    <div id="@item.Id" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
                                                         <div class="panel-body">
                                                             <ul class="list-group">
                                                                 <li class="list-group-item">Auction Date: @item.DateOfAuction.ToShortDateString()</li>
@@ -115,12 +115,12 @@
                                                 <div class="panel panel-default">
                                                     <div class="panel-heading">
                                                         <h4 class="panel-title">
-                                                            <a data-toggle="collapse" data-parent="#accordion-test-2" href="#collapseOne-2" aria-expanded="false" class="collapsed">
+                                                            <a data-toggle="collapse" data-parent="#accordion-test-2" href="#@($"{item.Id}-vol")" aria-expanded="false" class="collapsed">
                                                                Volume Information For Batch
                                                             </a>
                                                         </h4>
                                                     </div>
-                                                    <div id="collapseOne-2" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                                    <div id="@($"{item.Id}-vol")" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
                                                         <div class="panel-body">
                                                             <ul class="list-group">
                                                                 <li class="list-group-item">Units Purchased: @Batch.QuantityPurchased</li>
@@ -128,7 +128,7 @@
                                                                 <li class="list-group-item">Units Disposed: @Batch.QuantityDisposedOf</li>
                                                                 @if (Batch.QuantityAuctioned > 0)
                                                                 {
-                                                                <li class="list-group-item">Units Auctioned: @Batch.QuantityAuctioned</li>
+                                                                <li class="list-group-item" >Units Auctioned: @Batch.QuantityAuctioned</li>
                                                                 }
 
                                                             </ul>
@@ -138,16 +138,16 @@
                                             </td>
                                        
                                         <td>
-                                            @using (Html.BeginForm("ApproveAuctionProposal", "Auction", FormMethod.Post))
+                                            @using (Html.BeginForm("ApproveAuctionProposal", "Auction", FormMethod.Post, new { style = "display:inline" }))
                                             {
                                                 @Html.Hidden("id", item.Id)
-                                            <button class="btn btn-default btn-xs" type="submit"><span class="fa fa-check"></span>&nbsp;&nbsp;Approve</button>
+                                            <button class="btn btn-success btn-xs" type="submit"><span class="fa fa-check"></span>&nbsp;&nbsp;Approve</button>
                                             }
-                                            @using (Html.BeginForm("RejectAuctionProposal", "Auction", FormMethod.Post))
+                                            @using (Html.BeginForm("RejectAuctionProposal", "Auction", FormMethod.Post, new { style = "display:inline" }))
                                             {
                                                 @Html.Hidden("id", item.Id)
 
-                                            <button class="btn btn-default btn-xs" type="submit"><span class="fa fa-trash"></span>&nbsp;&nbsp;Reject</button>
+                                            <button class="btn btn-danger btn-xs" type="submit"><span class="fa fa-trash"></span>&nbsp;&nbsp;Reject</button>
                                             }
                                             <a href="" class="btn btn-default btn-xs"><span class="fa fa-trash"></span>&nbsp;&nbsp;Details</a>
 

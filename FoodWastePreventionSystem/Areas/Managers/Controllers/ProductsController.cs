@@ -88,7 +88,10 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
             //Background Tasks
             try
             {
-                Cron.SearchForExpiredproduct(LoggedInUser.StoreId);
+                Cron.SearchForExpiredproduct();
+                Cron.AddProductToAuctionTable();
+                Cron.SendInventoryEmails();
+
             }
             catch (Exception e)
             {
@@ -289,14 +292,14 @@ namespace FoodWastePreventionSystem.Areas.Managers.Controllers
 
         }
 
-        [HttpPost]
-        public async Task<JsonResult> UnBlacklistProductJSON(string id)
+        [HttpGet]
+        public async Task<JsonResult> ToggleProductStatus(string id)
         {
             Guid productId = new Guid(id);
             Product product = ProductRepo.Get(x => x.Id == productId);
-            product.Blacklisted = false;
+            product.Blacklisted = !product.Blacklisted;
             var result = await ProductRepo.UpdateAsync(product);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return Json(new { Blacklisted= result.Blacklisted}, JsonRequestBehavior.AllowGet);
 
         }
 

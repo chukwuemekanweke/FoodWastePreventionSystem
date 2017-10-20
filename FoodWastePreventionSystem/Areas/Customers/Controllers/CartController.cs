@@ -20,6 +20,7 @@ namespace FoodWastePreventionSystem.Areas.Customers.Controllers
        private  IRepository<Auction> AuctionRepo { get; set; }
         private IRepository<Cart> CartRepo { get; set; }
         private IRepository<Transaction> TransactionRepo { get; set; }
+        private IRepository<Batch> BatchRepo { get; set; }
 
 
 
@@ -48,11 +49,13 @@ namespace FoodWastePreventionSystem.Areas.Customers.Controllers
 
 
 
-        public CartController(IRepository<Auction> _Auction, IRepository<Cart> _Cart, IRepository<Transaction> _TransactionRepo)
+        public CartController(IRepository<Auction> _Auction, IRepository<Cart> _Cart, IRepository<Transaction> _TransactionRepo,
+                              IRepository<Batch> _Batch)
         {
             AuctionRepo = _Auction;
             CartRepo = _Cart;
             TransactionRepo = _TransactionRepo;
+            BatchRepo = _Batch;
         }
 
 
@@ -179,6 +182,10 @@ namespace FoodWastePreventionSystem.Areas.Customers.Controllers
                     TransactionType = TransactionType.Auction,
                     TotalCost = item.Auction.AuctionPrice * item.Quantity,
                 });
+
+                Batch batch = BatchRepo.Get(x => x.Id == item.Auction.BatchId);
+                batch.QuantityAuctioned += item.Quantity;
+                BatchRepo.Update(batch);
             }
 
             Guid[] ids = CartTransactions.Select(x => x.Id).ToArray();
@@ -187,6 +194,8 @@ namespace FoodWastePreventionSystem.Areas.Customers.Controllers
             {
                 CartRepo.Delete(item);
             }
+
+
 
             return View();
         }
